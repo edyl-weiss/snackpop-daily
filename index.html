@@ -1,0 +1,1269 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="Snack Crackle Pop: a daily flavor-matching puzzle. Name the flavors two snacks or soft drinks from around the world have both come in.">
+<meta name="theme-color" content="#FF6A1A">
+<meta property="og:title" content="Snack Crackle Pop">
+<meta property="og:description" content="The daily flavor-matching game. Three rounds of international snacks and soft drinks, scored out of 3,000.">
+<meta property="og:type" content="website">
+<link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2064%2064%22%3E%3Cpath%20d%3D%22M8%2010l4-4%204%204%204-4%204%204%204-4%204%204%204-4%204%204%204-4%204%204%204-4%204%204v44l-4%204-4-4-4%204-4-4-4%204-4-4-4%204-4-4-4%204-4-4-4%204-4-4z%22%20fill%3D%22%23FF6A1A%22%20stroke%3D%22%232A1030%22%20stroke-width%3D%223%22/%3E%3Ctext%20x%3D%2232%22%20y%3D%2242%22%20font-family%3D%22Arial%20Black%2CArial%22%20font-size%3D%2220%22%20font-weight%3D%22900%22%20text-anchor%3D%22middle%22%20fill%3D%22%23FFD23F%22%20stroke%3D%22%232A1030%22%20stroke-width%3D%221.5%22%3ESCP%3C/text%3E%3C/svg%3E">
+<title>Snack Crackle Pop</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lilita+One&family=Rubik:wght@400;500;700;800;900&family=Archivo+Narrow:wght@500;700&display=swap">
+<style>
+/* One deliberate look: the front of a foil chip bag (no separate dark theme) */
+:root{
+  color-scheme:light;
+  --shelf:#15343A; --shelf-2:#1C454C;
+  --bag:#FF6A1A; --bag-deep:#E2470B; --bag-hi:#FFA257;
+  --sun:#FFD23F; --sun-deep:#F5A800;
+  --ink:#2A1030; --ink-soft:#6A4A5E;
+  --label:#FFF6E2; --paper:#FFFFFF; --line:#E9D7B8;
+  --hit:#139A5E; --miss:#B4A5A0; --tomato:#D7261E; --focus:#2A1030;
+  --display:"Lilita One","Arial Rounded MT Bold","Trebuchet MS",sans-serif;
+  --body:"Rubik","Segoe UI",system-ui,sans-serif;
+  --label-font:"Archivo Narrow","Arial Narrow","Roboto Condensed",sans-serif;
+}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+html{background:var(--shelf)}
+body{margin:0;background:var(--shelf);color:var(--ink);font-family:var(--body);font-size:16px;line-height:1.45;
+  padding-inline:16px;padding-block:24px 40px;
+  background-image:repeating-linear-gradient(90deg,transparent 0 118px,rgba(255,255,255,.035) 118px 120px),linear-gradient(180deg,var(--shelf),var(--shelf-2));}
+button{font:inherit;color:inherit;cursor:pointer}
+button:focus-visible,input:focus-visible{outline:3px solid var(--sun);outline-offset:2px}
+
+/* ---------- The bag ---------- */
+.wrap{max-width:780px;margin:0 auto;position:relative;
+  background:
+    radial-gradient(120% 60% at 18% 8%,rgba(255,255,255,.28),transparent 45%),
+    linear-gradient(100deg,transparent 0 22%,rgba(255,255,255,.22) 30%,transparent 38%,transparent 70%,rgba(255,255,255,.14) 76%,transparent 82%),
+    linear-gradient(180deg,var(--bag-hi),var(--bag) 18%,var(--bag) 70%,var(--bag-deep));
+  border-radius:26px 26px 26px 26px/14px 14px 14px 14px;
+  box-shadow:0 30px 60px rgba(0,0,0,.45),inset 0 0 0 2px rgba(0,0,0,.08);
+  padding-inline:clamp(14px,4vw,34px);padding-block:0 0;overflow:hidden}
+.crimp{margin-inline:calc(-1 * clamp(14px,4vw,34px));height:44px;position:relative;
+  background:repeating-linear-gradient(90deg,rgba(0,0,0,.14) 0 3px,rgba(255,255,255,.18) 3px 6px),linear-gradient(180deg,var(--bag-deep),var(--bag));
+  display:flex;align-items:center;justify-content:center}
+.crimp.top{border-bottom:2px dashed rgba(42,16,48,.35)}
+.crimp.bottom{margin-top:26px;height:64px;border-top:2px dashed rgba(42,16,48,.35);background:repeating-linear-gradient(90deg,rgba(0,0,0,.14) 0 3px,rgba(255,255,255,.18) 3px 6px),linear-gradient(0deg,var(--bag-deep),var(--bag));justify-content:space-between;padding-inline:clamp(14px,4vw,34px)}
+.tear{font-family:var(--label-font);font-weight:700;font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--ink);background:var(--sun);padding:2px 10px;border-radius:3px}
+.barcode{height:36px;width:120px;background:#fff;padding:4px 6px;border-radius:3px;
+  background-image:repeating-linear-gradient(90deg,var(--ink) 0 2px,transparent 2px 3px,var(--ink) 3px 4px,transparent 4px 7px,var(--ink) 7px 10px,transparent 10px 11px);background-clip:content-box}
+.bestby{font-family:var(--label-font);font-size:12px;color:var(--ink);text-transform:uppercase;letter-spacing:.08em;font-weight:700}
+
+/* ---------- Brand block ---------- */
+header{position:relative;display:grid;grid-template-columns:1fr auto;align-items:center;gap:12px;padding-block:22px 6px}
+.brand{position:relative;justify-self:start;padding:10px 18px 10px 6px}
+.brand::before{content:"";position:absolute;inset:-6px -10px -4px -10px;z-index:0;pointer-events:none;
+  background:repeating-conic-gradient(from 0deg at 50% 45%,rgba(255,210,63,.55) 0 8deg,transparent 8deg 16deg);
+  -webkit-mask:radial-gradient(closest-side at 50% 45%,#000 35%,transparent 100%);mask:radial-gradient(closest-side at 50% 45%,#000 35%,transparent 100%)}
+.logo{position:relative;z-index:1;margin:0;font-family:var(--display);font-weight:400;font-size:clamp(26px,5.6vw,50px);line-height:1;white-space:nowrap;letter-spacing:.01em;
+  color:var(--label);transform:rotate(-4deg);
+  text-shadow:0 3px 0 var(--ink),3px 0 0 var(--ink),-3px 0 0 var(--ink),0 -3px 0 var(--ink),3px 3px 0 var(--ink),-3px 3px 0 var(--ink),3px -3px 0 var(--ink),-3px -3px 0 var(--ink),6px 8px 0 var(--tomato)}
+.logo span{display:inline-block}
+.logo .l1{color:var(--label)}
+.logo .l2{color:var(--sun);transform:translateY(2px) rotate(2deg)}
+.logo .l3{color:#7FE3FF;transform:translateY(-2px) rotate(-3deg)}
+.ribbon{position:relative;z-index:1;display:inline-block;margin-top:14px;margin-left:10px;transform:rotate(-4deg);background:var(--ink);color:var(--label);
+  font-family:var(--label-font);font-weight:700;font-size:13px;letter-spacing:.14em;text-transform:uppercase;padding:4px 14px;
+  clip-path:polygon(0 0,100% 0,96% 50%,100% 100%,0 100%,4% 50%)}
+.meta{position:relative;z-index:1;margin-top:10px;margin-left:12px;font-family:var(--label-font);font-weight:700;font-size:13px;color:var(--ink);letter-spacing:.08em;text-transform:uppercase}
+.side{display:flex;flex-direction:column;align-items:flex-end;gap:10px}
+.burst{width:104px;height:104px;display:grid;place-items:center;text-align:center;background:var(--sun);color:var(--ink);
+  font-family:var(--display);font-size:17px;line-height:1;transform:rotate(12deg);
+  clip-path:polygon(50% 0,61% 13%,77% 6%,80% 22%,96% 24%,90% 39%,100% 50%,90% 61%,96% 76%,80% 78%,77% 94%,61% 87%,50% 100%,39% 87%,23% 94%,20% 78%,4% 76%,10% 61%,0 50%,10% 39%,4% 24%,20% 22%,23% 6%,39% 13%)}
+.burst small{display:block;font-family:var(--label-font);font-weight:700;font-size:11px;letter-spacing:.06em}
+.hbtns{display:flex;gap:6px}
+.icon-btn{background:var(--label);border:2.5px solid var(--ink);border-radius:999px;padding:5px 14px;font-weight:800;font-size:13px;box-shadow:0 3px 0 var(--ink)}
+.icon-btn:active{transform:translateY(3px);box-shadow:none}
+
+/* ---------- Flavor tabs ---------- */
+.tabs{display:flex;gap:8px;margin-top:14px;flex-wrap:wrap}
+.tab{border:2.5px solid var(--ink);background:var(--label);border-radius:12px;padding:7px 16px;font-family:var(--display);font-size:19px;letter-spacing:.02em;box-shadow:0 4px 0 var(--ink)}
+.tab small{font-family:var(--body);font-weight:700;font-size:11px;color:var(--ink-soft);margin-left:4px}
+.tab[aria-selected="true"]{background:var(--sun)}
+.tab:active{transform:translateY(4px);box-shadow:none}
+
+/* ---------- Round tracker (net-weight style) ---------- */
+.roundbar{display:flex;gap:8px;flex-wrap:wrap;align-items:stretch;margin-top:16px}
+.rpill{display:flex;flex-direction:column;align-items:flex-start;gap:0;border:2px solid var(--ink);background:rgba(255,246,226,.9);border-radius:8px;padding:5px 12px;min-width:92px;text-align:left}
+.rpill span{font-family:var(--label-font);font-weight:700;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-soft)}
+.rpill b{font-family:var(--display);font-weight:400;font-size:20px;font-variant-numeric:tabular-nums}
+.rpill.cur{background:var(--sun)}
+.rpill.done b{color:var(--hit)}
+.rpill:disabled{opacity:.55;cursor:default}
+.rtotal{margin-left:auto;display:flex;flex-direction:column;align-items:flex-end;justify-content:center;background:var(--ink);color:var(--label);border-radius:8px;padding:5px 14px}
+.rtotal span{font-family:var(--label-font);font-weight:700;font-size:11px;letter-spacing:.14em;text-transform:uppercase;opacity:.8}
+.rtotal b{font-family:var(--display);font-size:26px;font-weight:400;color:var(--sun);font-variant-numeric:tabular-nums;line-height:1.05}
+.rtotal small{font-family:var(--label-font);font-size:13px;color:var(--label)}
+
+/* ---------- Product window ---------- */
+.window{margin-top:16px;background:rgba(255,255,255,.2);border:3px solid rgba(255,246,226,.85);border-radius:34px;padding:16px;
+  box-shadow:inset 0 6px 18px rgba(0,0,0,.18),inset 0 0 0 2px rgba(42,16,48,.08)}
+.tagline{margin:0 0 14px;color:var(--ink);font-size:17px;text-wrap:balance}
+.tagline b{font-weight:900}
+.tagline .rules{display:block;font-family:var(--label-font);font-weight:700;font-size:13px;letter-spacing:.04em;text-transform:uppercase;margin-top:4px;color:var(--ink-soft)}
+.matchup{display:flex;align-items:center;justify-content:center;gap:14px}
+.matchup > .bag{flex:0 1 300px;min-width:0}
+.matchup > .can{flex:0 1 215px;min-width:0}
+.matchup.trio > .bag{flex-basis:230px}
+.matchup.trio > .can{flex-basis:175px}
+.link{flex:none;display:grid;place-items:center}
+.link div{width:46px;height:46px;display:grid;place-items:center;background:var(--sun);color:var(--ink);font-family:var(--display);font-size:26px;
+  clip-path:polygon(50% 0,63% 20%,85% 15%,80% 37%,100% 50%,80% 63%,85% 85%,63% 80%,50% 100%,37% 80%,15% 85%,20% 63%,0 50%,20% 37%,15% 15%,37% 20%)}
+
+/* Mini chip bag (snacks) */
+.bag{--c:#c33;--c2:#fff;position:relative;color:var(--c2);min-height:230px;padding:30px 14px 26px;display:flex;flex-direction:column;align-items:center;text-align:center;gap:8px;
+  background:
+    linear-gradient(100deg,transparent 0 25%,rgba(255,255,255,.35) 33%,transparent 42%),
+    radial-gradient(120% 80% at 50% 40%,transparent 55%,rgba(0,0,0,.22)),
+    var(--c);
+  border-radius:18px/40px;filter:drop-shadow(0 8px 0 rgba(42,16,48,.35));
+  clip-path:polygon(0 12px,4% 0,8% 12px,12% 0,16% 12px,20% 0,24% 12px,28% 0,32% 12px,36% 0,40% 12px,44% 0,48% 12px,52% 0,56% 12px,60% 0,64% 12px,68% 0,72% 12px,76% 0,80% 12px,84% 0,88% 12px,92% 0,96% 12px,100% 0,100% calc(100% - 12px),96% 100%,92% calc(100% - 12px),88% 100%,84% calc(100% - 12px),80% 100%,76% calc(100% - 12px),72% 100%,68% calc(100% - 12px),64% 100%,60% calc(100% - 12px),56% 100%,52% calc(100% - 12px),48% 100%,44% calc(100% - 12px),40% 100%,36% calc(100% - 12px),32% 100%,28% calc(100% - 12px),24% 100%,20% calc(100% - 12px),16% 100%,12% calc(100% - 12px),8% 100%,4% calc(100% - 12px),0 100%)}
+.bag::before{content:"";position:absolute;left:0;right:0;top:12px;height:14px;background:repeating-linear-gradient(90deg,rgba(0,0,0,.18) 0 2px,rgba(255,255,255,.14) 2px 4px)}
+.bag::after{content:"";position:absolute;left:0;right:0;bottom:12px;height:14px;background:repeating-linear-gradient(90deg,rgba(0,0,0,.18) 0 2px,rgba(255,255,255,.14) 2px 4px)}
+/* Soda can (drinks) */
+.can{--c:#c33;--c2:#fff;position:relative;color:var(--c2);min-height:250px;padding:34px 12px 30px;display:flex;flex-direction:column;align-items:center;text-align:center;gap:8px;
+  background:
+    linear-gradient(90deg,rgba(0,0,0,.28),transparent 18%,rgba(255,255,255,.4) 30%,transparent 42%,transparent 75%,rgba(0,0,0,.3)),
+    var(--c);
+  border-radius:22px/14px;filter:drop-shadow(0 8px 0 rgba(42,16,48,.35))}
+.can::before,.can::after{content:"";position:absolute;left:4%;right:4%;height:22px;border-radius:50%;
+  background:linear-gradient(90deg,#8E949E,#F4F6F8 35%,#B9BFC8 60%,#E9ECEF 80%,#8E949E);box-shadow:inset 0 0 0 2px rgba(0,0,0,.2)}
+.can::before{top:-6px}
+.can::after{bottom:-6px}
+.can .band{position:absolute;left:0;right:0;top:50%;height:40%;transform:translateY(-35%);background:rgba(255,255,255,.14);border-block:3px solid rgba(255,255,255,.55);pointer-events:none}
+.cc{position:relative;z-index:1;font-family:var(--label-font);font-weight:700;font-size:11px;letter-spacing:.12em;border:1.5px solid currentColor;border-radius:4px;padding:1px 6px}
+.art{position:relative;z-index:1;flex:none;width:124px;height:86px;border-radius:50%;background:rgba(255,255,255,.94);border:3px solid #2A1030;display:grid;place-items:center;overflow:hidden;box-shadow:0 4px 0 rgba(0,0,0,.25)}
+/* The drawing box is the largest rectangle that fits inside the ellipse; fitArt() crops each drawing to its artwork and centers it */
+.art svg{width:80px;height:54px;display:block;overflow:visible}
+.pname{position:relative;z-index:1;margin:0;font-family:var(--display);font-weight:400;font-size:clamp(22px,4.6vw,30px);line-height:1.02;letter-spacing:.01em;text-wrap:balance;
+  text-shadow:0 2px 0 rgba(0,0,0,.35);transform:rotate(-3deg)}
+.can .pname{transform:none}
+.pinfo{position:relative;z-index:1;font-family:var(--label-font);font-weight:700;font-size:12px;letter-spacing:.06em;text-transform:uppercase;opacity:.92}
+.known{position:relative;z-index:1;display:flex;flex-wrap:wrap;justify-content:center;gap:4px;min-height:20px;margin-top:auto}
+.known span{font-size:11px;font-weight:800;background:#fff;color:#2A1030;border-radius:999px;padding:2px 8px}
+.matchup.trio .bag,.matchup.trio .can{min-height:210px}
+.matchup.trio .pname{font-size:clamp(18px,3.4vw,22px)}
+.matchup.trio .art{width:100px;height:70px}.matchup.trio .art svg{width:64px;height:44px}
+.matchup.trio .link div{width:34px;height:34px;font-size:18px}
+
+/* ---------- Guess strip ---------- */
+.play{margin-top:20px;position:relative}
+.play label{display:block;font-family:var(--label-font);font-weight:700;font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink);margin-bottom:6px}
+.row{display:flex;gap:8px}
+#guess{flex:1;min-width:0;font:inherit;font-size:18px;font-weight:500;padding:13px 16px;border:3px solid var(--ink);border-radius:12px;background:var(--label);color:var(--ink);box-shadow:inset 0 3px 0 rgba(0,0,0,.06)}
+#guess::placeholder{color:#9D8A86}
+.go{background:var(--sun);color:var(--ink);border:3px solid var(--ink);border-radius:12px;padding:0 20px;font-family:var(--display);font-size:20px;box-shadow:0 4px 0 var(--ink)}
+.go:active{transform:translateY(4px);box-shadow:none}
+.go:disabled{opacity:.5;cursor:not-allowed}
+#sugg{position:absolute;left:0;right:0;top:100%;margin:4px 0 0;padding:4px;list-style:none;background:var(--paper);border:3px solid var(--ink);border-radius:12px;z-index:5;max-height:260px;overflow:auto;box-shadow:0 6px 0 var(--ink)}
+#sugg li{padding:8px 10px;border-radius:6px;cursor:pointer;display:flex;justify-content:space-between;gap:8px;font-weight:500}
+#sugg li small{font-family:var(--label-font);color:var(--ink-soft);font-size:12px;text-transform:uppercase;letter-spacing:.06em}
+#sugg li[aria-selected="true"],#sugg li:hover{background:#FFF0C2}
+#sugg li.used{opacity:.45}
+.msg{min-height:22px;font-size:15px;font-weight:700;color:var(--ink);margin-top:8px}
+
+/* ---------- Progress ---------- */
+.progress{display:flex;flex-wrap:wrap;gap:10px 16px;align-items:center;margin-top:6px}
+.slots{display:flex;gap:6px;flex-wrap:wrap}
+.slot{font-size:13px;font-weight:800;border:2.5px dashed rgba(42,16,48,.5);border-radius:999px;padding:4px 12px;color:var(--ink);background:rgba(255,255,255,.18)}
+.slot.got{border-style:solid;border-color:var(--ink);background:var(--hit);color:#fff}
+.meter{display:flex;align-items:center;gap:4px}
+.mlabel{font-family:var(--label-font);font-weight:700;font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink);margin-right:2px}
+.meter i{width:13px;height:13px;border-radius:50%;border:2px solid var(--ink);background:rgba(255,255,255,.3)}
+.meter i.x{background:var(--ink)}
+.live{margin-left:auto;display:flex;align-items:baseline;gap:6px}
+.live span{font-family:var(--label-font);font-weight:700;font-size:12px;letter-spacing:.1em;text-transform:uppercase}
+.live b{font-family:var(--display);font-weight:400;font-size:24px;font-variant-numeric:tabular-nums}
+
+/* ---------- Guess table as a Nutrition Facts panel ---------- */
+.board{margin-top:14px;border:3px solid #000;background:var(--paper);color:#000;font-family:var(--label-font);--cw:96px}
+.board.trio{--cw:72px}
+.board::before{content:"Guess Facts";display:block;font-family:var(--body);font-weight:900;font-size:30px;letter-spacing:-.01em;padding:4px 10px 2px;border-bottom:1px solid #000}
+.bhead,.grow{display:grid;grid-template-columns:34px 1fr repeat(var(--n,2),var(--cw));align-items:center;gap:8px;padding:8px 10px}
+.bhead{border-bottom:8px solid #000;font-weight:700;font-size:12px;letter-spacing:.06em;text-transform:uppercase}
+.bhead span:nth-child(n+3){text-align:center;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.mini{display:inline-grid;place-items:center;width:20px;height:20px;border-radius:50%;background:#fff;border:1.5px solid #000;vertical-align:middle;margin-right:4px;overflow:hidden}.mini svg{width:14px;height:14px;overflow:visible}
+.grow{border-top:1px solid #000;min-height:46px}
+.grow .n{font-weight:700;font-size:14px}
+.grow .f{font-family:var(--body);font-weight:800;font-size:16px}
+.grow.empty .f{color:#9A9A9A;font-weight:500}
+.mark{justify-self:center;width:30px;height:30px;border-radius:6px;display:grid;place-items:center;font-weight:900;font-size:15px;font-family:var(--body)}
+.mark.y{background:var(--hit);color:#fff}
+.mark.n{border:2px solid #000;color:#000}
+.grow.win{background:#E6F6EE}
+.grow.pop{animation:pop .35s ease-out}
+@keyframes pop{from{transform:scale(.98);opacity:.4}to{transform:none;opacity:1}}
+.pen{font-family:var(--label-font);font-size:12px;color:var(--tomato);font-weight:700}
+
+/* ---------- Hints as the ingredients line ---------- */
+.hints{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:14px}
+.hint{border-radius:10px;padding:9px 12px;font-size:14px;background:rgba(255,246,226,.35);border:2px dashed rgba(42,16,48,.45);color:var(--ink)}
+.hint b{display:block;font-family:var(--label-font);font-weight:700;font-size:12px;letter-spacing:.1em;text-transform:uppercase;margin-bottom:2px}
+.hint.open{background:var(--label);border:2.5px solid var(--ink)}
+.hint.open span{font-family:var(--display);font-size:22px}
+
+/* ---------- Prize-inside coupon ---------- */
+.result{margin-top:20px;position:relative;background:var(--label);border:3px dashed var(--ink);border-radius:16px;padding:22px 18px 18px;box-shadow:0 6px 0 rgba(42,16,48,.35)}
+.result::before{content:"PRIZE INSIDE";position:absolute;top:-14px;left:18px;background:var(--ink);color:var(--sun);font-family:var(--display);font-size:16px;letter-spacing:.06em;padding:2px 12px;border-radius:6px}
+.result h2{font-family:var(--display);font-weight:400;font-size:32px;margin:0 0 6px;color:var(--tomato);line-height:1.05}
+.result p{margin:0 0 10px}
+.pts{font-family:var(--display);font-size:24px;color:var(--hit);margin-left:6px}
+.answers{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:12px}
+.answers span{background:var(--hit);color:#fff;border:2px solid var(--ink);border-radius:999px;padding:3px 12px;font-weight:800}
+.answers span.other{background:#fff;color:var(--ink)}
+.note{font-size:14px;color:var(--ink-soft)}
+.final{display:flex;align-items:baseline;gap:8px;margin:6px 0 8px}
+.final span{font-family:var(--label-font);font-weight:700;font-size:13px;letter-spacing:.12em;text-transform:uppercase}
+.final b{font-family:var(--display);font-weight:400;font-size:52px;color:var(--tomato);line-height:1;font-variant-numeric:tabular-nums}
+.final small{font-family:var(--label-font);font-weight:700;font-size:16px}
+.breakdown{display:grid;gap:4px;margin-bottom:12px;font-size:14px}
+.breakdown div{display:grid;grid-template-columns:70px 1fr auto;gap:8px;border-top:1.5px solid var(--line);padding-top:4px}
+.breakdown span:first-child{font-family:var(--label-font);font-weight:700;text-transform:uppercase;font-size:12px;letter-spacing:.08em}
+.breakdown b{font-family:var(--display);font-weight:400;font-size:18px;font-variant-numeric:tabular-nums}
+.share-row{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+.grid-emoji{font-family:ui-monospace,Menlo,Consolas,monospace;font-size:13px;white-space:pre;background:#fff;border:2px solid var(--ink);border-radius:8px;padding:8px 10px;margin:0}
+.next{font-family:var(--label-font);font-weight:700;font-size:14px;letter-spacing:.06em;text-transform:uppercase}
+
+/* ---------- Mode bar ---------- */
+.practice-bar{margin-top:16px;display:flex;flex-wrap:wrap;gap:10px;align-items:center;font-size:14px;font-weight:700;color:var(--ink)}
+.textbtn{background:none;border:none;text-decoration:underline;text-decoration-thickness:2px;text-underline-offset:3px;padding:0;color:var(--ink);font-weight:800}
+.seg{display:inline-flex;border:2.5px solid var(--ink);border-radius:999px;overflow:hidden;box-shadow:0 3px 0 var(--ink)}
+.seg button{border:none;background:var(--label);padding:6px 14px;font-family:var(--display);font-size:16px}
+.seg button[aria-pressed="true"]{background:var(--sun)}
+
+/* ---------- Panels (How to play = Directions, Stats = Nutrition Facts) ---------- */
+.scrim{position:fixed;inset:0;background:rgba(10,20,22,.7);display:grid;place-items:center;padding:16px;z-index:20}
+.modal{background:var(--paper);color:#000;border:3px solid #000;max-width:470px;width:100%;padding:14px 16px 16px;max-height:90vh;overflow:auto;font-family:var(--body)}
+.modal h2{font-family:var(--body);font-weight:900;font-size:32px;margin:0 0 6px;padding-bottom:4px;border-bottom:8px solid #000;letter-spacing:-.01em}
+.modal ol{padding-left:22px;margin:10px 0 12px}
+.modal li{margin-bottom:7px;padding-bottom:7px;border-bottom:1px solid #000}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:0;text-align:center;margin:8px 0 12px;border-bottom:4px solid #000}
+.stats div{font-family:var(--display);font-size:28px;font-weight:400;padding:4px 2px 8px}
+.stats small{display:block;font-family:var(--label-font);font-size:12px;font-weight:700;letter-spacing:.08em;text-transform:uppercase}
+.dist{display:grid;gap:4px;font-family:var(--label-font);font-size:13px}
+.dist div{display:grid;grid-template-columns:28px 1fr;gap:6px;align-items:center}
+.bar{background:#000;color:#fff;padding:2px 6px;text-align:right;min-width:24px;font-variant-numeric:tabular-nums}
+.bar.cur{background:var(--hit)}
+.endless-line{font-size:13px;color:#333;margin:10px 0 0}
+.close{margin-top:14px}
+.toast{position:fixed;left:50%;bottom:calc(24px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--ink);color:var(--sun);font-family:var(--display);font-size:18px;padding:10px 18px;border-radius:999px;z-index:30}
+
+@media (max-width:560px){
+  .logo{text-shadow:0 2px 0 var(--ink),2px 0 0 var(--ink),-2px 0 0 var(--ink),0 -2px 0 var(--ink),2px 2px 0 var(--ink),-2px 2px 0 var(--ink),2px -2px 0 var(--ink),-2px -2px 0 var(--ink),3px 4px 0 var(--tomato)}
+  header{grid-template-columns:1fr}
+  .side{flex-direction:row;align-items:center;justify-content:space-between}
+  .burst{width:84px;height:84px;font-size:15px}
+  .burst small{font-size:9px}
+  .tab{font-size:16px;padding:6px 11px}
+  .tab small{display:none}
+  .matchup,.matchup.trio{flex-direction:column;gap:8px}
+  .matchup > .bag,.matchup.trio > .bag{flex:none;width:100%;max-width:320px}
+  .matchup > .can,.matchup.trio > .can{flex:none;width:100%;max-width:240px}
+  .bag,.can,.matchup.trio .bag,.matchup.trio .can{min-height:0}
+  .hints{grid-template-columns:1fr}
+  .board{--cw:62px}.board.trio{--cw:46px}
+  .board.trio .mini{display:none}
+  .bhead,.grow{grid-template-columns:22px 1fr repeat(var(--n,2),var(--cw));padding:8px 8px}
+  .crimp.bottom{height:56px}
+  .barcode{width:90px}
+}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="crimp top"><span class="tear">Tear here · open daily</span></div>
+  <header>
+    <div class="brand">
+      <h1 class="logo"><span class="l1">Snack</span> <span class="l2">Crackle</span> <span class="l3">Pop!</span></h1>
+      <div><span class="ribbon">The flavor-matching game</span></div>
+      <div class="meta" id="meta">Daily snack puzzle</div>
+    </div>
+    <div class="side">
+      <div class="burst" aria-hidden="true"><div>3 rounds<small>every day!</small></div></div>
+      <div class="hbtns">
+        <button class="icon-btn" id="helpBtn" type="button">How to play</button>
+        <button class="icon-btn" id="statsBtn" type="button">Stats</button>
+      </div>
+    </div>
+  </header>
+
+  <nav class="tabs" role="tablist" aria-label="Game mode">
+    <button class="tab" role="tab" type="button" data-mode="daily">Daily</button>
+    <button class="tab" role="tab" type="button" data-mode="challenge">Challenge <small>3 items</small></button>
+    <button class="tab" role="tab" type="button" data-mode="endless">Endless</button>
+  </nav>
+  <div class="roundbar" id="roundbar" hidden></div>
+
+  <div class="window">
+  <p class="tagline" id="tagline"></p>
+  <section class="matchup" id="matchup" aria-label="Snacks and drinks in this puzzle"></section>
+  </div>
+
+  <form class="play" id="form" autocomplete="off">
+    <label for="guess">Your flavor guess</label>
+    <div class="row">
+      <input id="guess" type="text" placeholder="e.g. Strawberry, Salt & Vinegar, Matcha…" role="combobox" aria-expanded="false" aria-controls="sugg" aria-autocomplete="list">
+      <button class="go" id="goBtn" type="submit">Guess</button>
+    </div>
+    <ul id="sugg" role="listbox" hidden></ul>
+    <div class="msg" id="msg" aria-live="polite"></div>
+  </form>
+
+  <section class="progress" id="progress" aria-label="Round progress"></section>
+
+  <section class="board" aria-label="Guesses">
+    <div class="bhead" id="bhead"></div>
+    <div id="rows"></div>
+  </section>
+
+  <section class="hints" aria-label="Hints">
+    <div class="hint" id="h1"><b>Hint 1</b>Flavor family</div>
+    <div class="hint" id="h2"><b>Hint 2</b>First letter</div>
+  </section>
+
+  <section class="result" id="result" hidden></section>
+
+  <div class="practice-bar" id="pbar"></div>
+  <div class="crimp bottom"><span class="bestby">Best before: midnight</span><span class="barcode" aria-hidden="true"></span></div>
+</div>
+
+<div class="scrim" id="helpModal" hidden>
+  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="helpTitle">
+    <h2 id="helpTitle">Directions</h2>
+    <ol>
+      <li>You get two popular snacks or drinks, usually from different countries. The game tells you how many flavors they share.</li>
+      <li>Guess flavors they've <b>both</b> been sold in. If they share more than one, find them all, up to 3. Pick from the suggestions; spellings like "green tea" or "chilli lime" are understood.</li>
+      <li>Each round is worth <b>1,000 points</b>. Every wrong guess costs <b>125</b>. Six misses ends the round, and you keep points for the flavors you found.</li>
+      <li>Small typos are fine: "chese", "carmel" or "lime chili" are understood.</li>
+      <li>Broad flavors count: a Habanero or Flamin' Hot snack matches "Hot & Spicy", and Nacho Cheese matches "Cheese".</li>
+      <li>A wrong guess still shows a <b>✓</b> for any item that has that flavor, and adds it to that item's card as a clue.</li>
+      <li>Hints: the flavor family of one you haven't found, then its first letter. They normally unlock after 2 and 4 misses.</li>
+      <li>The game learns from how people play. Daily puzzles get easier or harder over time, each Daily ramps up from round 1 to round 3, and Endless adjusts to your own recent results.</li>
+      <li><b>Daily</b> is 3 rounds, for a best score of 3,000. New pairs every midnight, your time.</li>
+      <li><b>Challenge</b> is one daily round with three snacks or drinks. <b>Endless</b> deals new pairs or trios forever, just for fun: no points and no limit on guesses.</li>
+    </ol>
+    <p style="color:var(--ink-soft);font-size:14px;margin:0">Flavors count if they're part of the product's current range, and blends count toward each named flavor (Strawberry Lime counts as Strawberry and as Lime).</p>
+    <button class="icon-btn close" type="button" data-close>Got it</button>
+  </div>
+</div>
+
+<div class="scrim" id="statsModal" hidden>
+  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="statsTitle">
+    <h2 id="statsTitle">Your stats</h2>
+    <div class="stats" id="statsGrid"></div>
+    <div class="dist" id="dist"></div>
+    <button class="icon-btn close" type="button" data-close>Close</button>
+  </div>
+</div>
+<div class="toast" id="toast" hidden></div>
+
+<script>
+/* ---------- Flavors: canonical name -> family + accepted alternate spellings ---------- */
+const FLAVORS = {
+  "Strawberry":{fam:"Fruity",alt:["strawberries","strawberries & cream","strawberry cream","strawberries and cream"]}, "Banana":{fam:"Fruity"}, "Orange":{fam:"Fruity",alt:["mandarin","unshu mandarin","blood orange","tangerine","clementine","dekopon","oransoda"]},
+  "Lemon":{fam:"Fruity",alt:["lemon tart","lemon crisp","lemonade","pink lemonade","lemon squash","bitter lemon","yuzu lemon","lemonsoda"]}, "Apple":{fam:"Fruity",alt:["apple pie","candy apple","toffee apple","green apple","sour apple","red apple","cloudy apple"]},
+  "Grape":{fam:"Fruity",alt:["green grape","black grape","white grape","double grape"]}, "Mango":{fam:"Fruity"}, "Pineapple":{fam:"Fruity"}, "Raspberry":{fam:"Fruity"},
+  "Coconut":{fam:"Fruity",alt:["coco"]},
+  "Cherry":{fam:"Fruity",alt:["black cherry","sour cherry","wild cherry"]}, "Watermelon":{fam:"Fruity"}, "Blue Raspberry":{fam:"Fruity",alt:["blue razz"]},
+  "Lime":{fam:"Fruity",alt:["key lime","key lime pie","limon","limón","limeade","lime ricky"]}, "Blackcurrant":{fam:"Fruity",alt:["black currant"]}, "Muscat":{fam:"Fruity",alt:["muscat grape","shine muscat"]},
+  "Melon":{fam:"Fruity",alt:["crown melon","melon soda","musk melon","honeydew","honeydew melon"]}, "Peach":{fam:"Fruity",alt:["peach soda","white peach"]}, "Chamoy":{fam:"Tangy"}, "Tamarind":{fam:"Tangy",alt:["tamarindo"]},
+  "Coffee":{fam:"Sweet",alt:["latte","cafe au lait","tiramisu","espresso","cold brew","cappuccino","mocha"]}, "Toffee":{fam:"Dessert"}, "Popcorn":{fam:"Sweet",alt:["caramel popcorn"]},
+  "Chocolate Chip":{fam:"Dessert",alt:["choc chip"]}, "Cheesecake":{fam:"Dessert",alt:["basque cheesecake"]}, "Brownie":{fam:"Dessert"}, "Biscoff":{fam:"Dessert",alt:["speculoos","cookie butter","caramelised biscuit"]},
+  "Jalapeño":{fam:"Spicy",alt:["jalapeno","spicy jalapeño"]}, "Habanero":{fam:"Spicy"}, "Buffalo":{fam:"Spicy",alt:["buffalo wing","hot buffalo wing","smoky buffalo"]},
+  "Curry":{fam:"Spicy"}, "Hot & Spicy":{fam:"Spicy",alt:["chili pepper","chile","chile pepper","hot pepper","flamin hot","flaming hot","flamin' hot","xxtra flamin hot","sizzling hot","hot n spicy","hot & spicy","hot and spicy","spicy","chilli","chili","hot chili","hot chilli","red chili"]}, "Adobada":{fam:"Spicy",alt:["adobadas"]}, "Salsa":{fam:"Spicy",alt:["garden salsa"]},
+  "Honey Mustard":{fam:"Tangy",alt:["honey dijon"]}, "Mustard":{fam:"Tangy"}, "Onion":{fam:"Savory",alt:["french onion"]}, "Sour Cream":{fam:"Cheesy"},
+  "Pepper":{fam:"Savory",alt:["pink pepper","black pepper","cracked pepper","salt & pepper","sea salt & pepper"]}, "Pretzel":{fam:"Savory",alt:["pretzels"]},
+  "Tomato":{fam:"Savory"}, "Butter":{fam:"Savory",alt:["salt butter"]}, "Garlic":{fam:"Savory",alt:["garlic bread","parmesan garlic"]},
+  "Cheese & Garlic":{fam:"Cheesy"}, "Corn":{fam:"Savory",alt:["corn soup","esquites"]}, "Truffle":{fam:"Savory"},
+  "Cinnamon":{fam:"Dessert",alt:["cinnamon sugar","cinnamon bun","snickerdoodle"]}, "Yogurt":{fam:"Dessert",alt:["yoghurt"]}, "Honeycomb":{fam:"Dessert",alt:["crunchie"]},
+  "Nougat":{fam:"Nutty"}, "Marshmallow":{fam:"Dessert",alt:["s'mores"]}, "Maple":{fam:"Sweet",alt:["maple syrup","waffle & syrup"]}, "Pudding":{fam:"Dessert",alt:["custard"]},
+  "Chestnut":{fam:"Nutty",alt:["mont blanc"]}, "Sesame":{fam:"Nutty",alt:["black sesame"]}, "Kiwi":{fam:"Fruity",alt:["kiwifruit"]}, "Yuzu":{fam:"Fruity"},
+  "Licorice":{fam:"Sweet",alt:["liquorice","salmiak","anise"]}, "Ramune":{fam:"Soda fountain"},
+  "Ketchup":{fam:"Tangy",alt:["tomato ketchup"]}, "Soy Sauce":{fam:"Savory",alt:["soy"]}, "Teriyaki":{fam:"Savory"}, "Taco":{fam:"Spicy"},
+  "Chipotle":{fam:"Spicy"}, "Guacamole":{fam:"Savory"}, "Peri Peri":{fam:"Spicy",alt:["piri piri"]}, "Mushroom":{fam:"Savory",alt:["truffle mushroom","shiitake"]},
+  "Kimchi":{fam:"Spicy"}, "Tom Yum":{fam:"Spicy"}, "Crab":{fam:"Seafood"}, "Squid":{fam:"Seafood"}, "Mayonnaise":{fam:"Tangy",alt:["mayo"]}, "Sweet & Sour":{fam:"Tangy",alt:["sweet n sour","sweet and sour"]},
+  "Mentaiko":{fam:"Seafood",alt:["mentai","cod roe","spicy cod roe","tarako"]}, "Salad":{fam:"Savory",alt:["vegetable salad","french salad"]},
+  "Takoyaki":{fam:"Savory"}, "Red Bean":{fam:"Sweet",alt:["azuki","adzuki","anko","azuki bean"]}, "Salted Egg":{fam:"Savory",alt:["salted egg yolk"]},
+  "Grapefruit":{fam:"Fruity",alt:["pink grapefruit"]}, "Passion Fruit":{fam:"Fruity",alt:["passionfruit","pasito"]}, "Guava":{fam:"Fruity"},
+  "Lychee":{fam:"Fruity",alt:["litchi"]}, "Pear":{fam:"Fruity",alt:["la france pear","japanese pear"]}, "Blueberry":{fam:"Fruity"}, "Blackberry":{fam:"Fruity"},
+  "Mixed Berry":{fam:"Fruity",alt:["berry","wild berries","mixed berries","berry lemonade"]}, "Pomegranate":{fam:"Fruity"}, "Papaya":{fam:"Fruity"}, "Plum":{fam:"Fruity",alt:["ume"]},
+  "Rhubarb":{fam:"Tangy"}, "Cucumber":{fam:"Tangy"}, "Fruit Punch":{fam:"Fruity"},
+  "Root Beer":{fam:"Soda fountain"}, "Cream Soda":{fam:"Soda fountain",alt:["creme","creaming soda","orange cream","orange dream","vanilla cream"]},
+  "Ginger":{fam:"Spicy",alt:["ginger ale","ginger beer"]}, "Elderflower":{fam:"Floral"}, "Rose":{fam:"Floral"},
+  "Tea":{fam:"Sweet",alt:["iced tea","peach tea","ice tea","black tea","milk tea","royal milk tea","white tea","hojicha"]}, "Cotton Candy":{fam:"Sweet"}, "Bubblegum":{fam:"Sweet",alt:["bubble gum","blue bubblegum"]}, "Cola":{fam:"Sweet",alt:["coke","coca-cola","kola","cane cola"]},
+  "Matcha":{fam:"Sweet",alt:["green tea","matcha green tea"]}, "Mint":{fam:"Sweet",alt:["wintergreen","peppermint","choc mint","spearmint","hierbabuena"]},
+  "Honey":{fam:"Sweet"}, "Sweet Potato":{fam:"Sweet",alt:["purple sweet potato","beni imo","ube","purple yam"]},
+  "Cookies & Cream":{fam:"Dessert",alt:["cookies and cream","cookies n cream","cookies n creme","cookies & creme","white cookie"]},
+  "Birthday Cake":{fam:"Dessert",alt:["confetti cake"]}, "Red Velvet":{fam:"Dessert"}, "Churro":{fam:"Dessert",alt:["churros"]},
+  "Pumpkin":{fam:"Dessert",alt:["pumpkin spice","pumpkin pie","pumpkin pie spice"]}, "Vanilla":{fam:"Dessert",alt:["golden"]},
+  "Caramel":{fam:"Dessert",alt:["caramelised sugar","caramelized sugar","burnt sugar","dulce de leche","cajeta"]}, "Salted Caramel":{fam:"Dessert"}, "Turkish Delight":{fam:"Dessert"},
+  "Dark Chocolate":{fam:"Chocolatey",alt:["dark","dark choc"]}, "White Chocolate":{fam:"Chocolatey",alt:["white","white choc"]},
+  "Almond":{fam:"Nutty",alt:["almonds"]}, "Hazelnut":{fam:"Nutty",alt:["whole nut","hazelnuts"]},
+  "Peanut":{fam:"Nutty",alt:["peanuts"]}, "Peanut Butter":{fam:"Nutty",alt:["pb"]},
+  "Wasabi":{fam:"Spicy"}, 
+  "Chili Lime":{fam:"Spicy",alt:["spicy lime","chile lime","lime chilli","chile limon","chile limón","chilli lime","chili & lime","fuego","dinamita"]},
+  "Sweet Chili":{fam:"Spicy",alt:["sweet chilli","thai sweet chilli","spicy sweet chili"]},
+  "Masala":{fam:"Spicy",alt:["magic masala","masala munch","tikka","tikka masala"]},
+  "Salt & Vinegar":{fam:"Tangy",alt:["salt and vinegar","vinegar","sea salt & vinegar","salt & malt vinegar","balsamic vinegar"]}, "Dill Pickle":{fam:"Tangy",alt:["pickle"]},
+  "Pickled Onion":{fam:"Tangy"}, "Worcester Sauce":{fam:"Tangy",alt:["worcestershire","worcestershire sauce"]},
+  "Chutney":{fam:"Tangy",alt:["green chutney","mint chutney","mango chutney","schezwan chutney"]},
+  "Cheese":{fam:"Cheesy",alt:["cream cheese","parmesan","mozzarella","cheddar","cheesy","tangy cheese","queso","white cheddar","double cheese"]}, "Nacho Cheese":{fam:"Cheesy",alt:["nacho"]},
+  "Cheese & Onion":{fam:"Cheesy",alt:["cheese and onion"]}, "Sour Cream & Onion":{fam:"Cheesy",alt:["sour cream & chive","sour cream & spring onion","sour cream and onion","sour cream & caramelized onion"]},
+  "Ranch":{fam:"Cheesy",alt:["cool ranch"]},
+  "BBQ":{fam:"Savory",alt:["barbecue","barbeque","bar-b-q","honey bbq","honey barbecue","texas bbq","sweet bbq","mesquite bbq"]}, "Chicken":{fam:"Savory",alt:["roast chicken"]},
+  "Beef":{fam:"Savory",alt:["roast beef","steak","flame grilled steak"]}, "Bacon":{fam:"Savory",alt:["smoky bacon","maple bacon"]},
+  "Prawn Cocktail":{fam:"Seafood"}, "Shrimp":{fam:"Seafood",alt:["prawn","ebi","king prawn"]},
+  "Seaweed":{fam:"Seafood",alt:["nori","nori salt","nori shio"]}, "Consommé":{fam:"Savory",alt:["consomme","consommé punch"]},
+  "Paprika":{fam:"Savory",alt:["papryka"]}, "Pizza":{fam:"Savory"},
+  "Salted":{fam:"Savory",alt:["ready salted","lightly salted","sea salt","usushio","plain salted","salt","nature"]}
+};
+
+/* ---------- Snacks (popular at home; flavors = regular lines or well-known limited editions) ---------- */
+const SNACKS = [
+  {n:"Pocky",cc:"JP",c:"Japan",t:"Biscuit sticks",bg:"#C8102E",fg:"#fff",f:["Almond","Strawberry","Matcha","Honey","Banana","Cookies & Cream","Coconut","Kiwi","Mango","Grape","Melon","Orange","Lychee","Coffee","Caramel","Tea","Cheese","Sweet Potato","Corn","Pineapple","Pumpkin","Sesame","Pudding","Cherry","Tomato","Blueberry","Apple","Yogurt","Hazelnut","Mixed Berry","Red Bean"]},
+  {n:"Kit Kat",cc:"JP · UK",c:"Japan & UK",t:"Wafer bar",bg:"#B5121B",fg:"#fff",f:["Matcha","Strawberry","Mint","Orange","Dark Chocolate","White Chocolate","Wasabi","Peanut Butter","Caramel","Salted Caramel","Birthday Cake","Banana","Sweet Potato","Apple","Tea","Cheesecake","Butter","Coffee","Melon","Cherry","Chestnut","Cinnamon","Yuzu","Corn","Cheese","Ginger","Hot & Spicy","Maple","Muscat","Cookies & Cream","Pear","Pineapple","Pumpkin","Ramune","Raspberry","Passion Fruit","Salted","Soy Sauce","Watermelon","Lemon","Hazelnut","Coconut","Pudding","Red Bean"]},
+  {n:"Hi-Chew",cc:"JP",c:"Japan",t:"Chewy candy",bg:"#1B4F9C",fg:"#fff",f:["Watermelon","Strawberry","Apple","Mango","Orange","Grape","Peach","Banana","Melon","Cherry","Kiwi","Pineapple","Blueberry","Raspberry","Lemon","Blue Raspberry","Cola","Lime","Grapefruit","Passion Fruit","Ramune","Yogurt","Cheesecake","Cotton Candy","Coconut"]},
+  {n:"Yan Yan",cc:"JP",c:"Japan",t:"Dipping sticks",bg:"#E9C74C",fg:"#2A1430",f:["Strawberry","Vanilla","Yogurt","Mango","Sweet Potato","Hazelnut"]},
+  {n:"Calbee Potato Chips",cc:"JP",c:"Japan",t:"Potato chips",bg:"#F2C230",fg:"#2A1430",f:["Salted","Consommé","Seaweed","Honey","Butter","Pizza","Soy Sauce","Shrimp","Hot & Spicy","Salad"]},
+  {n:"Kappa Ebisen",cc:"JP",c:"Japan",t:"Shrimp crackers",bg:"#F08A24",fg:"#2A1430",f:["Shrimp","Salted","Wasabi","Curry","Hot & Spicy"]},
+  {n:"Saeukkang",cc:"KR",c:"South Korea",t:"Shrimp crackers",bg:"#E0533A",fg:"#fff",f:["Shrimp","Hot & Spicy","Chicken","Sweet & Sour"]},
+  {n:"Pepero",cc:"KR",c:"South Korea",t:"Biscuit sticks",bg:"#D71E28",fg:"#fff",f:["Almond","Cookies & Cream","Strawberry","Cheese","Peanut","Sweet Potato","Matcha"]},
+  {n:"Choco Pie",cc:"KR",c:"South Korea",t:"Marshmallow cake",bg:"#C41F2E",fg:"#fff",f:["Banana","Strawberry","Matcha","Chocolate Chip","Cherry","Caramel","Raspberry","Blackcurrant","Mango","Coconut","Watermelon","Orange","Marshmallow"]},
+  {n:"Walkers",cc:"UK",c:"United Kingdom",t:"Crisps",bg:"#E4002B",fg:"#fff",f:["Salted","Cheese & Onion","Salt & Vinegar","Prawn Cocktail","Chicken","Bacon","Worcester Sauce","Sweet Chili","Ketchup","Pickled Onion","BBQ","Masala","Teriyaki","Hot & Spicy","Beef","Jalapeño","Paprika","Pepper","Chutney","Curry","Sour Cream & Onion","Garlic","Mayonnaise"]},
+  {n:"Monster Munch",cc:"UK",c:"United Kingdom",t:"Corn snack",bg:"#7B2D8E",fg:"#fff",f:["Pickled Onion","Beef","Hot & Spicy","Bacon","Salt & Vinegar","Cheese & Onion","Shrimp","Cheese","BBQ"]},
+  {n:"Hula Hoops",cc:"UK",c:"United Kingdom",t:"Potato rings",bg:"#E2231A",fg:"#fff",f:["Salted","Salt & Vinegar","Cheese & Onion","Beef","BBQ","Chicken","Bacon","Sweet Chili","Masala","Cheese","Mustard","Prawn Cocktail","Sour Cream & Onion","Ketchup","Salsa","Nacho Cheese","Pickled Onion","Hot & Spicy","Curry"]},
+  {n:"Skips",cc:"UK",c:"United Kingdom",t:"Prawn cocktail puffs",bg:"#F5A3C0",fg:"#2A1430",f:["Prawn Cocktail","Pickled Onion","Curry","Hot & Spicy","Pizza","Corn","Salt & Vinegar","Sweet & Sour"]},
+  {n:"Jaffa Cakes",cc:"UK",c:"United Kingdom",t:"Sponge biscuit",bg:"#1E3F8A",fg:"#fff",f:["Orange","Lemon","Lime","Strawberry","Blackcurrant","Pineapple","Cherry","Passion Fruit","Raspberry","Cola","Honey","Yuzu"]},
+  {n:"McVitie's Digestives",cc:"UK",c:"United Kingdom",t:"Biscuit",bg:"#0F4C3A",fg:"#fff",f:["Dark Chocolate","White Chocolate","Caramel","Mint","Orange"]},
+  {n:"Cadbury Dairy Milk",cc:"UK",c:"United Kingdom",t:"Chocolate bar",bg:"#4B1E78",fg:"#fff",f:["Caramel","Hazelnut","Turkish Delight","Mint","Honeycomb","Orange","Cookies & Cream"]},
+  {n:"Tayto",cc:"IE",c:"Ireland",t:"Crisps",bg:"#D2232A",fg:"#fff",f:["Cheese & Onion","Salt & Vinegar","Bacon","Prawn Cocktail"]},
+  {n:"Tim Tam",cc:"AU",c:"Australia",t:"Chocolate biscuit",bg:"#5A2E1B",fg:"#fff",f:["Caramel","Dark Chocolate","White Chocolate","Salted Caramel","Mint","Honeycomb","Orange","Cheese","Brownie","Raspberry","Red Velvet","Peanut Butter","Coconut","Banana","Coffee","Strawberry","Apple","Toffee","Pineapple","Mango","Vanilla","Lychee","Cherry"]},
+  {n:"Twisties",cc:"AU",c:"Australia",t:"Corn snack",bg:"#F7941D",fg:"#2A1430",f:["Cheese","Chicken","Toffee","Tomato","Teriyaki","Peri Peri","Lime","Hot & Spicy","Honey","Cheese & Onion","Bacon","Pizza","Sweet & Sour","Seaweed"]},
+  {n:"Arnott's Shapes",cc:"AU",c:"Australia",t:"Baked crackers",bg:"#C9252C",fg:"#fff",f:["BBQ","Pizza","Chicken","Cheese","Onion","Nacho Cheese"]},
+  {n:"Kurkure",cc:"IN",c:"India",t:"Corn puffs",bg:"#F4A11B",fg:"#2A1430",f:["Masala","Chutney","Cheese","Tomato","Lemon","Hot & Spicy","Butter"]},
+  {n:"Takis",cc:"MX",c:"Mexico",t:"Rolled tortilla chips",bg:"#6A1B9A",fg:"#fff",f:["Chili Lime","Dill Pickle","Taco","BBQ","Ranch","Buffalo","Churro","Cinnamon","Worcester Sauce","Chicken","Sweet Chili","Watermelon","Guacamole","Honey","Nacho Cheese","Ketchup","Chipotle","Cheese","Tomato","Habanero","Salted","Salsa","Cucumber","Teriyaki","Hot & Spicy"]},
+  {n:"Mazapán De la Rosa",cc:"MX",c:"Mexico",t:"Peanut candy",bg:"#E8D8B0",fg:"#2A1430",f:["Peanut","Coconut"]},
+  {n:"Bamba",cc:"IL",c:"Israel",t:"Peanut puffs",bg:"#1A56A8",fg:"#fff",f:["Peanut","Strawberry","Nougat","Banana","Caramel","Coffee","Hazelnut","Corn","Cheese"]},
+  {n:"Stroopwafels",cc:"NL",c:"Netherlands",t:"Syrup waffle",bg:"#B8742E",fg:"#fff",f:["Caramel","Honey","Vanilla","Maple"]},
+  {n:"Mentos",cc:"NL",c:"Netherlands",t:"Chewy mints",bg:"#1C6FB5",fg:"#fff",f:["Mint","Strawberry","Apple","Cola","Bubblegum","Orange","Lemon","Cinnamon","Grape","Grapefruit","Peach","Plum","Yogurt","Pineapple","Blackcurrant","Licorice","Mixed Berry","Banana","Cherry","Mango","Watermelon","Passion Fruit","Lychee","Blueberry","Lime","Raspberry","Melon","Tea","Matcha","Blackberry","Kiwi"]},
+  {n:"Haribo Goldbears",cc:"DE",c:"Germany",t:"Gummy bears",bg:"#F6C400",fg:"#2A1430",f:["Strawberry","Lemon","Orange","Pineapple","Raspberry","Apple"]},
+  {n:"Milka",cc:"DE · CH",c:"Germany & Switzerland",t:"Chocolate bar",bg:"#7D69AC",fg:"#fff",f:["Hazelnut","Caramel","Cookies & Cream","Strawberry","Yogurt","Almond","White Chocolate","Coconut","Raspberry","Cheese","Peanut","Dark Chocolate","Cheesecake","Toffee","Salted Caramel"]},
+  {n:"Toblerone",cc:"CH",c:"Switzerland",t:"Chocolate bar",bg:"#F2C94C",fg:"#2A1430",f:["Honey","Almond","Nougat","Dark Chocolate","White Chocolate","Mint","Honeycomb","Salted","Coconut","Caramel"]},
+  {n:"Kinder Bueno",cc:"IT",c:"Italy",t:"Wafer bar",bg:"#E0262E",fg:"#fff",f:["Hazelnut","White Chocolate","Coconut","Dark Chocolate"]},
+  {n:"Chupa Chups",cc:"ES",c:"Spain",t:"Lollipop",bg:"#E30613",fg:"#fff",f:["Strawberry","Cola","Apple","Raspberry","Grape","Watermelon","Cherry","Vanilla","Blackberry","Mango","Lemon","Lime","Blueberry","Orange","Pineapple","Coffee","Caramel","Peach","Yogurt","Ramune","Melon","Banana","Bubblegum","Coconut","Root Beer","Matcha","Tea","Cucumber","Licorice","Mixed Berry"]},
+  {n:"Pringles",cc:"US",c:"United States",t:"Stacked chips",bg:"#D7282F",fg:"#fff",f:["Sour Cream & Onion","BBQ","Cheese","Salt & Vinegar","Paprika","Pizza","Seaweed","Ranch","Hot & Spicy","Prawn Cocktail","Wasabi","Curry","Ketchup","Chili Lime","Buffalo","Jalapeño","Honey Mustard","Onion","Dill Pickle","Mint","White Chocolate","Cinnamon","Pumpkin","Crab","Shrimp","Blueberry","Hazelnut","Lemon","Sesame","Taco"]},
+  {n:"Lay's",cc:"US",c:"United States",t:"Potato chips",bg:"#FFC72C",fg:"#2A1430",f:["BBQ","Sour Cream & Onion","Salt & Vinegar","Dill Pickle","Chili Lime","Hot & Spicy","Masala","Seaweed","Paprika","Salted","Lime","Crab","Garlic","Onion","Ranch","Jalapeño","Cheese","Tomato","Ketchup","Chicken","Cucumber","Pepper","Sweet Chili","Mayonnaise","Bacon","Wasabi","Prawn Cocktail","Squid","Beef","Mustard","Coconut","Lemon","Grapefruit","Teriyaki","Nacho Cheese","Peri Peri","Mushroom","Truffle","Kimchi","Peanut","Apple","Caramel","Peach","Tom Yum","Soy Sauce","Yogurt","Pizza","Shrimp","Salted Egg"]},
+  {n:"Doritos",cc:"US",c:"United States",t:"Tortilla chips",bg:"#E4002B",fg:"#fff",f:["Nacho Cheese","Ranch","Sweet Chili","Hot & Spicy","Chili Lime","Pizza","Cheese","Taco","Sour Cream & Onion","Buffalo","Chipotle","Habanero","Guacamole","Jalapeño","Salted","Salsa","Ketchup","BBQ","Salt & Vinegar","Corn","Dill Pickle","Sesame"]},
+  {n:"Cheetos",cc:"US",c:"United States",t:"Cheese puffs",bg:"#F47B20",fg:"#fff",f:["Cheese","Hot & Spicy","Chili Lime","Jalapeño","Beef","Strawberry","Cola","Cinnamon","Corn"]},
+  {n:"Oreo",cc:"US",c:"United States",t:"Sandwich cookie",bg:"#0B3A8C",fg:"#fff",f:["Mint","Peanut Butter","Birthday Cake","Matcha","Strawberry","Lemon","Red Velvet","Pumpkin","Churro","Vanilla","Watermelon","Fruit Punch","Root Beer","Lime","Cinnamon","Marshmallow","Blueberry","Maple","Hazelnut","Salted Caramel","Caramel","Coconut","Chicken","Wasabi","Coffee","Banana","Orange","Cola"]},
+  /* ---- Added from the verified list (Sep 2026). Plain "Chocolate"/"Original" left out: too common to be a clue. ---- */
+  {n:"SunChips",cc:"US",c:"United States",t:"Multigrain chips",bg:"#F2A900",fg:"#2A1430",a:"chips",f:["Cheese","Salsa","BBQ","Onion","Jalapeño","Ranch","Tomato","Cinnamon","Honey","Apple","Caramel","Pepper","Chili Lime","Sweet Potato"]},
+  {n:"Snyder's Pretzel Pieces",cc:"US",c:"United States",t:"Flavored pretzels",bg:"#1F3A93",fg:"#fff",a:"pretzel",f:["Sour Cream & Onion","Cheese","Honey Mustard","Buffalo","Peanut Butter","Jalapeño","Ranch"]},
+  {n:"Airheads",cc:"US",c:"United States",t:"Taffy bars",bg:"#0072CE",fg:"#fff",a:"chew",f:["Cherry","Blue Raspberry","Watermelon","Grape","Orange","Strawberry","Apple","Lemon","Mixed Berry","Pineapple","Raspberry"]},
+  {n:"Jolly Rancher",cc:"US",c:"United States",t:"Hard candy",bg:"#00843D",fg:"#fff",a:"hardcandy",f:["Apple","Cherry","Watermelon","Grape","Blue Raspberry","Orange","Lemon","Peach","Cinnamon","Strawberry","Mixed Berry","Pineapple","Fruit Punch","Lime","Mango","Raspberry","Habanero","Ginger"]},
+  {n:"Flipz",cc:"US",c:"United States",t:"Chocolate pretzels",bg:"#3B2314",fg:"#fff",a:"chocpretzel",f:["White Chocolate","Dark Chocolate"]},
+  {n:"Starburst",cc:"US",c:"United States",t:"Fruit chews",bg:"#E4002B",fg:"#fff",a:"chew",f:["Strawberry","Cherry","Orange","Lemon","Lime","Blackcurrant","Blue Raspberry","Kiwi","Banana","Plum","Passion Fruit","Mango","Blueberry","Blackberry","Raspberry","Melon","Watermelon","Fruit Punch","Apple","Mixed Berry","Peach","Pineapple"]},
+  {n:"Life Savers",cc:"US",c:"United States",t:"Hard candy rings",bg:"#E31837",fg:"#fff",a:"rings",f:["Cherry","Raspberry","Watermelon","Orange","Pineapple","Mint","Licorice","Cinnamon","Lemon","Lime","Cola","Root Beer","Blackberry"]},
+  {n:"Sour Patch Kids",cc:"US",c:"United States",t:"Sour gummies",bg:"#FFD100",fg:"#2A1430",a:"gummies",f:["Blue Raspberry","Orange","Lemon","Lime"]},
+  {n:"Kettle Brand",cc:"US",c:"United States",t:"Kettle chips",bg:"#1E1E1E",fg:"#fff",a:"chips",f:["Buffalo","Jalapeño","BBQ","Salted","Salt & Vinegar","Honey Mustard","Garlic","Chamoy","Dill Pickle","Ranch","Lime","Habanero","Pepper","Truffle"]},
+  {n:"Cheez-It",cc:"US",c:"United States",t:"Cheese crackers",bg:"#D71920",fg:"#fff",a:"crackers",f:["Cheese","Sour Cream & Onion","BBQ","Pepper","Buffalo","Jalapeño","Bacon","Hot & Spicy","Pizza","Ranch","Chipotle","Garlic","Onion"]},
+  {n:"Chex Mix",cc:"US",c:"United States",t:"Snack mix",bg:"#0B5CAB",fg:"#fff",a:"timtam",f:["Peanut Butter","Cookies & Cream","Birthday Cake","Cheese","Buffalo","Dill Pickle","Sour Cream & Onion","Peanut","Jalapeño","Cherry","Habanero","BBQ","Salsa","Pizza","Taco","Caramel","Honey","Dark Chocolate","Brownie","Cinnamon","Ranch","Teriyaki","Hot & Spicy"]},
+  {n:"McCoy's",cc:"UK",c:"United Kingdom",t:"Ridged crisps",bg:"#1B1B1B",fg:"#fff",a:"chips",f:["Hot & Spicy","Salt & Vinegar","Beef","Cheese & Onion","Shrimp","Chicken","Salted","Jalapeño","Chutney","Sour Cream & Onion","Bacon","Nacho Cheese","Paprika","Curry","BBQ","Mustard","Onion","Ranch"]},
+  {n:"Butterkist",cc:"UK",c:"United Kingdom",t:"Popcorn",bg:"#E3001B",fg:"#fff",a:"popcorn",f:["Salted","Toffee","Cookies & Cream","Biscoff"]},
+  {n:"Skittles",cc:"US · UK",c:"United States & UK",t:"Fruit sweets",bg:"#E4002B",fg:"#fff",a:"hardcandy",f:["Blackcurrant","Lemon","Lime","Orange","Strawberry","Apple","Grape","Mixed Berry","Yogurt"]},
+  {n:"Fruit Pastilles",cc:"UK",c:"United Kingdom",t:"Fruit gums",bg:"#6C1D5F",fg:"#fff",a:"gummies",f:["Blackcurrant","Lemon","Strawberry","Lime","Orange"]},
+  {n:"Jelly Tots",cc:"UK",c:"United Kingdom",t:"Jelly sweets",bg:"#00A3E0",fg:"#fff",a:"gummies",f:["Raspberry","Apple","Pineapple","Orange"]},
+  {n:"PROPER Crunch Corn",cc:"UK",c:"United Kingdom",t:"Crunchy corn",bg:"#F7E3B5",fg:"#2A1430",a:"popcorn",f:["Salted","Bacon","BBQ"]},
+  {n:"Frisps",cc:"UK",c:"United Kingdom",t:"Crisps",bg:"#E30613",fg:"#fff",a:"chips",f:["Salted","Salt & Vinegar","Cheese & Onion"]},
+  {n:"POM-BEAR",cc:"UK",c:"United Kingdom",t:"Bear-shaped crisps",bg:"#4FA8E0",fg:"#fff",a:"teddy",f:["Cheese","BBQ","Cheese & Onion","Salt & Vinegar","Pizza","Ketchup"]},
+  {n:"Lorenz Crunchips",cc:"DE",c:"Germany",t:"Stacked chips",bg:"#D2001E",fg:"#fff",a:"saddles",f:["Paprika","Salted","Sour Cream","Cheese","Hot & Spicy","BBQ","Salt & Vinegar","Chili Lime"]},
+  {n:"funny-frisch",cc:"DE",c:"Germany",t:"Potato chips",bg:"#E30613",fg:"#fff",a:"chips",f:["Curry","Paprika","Pepper"]},
+  {n:"Ritter Sport",cc:"DE",c:"Germany",t:"Square chocolate bar",bg:"#2E6DB4",fg:"#fff",a:"bar",f:["Butter","Salted Caramel","Mint","Yogurt","Strawberry","Hazelnut","Peanut","Almond","Coconut","Coffee","Nougat","Pear","Caramel","Honey","Orange","Sesame","Dark Chocolate"]},
+  {n:"Lotus Biscoff",cc:"BE",c:"Belgium",t:"Sandwich cookie",bg:"#C8102E",fg:"#fff",a:"digestive",f:["Vanilla","Biscoff"]},
+  {n:"Tony's Chocolonely",cc:"NL",c:"Netherlands",t:"Chocolate bar",bg:"#D52B1E",fg:"#fff",a:"bar",f:["Salted Caramel","Honey","Almond","Pretzel","Toffee","Dark Chocolate","Coconut","Hazelnut","Nougat","White Chocolate","Raspberry"]},
+  {n:"Loacker",cc:"IT",c:"Italy",t:"Wafers",bg:"#C8102E",fg:"#fff",a:"wafer",f:["Hazelnut","Vanilla","Dark Chocolate","White Chocolate","Coffee","Matcha","Caramel","Peanut Butter"]},
+  {n:"San Carlo",cc:"IT",c:"Italy",t:"Potato chips",bg:"#004B87",fg:"#fff",a:"chips",f:["Paprika","Tomato","Lime","Pepper"]},
+  {n:"Zweifel",cc:"CH",c:"Switzerland",t:"Potato chips",bg:"#E30613",fg:"#fff",a:"chips",f:["Garlic","Chicken","Paprika","Salted","Salt & Vinegar","Mustard","Truffle"]},
+  {n:"Zweifel KEZZ",cc:"CH",c:"Switzerland",t:"Kettle chips",bg:"#1A1A1A",fg:"#fff",a:"chips",f:["Salt & Vinegar","Pepper","Paprika","Salted","BBQ"]},
+  {n:"Wedel CRUSH",cc:"PL",c:"Poland",t:"Chocolate bar",bg:"#9B1B30",fg:"#fff",a:"bar",f:["White Chocolate","Raspberry","Coconut","Caramel","Popcorn","Pretzel"]},
+  {n:"Caprice",cc:"GR",c:"Greece",t:"Wafer rolls",bg:"#8B1A1A",fg:"#fff",a:"waferroll",f:["Hazelnut","Dark Chocolate","Vanilla","Coffee"]},
+  {n:"Fazer Domino",cc:"FI",c:"Finland",t:"Sandwich biscuit",bg:"#0E2C5E",fg:"#fff",a:"sandwich",f:["Vanilla","Coffee","Brownie","Mint"]},
+  {n:"Alfort",cc:"JP",c:"Japan",t:"Chocolate biscuit",bg:"#1B2F6B",fg:"#fff",a:"digestive",f:["White Chocolate","Strawberry","Matcha","Cheese","Melon","Yuzu","Chestnut","Sweet Potato","Cheesecake"]},
+  {n:"Meiji Fruit Juice Gummy",cc:"JP",c:"Japan",t:"Gummies",bg:"#7B2D8E",fg:"#fff",a:"gummies",f:["Grape","Orange","Muscat"]},
+  {n:"Pretz",cc:"JP",c:"Japan",t:"Savory sticks",bg:"#E60012",fg:"#fff",a:"pretz",f:["Tomato","Butter","Chicken","Honey Mustard","Corn","Coffee","Salted Caramel","Pizza","Pepper","Cheese","Bacon","Maple","Pudding","Melon","Pumpkin","Blueberry","Matcha","Shrimp","Curry","Apple","Tom Yum","Seaweed","Wasabi","Squid","Pineapple","Coconut","Crab","Tea","Plum","Hot & Spicy","Salad","Takoyaki"]},
+  {n:"Koala's March",cc:"JP",c:"Japan",t:"Filled biscuits",bg:"#E4007F",fg:"#fff",a:"koala",f:["Apple","Banana","Cheesecake","White Chocolate","Cotton Candy","Honey","Coffee","Almond","Caramel","Lemon","Matcha","Pineapple","Strawberry","Vanilla"]},
+  {n:"Kanro Pure Gummy",cc:"JP",c:"Japan",t:"Sour gummies",bg:"#F5A623",fg:"#2A1430",a:"gummies",f:["Lemon","Grape","Muscat","Pear","Mixed Berry"]},
+  {n:"Poifull",cc:"JP",c:"Japan",t:"Jelly beans",bg:"#F06EAA",fg:"#fff",a:"gummies",f:["Raspberry","Lemon","Apple","Grape"]},
+  {n:"Up Gummy",cc:"JP",c:"Japan",t:"Soda gummies",bg:"#00A0E9",fg:"#fff",a:"gummies",f:["Cola","Melon","Peach","Ramune"]},
+  {n:"Poca Chip",cc:"KR",c:"South Korea",t:"Potato chips",bg:"#FFCD00",fg:"#2A1430",a:"chips",f:["Onion","Cheese","Pepper","Lime","Mint","Seaweed","Sour Cream","Maple","Chicken","Shrimp","Garlic","Mushroom","Soy Sauce","Kimchi","Truffle","Mango","Tomato","Hot & Spicy"]},
+  {n:"Kkobuk Chips",cc:"KR",c:"South Korea",t:"Layered chips",bg:"#00A651",fg:"#fff",a:"crackers",f:["Corn","Churro","Caramel","Popcorn","Sweet Potato","Shrimp","Garlic","Hot & Spicy"]},
+  {n:"Oh Yes",cc:"KR",c:"South Korea",t:"Snack cake",bg:"#E30613",fg:"#fff",a:"chocopie",f:["Cookies & Cream","Coffee"]},
+  {n:"ACE Crackers",cc:"KR",c:"South Korea",t:"Butter crackers",bg:"#D6A12A",fg:"#2A1430",a:"crackers",f:["Salted Caramel","Coffee","Cheesecake"]},
+  {n:"Lucas Muecas",cc:"MX",c:"Mexico",t:"Chili candy lollipop",bg:"#ED1C24",fg:"#fff",a:"lolly",f:["Chamoy","Tamarind","Watermelon","Cherry","Mango","Cucumber"]},
+  {n:"Sabritas",cc:"MX",c:"Mexico",t:"Potato chips",bg:"#E30613",fg:"#fff",a:"chips",f:["Adobada","Lime","Habanero","Hot & Spicy","Salted","Jalapeño","Chili Lime","Cheese"]},
+  {n:"Pulparindo",cc:"MX",c:"Mexico",t:"Tamarind candy",bg:"#8B4513",fg:"#fff",a:"tamarind",f:["Tamarind","Mango","Watermelon","Chamoy"]},
+  {n:"Barcel Chip's",cc:"MX",c:"Mexico",t:"Potato chips",bg:"#FFD200",fg:"#2A1430",a:"chips",f:["Adobada","Chili Lime","Jalapeño","Salted","Cheese"]},
+  {n:"Barcel Snaps",cc:"MX",c:"Mexico",t:"Popcorn",bg:"#F28C28",fg:"#2A1430",a:"popcorn",f:["Pepper","Cheese","Corn"]},
+  {n:"Duvalín",cc:"MX",c:"Mexico",t:"Hazelnut cream candy",bg:"#5C2C91",fg:"#fff",a:"cup",f:["Vanilla","Strawberry","Hazelnut"]},
+  {n:"Tiny Teddy",cc:"AU",c:"Australia",t:"Teddy biscuits",bg:"#E5007E",fg:"#fff",a:"teddy",f:["Honey","Chocolate Chip"]},
+  {n:"Jatz",cc:"AU",c:"Australia",t:"Round crackers",bg:"#E30613",fg:"#fff",a:"roundcrackers",f:["Pepper","Salted","Cheese & Garlic"]},
+  {n:"Savoy",cc:"AU",c:"Australia",t:"Square crackers",bg:"#0055A5",fg:"#fff",a:"crackers",f:["Pepper","Salted","Cheese & Garlic"]},
+  {n:"Kettle (Australia)",cc:"AU",c:"Australia",t:"Kettle chips",bg:"#2B2B2B",fg:"#fff",a:"chips",f:["Salt & Vinegar","Chicken","Sweet Chili"]},
+  {n:"Farmbake",cc:"AU",c:"Australia",t:"Cookies",bg:"#7A4B2A",fg:"#fff",a:"digestive",f:["Chocolate Chip","Peanut","Brownie"]},
+  {n:"Red Rock Deli",cc:"AU",c:"Australia",t:"Potato chips",bg:"#1C1C1C",fg:"#fff",a:"chips",f:["Salted","Salt & Vinegar","Chicken","Sweet Chili","Sour Cream & Onion","Lime","Pepper","Jalapeño","Cheese","Mustard","Curry","Coconut"]},
+  /* ---- Popular Asian snacks (researched Sep 25 2026) ---- */
+  {n:"Umaibō",cc:"JP",c:"Japan",t:"Puffed corn sticks",bg:"#F7C600",fg:"#2A1430",a:"umaibo",f:["Mentaiko","Corn","Cheese","Teriyaki","Salad","Curry","Chicken","Shrimp","Mayonnaise","Takoyaki","Seaweed","Beef","Caramel"]},
+  {n:"Jagarico",cc:"JP",c:"Japan",t:"Potato sticks in a cup",bg:"#E83828",fg:"#fff",a:"jagarico",f:["Salad","Cheese","Butter","Mentaiko","Soy Sauce","Pizza","Chicken","Beef","Wasabi","Takoyaki","Mayonnaise","Taco","Garlic","Curry","Sesame","Salted"]},
+  {n:"Hello Panda",cc:"JP",c:"Japan",t:"Filled biscuits",bg:"#E6007E",fg:"#fff",a:"koala",f:["Strawberry","Vanilla","Coconut","Matcha"]},
+  {n:"Kinoko no Yama",cc:"JP",c:"Japan",t:"Chocolate mushrooms",bg:"#3C8D2F",fg:"#fff",a:"mushroom",f:["White Chocolate","Caramel","Strawberry","Cookies & Cream","Matcha","Sweet Potato"]},
+  {n:"Tongari Corn",cc:"JP",c:"Japan",t:"Corn cones",bg:"#F39800",fg:"#2A1430",a:"cones",f:["Corn","Salted","Hot & Spicy","Vanilla"]},
+  {n:"Tohato Caramel Corn",cc:"JP",c:"Japan",t:"Caramel corn puffs",bg:"#E60012",fg:"#fff",a:"puffs",f:["Caramel","Salted Caramel","Corn"]},
+  {n:"Chip Star",cc:"JP",c:"Japan",t:"Stacked chips",bg:"#D7000F",fg:"#fff",a:"saddles",f:["Seaweed","Salted","Butter","Soy Sauce","Consommé","Sour Cream & Onion","Hot & Spicy","Plum","Salt & Vinegar","Shrimp","Mayonnaise"]},
+  {n:"Honey Butter Chip",cc:"KR",c:"South Korea",t:"Potato chips",bg:"#F5C518",fg:"#2A1430",a:"chips",f:["Honey","Butter","Maple","Almond","Caramel","Blueberry","Coffee"]},
+  {n:"White Rabbit",cc:"CN",c:"China",t:"Milk candy",bg:"#1F4E9E",fg:"#fff",a:"whiterabbit",f:["Vanilla","Coffee","Toffee","Peanut","Corn","Coconut","Lychee","Strawberry","Mango","Red Bean","Yogurt","Matcha","Wasabi","Plum"]},
+  {n:"Want Want Senbei",cc:"TW",c:"Taiwan",t:"Rice crackers",bg:"#E60012",fg:"#fff",a:"roundcrackers",f:["Seaweed","Cheese","Salted"]},
+  {n:"Kuai Kuai",cc:"TW",c:"Taiwan",t:"Corn puffs",bg:"#00A650",fg:"#fff",a:"puffs",f:["Coconut","Butter","Lemon","Caramel","Strawberry","Yogurt","Coffee","Shrimp","Hot & Spicy","Peanut","Corn"]},
+  {n:"Tao Kae Noi",cc:"TH",c:"Thailand",t:"Crispy seaweed",bg:"#F6A800",fg:"#2A1430",a:"seaweed",f:["Seaweed","Chili Lime","Hot & Spicy","Tom Yum","Wasabi","Sour Cream & Onion","Garlic","Mayonnaise","BBQ","Honey","Kimchi","Mushroom","Pepper","Squid","Chicken"]},
+  {n:"Oishi Prawn Crackers",cc:"PH",c:"Philippines",t:"Prawn crackers",bg:"#E30613",fg:"#fff",a:"shrimpsticks",f:["Shrimp","Hot & Spicy","Salted Egg"]},
+  {n:"Chitato",cc:"ID",c:"Indonesia",t:"Potato chips",bg:"#D71920",fg:"#fff",a:"chips",f:["Beef","BBQ","Cheese","Chicken","Seaweed","Salted"]},
+  {n:"Mamee Monster",cc:"MY",c:"Malaysia",t:"Noodle snack",bg:"#E4002B",fg:"#fff",a:"noodles",f:["Chicken","BBQ","Hot & Spicy","Onion","Cheese","Sour Cream & Onion","Shrimp","Sweet Potato"]},
+  {n:"Irvins",cc:"SG",c:"Singapore",t:"Salted egg chips",bg:"#F4C430",fg:"#2A1430",a:"chips",f:["Salted Egg","Hot & Spicy","Seaweed","Truffle"]},
+  {n:"Bingo! Mad Angles",cc:"IN",c:"India",t:"Triangle chips",bg:"#0B7A3E",fg:"#fff",a:"tri",f:["Masala","Pizza","Tomato","Peri Peri","Hot & Spicy"]},
+  {n:"Binggrae Flavored Milk",cc:"KR",c:"South Korea",t:"Flavored milk",d:1,bg:"#F8D34B",fg:"#2A1430",a:"jar",f:["Banana","Strawberry","Melon","Coffee","Lychee","Peach","Orange","Pumpkin","Sweet Potato"]},
+  /* ---- Soft drinks (verified list, Sep 25 2026). d:1 marks a drink. Compound flavors count toward each part. ---- */
+  {n:"Crush",cc:"US",c:"United States",t:"Fruit soda",d:1,bg:"#F37021",fg:"#fff",a:"can",f:["Orange","Grape","Strawberry","Pineapple","Watermelon","Peach","Grapefruit"]},
+  {n:"Sunkist",cc:"US",c:"United States",t:"Orange soda",d:1,bg:"#F58220",fg:"#fff",a:"can",f:["Orange","Raspberry","Strawberry","Mixed Berry","Lemon","Grape","Pineapple","Peach"]},
+  {n:"Fanta",cc:"US",c:"United States",t:"Fruit soda",d:1,bg:"#FF8200",fg:"#fff",a:"can",f:["Orange","Strawberry","Grape","Peach","Pineapple","Coconut","Mixed Berry"]},
+  {n:"Sprite",cc:"US",c:"United States",t:"Lemon-lime soda",d:1,bg:"#00A94F",fg:"#fff",a:"can",f:["Lemon","Lime","Peach","Tea","Mango","Strawberry","Pineapple","Cherry"]},
+  {n:"Coca-Cola Flavors",cc:"US",c:"United States",t:"Cola",d:1,bg:"#E41E2B",fg:"#fff",a:"can",f:["Cola","Cherry","Vanilla"]},
+  {n:"Virgil's",cc:"US",c:"United States",t:"Craft soda",d:1,bg:"#3A2A1E",fg:"#fff",a:"bottle",f:["Cherry","Cola","Vanilla","Cream Soda","Root Beer","Orange"]},
+  {n:"Boylan",cc:"US",c:"United States",t:"Craft soda",d:1,bg:"#1D3C34",fg:"#fff",a:"bottle",f:["Ginger","Root Beer","Cherry","Cream Soda","Cola","Orange","Grape"]},
+  {n:"Jones Soda",cc:"US",c:"United States",t:"Cane-sugar soda",d:1,bg:"#2F2F2F",fg:"#fff",a:"bottle",f:["Mixed Berry","Lemon","Bubblegum","Cream Soda","Apple","Root Beer","Strawberry","Lime","Orange","Fruit Punch"]},
+  {n:"Sprecher",cc:"US",c:"United States",t:"Craft soda",d:1,bg:"#6B1F1F",fg:"#fff",a:"bottle",f:["Cream Soda","Orange","Cherry","Cola","Grape","Ginger"]},
+  {n:"Poppi",cc:"US",c:"United States",t:"Prebiotic soda",d:1,bg:"#F26F8B",fg:"#fff",a:"can",f:["Orange","Watermelon","Raspberry","Rose","Ginger","Lime","Strawberry","Lemon","Cherry"]},
+  {n:"OLIPOP",cc:"US",c:"United States",t:"Prebiotic soda",d:1,bg:"#5AA17F",fg:"#fff",a:"can",f:["Strawberry","Vanilla","Grape","Cherry","Cola","Lemon","Lime"]},
+  {n:"Culture Pop",cc:"US",c:"United States",t:"Probiotic soda",d:1,bg:"#F2B84B",fg:"#2A1430",a:"can",f:["Orange","Mango","Lime","Grape","Cherry","Strawberry","Rhubarb"]},
+  {n:"Clearly Canadian",cc:"CA",c:"Canada",t:"Sparkling fruit drink",d:1,bg:"#5B8FC7",fg:"#fff",a:"bottle",f:["Blackberry","Raspberry","Peach","Strawberry","Cherry"]},
+  {n:"The Pop Shoppe",cc:"CA",c:"Canada",t:"Retro soda",d:1,bg:"#C8102E",fg:"#fff",a:"bottle",f:["Cherry","Lime","Cream Soda","Grape","Orange","Pineapple","Cotton Candy","Root Beer"]},
+  {n:"Tango",cc:"UK",c:"United Kingdom",t:"Fruit soda",d:1,bg:"#F58025",fg:"#fff",a:"can",f:["Orange","Apple","Cherry","Watermelon","Strawberry"]},
+  {n:"J2O",cc:"UK",c:"United Kingdom",t:"Fruit blend",d:1,bg:"#FF6A13",fg:"#fff",a:"bottle",f:["Orange","Passion Fruit","Apple","Raspberry","Mango"]},
+  {n:"Fentimans",cc:"UK",c:"United Kingdom",t:"Botanical lemonade",d:1,bg:"#1F2B4D",fg:"#fff",a:"bottle",f:["Rose","Lemon","Raspberry","Rhubarb"]},
+  {n:"Fever-Tree",cc:"UK",c:"United Kingdom",t:"Sparkling soft drinks",d:1,bg:"#0F4D3A",fg:"#fff",a:"bottle",f:["Elderflower","Ginger","Lime","Lemon","Raspberry","Grape"]},
+  {n:"KA Sparkling",cc:"UK",c:"United Kingdom",t:"Caribbean soda",d:1,bg:"#E2001A",fg:"#fff",a:"can",f:["Grape","Fruit Punch","Pineapple","Strawberry","Cola"]},
+  {n:"Cawston Press",cc:"UK",c:"United Kingdom",t:"Sparkling juice",d:1,bg:"#E9E3D0",fg:"#2A1430",a:"can",f:["Rhubarb","Elderflower","Lemon","Apple","Ginger"]},
+  {n:"Vimto",cc:"UK",c:"United Kingdom",t:"Fruit cordial soda",d:1,bg:"#6D1F5E",fg:"#fff",a:"can",f:["Orange","Papaya","Pineapple","Guava"]},
+  {n:"Rubicon",cc:"UK",c:"United Kingdom",t:"Exotic fruit soda",d:1,bg:"#F7A600",fg:"#2A1430",a:"can",f:["Mango","Passion Fruit","Guava"]},
+  {n:"Sanpellegrino",cc:"IT",c:"Italy",t:"Italian soda",d:1,bg:"#D71920",fg:"#fff",a:"can",f:["Orange","Lemon","Pomegranate","Grapefruit","Cherry"]},
+  {n:"fritz-limo",cc:"DE",c:"Germany",t:"Lemonade",d:1,bg:"#F5E600",fg:"#2A1430",a:"bottle",f:["Orange","Ginger","Lime","Lemon","Apple","Cherry","Melon"]},
+  {n:"Thomas Henry",cc:"DE",c:"Germany",t:"Sodas & lemonades",d:1,bg:"#1A1A1A",fg:"#fff",a:"bottle",f:["Lemon","Ginger","Mango","Grapefruit","Watermelon"]},
+  {n:"Club-Mate",cc:"DE",c:"Germany",t:"Mate soda",d:1,bg:"#F2C400",fg:"#2A1430",a:"bottle",f:["Mixed Berry","Cola","Pomegranate","Tea"]},
+  {n:"Lemonsoda",cc:"IT",c:"Italy",t:"Citrus soda",d:1,bg:"#FFE000",fg:"#2A1430",a:"can",f:["Lemon","Orange","Lime","Mint"]},
+  {n:"Loux",cc:"GR",c:"Greece",t:"Fruit soda",d:1,bg:"#E30613",fg:"#fff",a:"can",f:["Orange","Lemon","Cherry","Cola"]},
+  {n:"La Casera",cc:"ES",c:"Spain",t:"Fruit & cola soda",d:1,bg:"#E30613",fg:"#fff",a:"bottle",f:["Mint","Lemon","Apple","Orange","Cola"]},
+  {n:"Sumol",cc:"PT",c:"Portugal",t:"Fruit soda",d:1,bg:"#F7A600",fg:"#2A1430",a:"can",f:["Orange","Pineapple","Passion Fruit"]},
+  {n:"Frize Botânicos",cc:"PT",c:"Portugal",t:"Sparkling mineral water",d:1,bg:"#2E6B5E",fg:"#fff",a:"bottle",f:["Orange","Raspberry","Pepper","Lime","Cucumber","Ginger"]},
+  {n:"Kofola",cc:"CZ",c:"Czechia",t:"Herbal cola",d:1,bg:"#1B1B1B",fg:"#fff",a:"bottle",f:["Cola","Melon","Cherry"]},
+  {n:"Hartwall Jaffa",cc:"FI",c:"Finland",t:"Fruit soda",d:1,bg:"#FF7F00",fg:"#fff",a:"can",f:["Orange","Pineapple","Lemon"]},
+  {n:"CALPICO",cc:"JP",c:"Japan",t:"Cultured milk drink",d:1,bg:"#1E5BC6",fg:"#fff",a:"bottle",f:["Mango","Lychee","Peach","Strawberry","Melon","Orange","Pineapple"]},
+  {n:"Tomomasu Fruit Cider",cc:"JP",c:"Japan",t:"Fruit cider (soda)",d:1,bg:"#F29AB3",fg:"#fff",a:"bottle",f:["Peach","Watermelon","Mango","Melon"]},
+  {n:"Frula Ramune",cc:"JP",c:"Japan",t:"Ramune",d:1,bg:"#3FA9F5",fg:"#fff",a:"ramune",f:["Mango","Pear","Lychee"]},
+  {n:"Mitsuya Squash",cc:"JP",c:"Japan",t:"Fruit soda",d:1,bg:"#E60033",fg:"#fff",a:"can",f:["Orange","Peach","Grape","Apple","Muscat"]},
+  {n:"Wilkinson",cc:"JP",c:"Japan",t:"Sparkling water",d:1,bg:"#0B2A5B",fg:"#fff",a:"bottle",f:["Lemon","Grape","Lychee"]},
+  {n:"Sangaria Hajikete",cc:"JP",c:"Japan",t:"Fruit soda",d:1,bg:"#7A3FA0",fg:"#fff",a:"can",f:["Grape","Orange","Melon"]},
+  {n:"Milkis",cc:"KR",c:"South Korea",t:"Milk soda",d:1,bg:"#2B7BD0",fg:"#fff",a:"can",f:["Strawberry","Grape","Mango","Peach","Melon","Apple","Banana"]},
+  {n:"Welch's Korea",cc:"KR",c:"South Korea",t:"Sparkling fruit soda",d:1,bg:"#5B2C83",fg:"#fff",a:"can",f:["Grape","Strawberry","Muscat","Apple","Mango"]},
+  {n:"Demisoda",cc:"KR",c:"South Korea",t:"Fruit soda",d:1,bg:"#9ACD32",fg:"#2A1430",a:"can",f:["Apple","Grape","Peach","Lemon","Plum"]},
+  {n:"Tams",cc:"KR",c:"South Korea",t:"Fruit soda",d:1,bg:"#F37021",fg:"#fff",a:"can",f:["Orange","Grape","Apple","Pineapple"]},
+  {n:"Topo Chico Sabores",cc:"MX",c:"Mexico",t:"Sparkling water",d:1,bg:"#C8102E",fg:"#fff",a:"bottle",f:["Passion Fruit","Raspberry","Lemon","Lime","Mint","Orange","Ginger","Mango","Blueberry"]},
+  {n:"Chaparritas",cc:"MX",c:"Mexico",t:"Fruit drink",d:1,bg:"#E4007C",fg:"#fff",a:"bottle",f:["Pineapple","Orange","Grape"]},
+  {n:"Kirks",cc:"AU",c:"Australia",t:"Classic soft drink",d:1,bg:"#004A98",fg:"#fff",a:"can",f:["Lemon","Orange","Passion Fruit","Cream Soda","Ginger"]},
+  {n:"Bundaberg",cc:"AU",c:"Australia",t:"Brewed soft drink",d:1,bg:"#F3E5C0",fg:"#2A1430",a:"bottle",f:["Mango","Orange","Passion Fruit","Peach","Guava","Grapefruit","Pineapple","Coconut"]},
+  {n:"Remedy Sodaly",cc:"AU",c:"Australia",t:"Prebiotic soda",d:1,bg:"#EAE1F5",fg:"#2A1430",a:"can",f:["Raspberry","Passion Fruit","Guava","Lemon","Pineapple","Orange"]},
+  {n:"Bickford's Esprit",cc:"AU",c:"Australia",t:"Sparkling soft drink",d:1,bg:"#00857C",fg:"#fff",a:"bottle",f:["Blueberry","Lemon","Lime","Orange","Passion Fruit","Raspberry","Strawberry"]},
+  {n:"Saxbys Spliced",cc:"AU",c:"Australia",t:"Soft drink",d:1,bg:"#8C2F39",fg:"#fff",a:"bottle",f:["Vanilla","Raspberry","Orange","Mango","Lime"]}
+];
+
+/* ---------- Snack illustrations: hand-drawn shapes, no logos ---------- */
+const SV = (inner) => `<svg viewBox="0 0 100 100" aria-hidden="true" focusable="false">${inner}</svg>`;
+const O = 'stroke="#2A1430" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"';
+const DRAW = {
+  sticks:(coat="#6B3A24",bis="#E6B876")=>SV([0,1,2,3].map(i=>{const x=22+i*15,y=10+(i%2)*6;
+    return `<g transform="rotate(${-14+i*9} ${x+5} 55)"><rect x="${x}" y="${y}" width="10" height="80" rx="5" fill="${bis}" ${O}/><rect x="${x}" y="${y}" width="10" height="58" rx="5" fill="${coat}" ${O}/><line x1="${x+3}" y1="${y+8}" x2="${x+3}" y2="${y+40}" stroke="#fff" stroke-opacity=".35" stroke-width="2"/></g>`}).join("")),
+  cup:(dip="#F2A6B8")=>SV(`${[0,1,2].map(i=>`<rect x="${30+i*14}" y="${10+i*5}" width="8" height="55" rx="4" fill="#E6B876" ${O} transform="rotate(${-10+i*10} ${34+i*14} 60)"/>`).join("")}
+    <path d="M18 48h64l-7 42H25z" fill="#FFF3D6" ${O}/><path d="M22 58h56l-2 12H24z" fill="${dip}" opacity=".9"/><path d="M52 48h30l-3 18H51z" fill="#6B3A24" ${O}/>`),
+  wafer:(c="#7A4424",drizzle=null)=>SV(`<rect x="10" y="22" width="80" height="56" rx="7" fill="${c}" ${O}/>
+    ${[0,1,2,3].map(i=>`<rect x="${15+i*19}" y="27" width="15" height="46" rx="4" fill="#fff" fill-opacity=".14" ${O}/>`).join("")}
+    ${drizzle?`<path d="M14 40q8-8 16 0t16 0t16 0t16 0t8 0" fill="none" stroke="${drizzle}" stroke-width="4" stroke-linecap="round"/><path d="M14 58q8-8 16 0t16 0t16 0t16 0t8 0" fill="none" stroke="${drizzle}" stroke-width="4" stroke-linecap="round"/>`:""}`),
+  chew:(cs=["#E8384F","#8E44AD","#7BC043"])=>SV(cs.map((c,i)=>`<g transform="rotate(${-18+i*18} 50 50) translate(${-24+i*24} ${i%2?8:-6})"><rect x="34" y="30" width="32" height="40" rx="5" fill="#fff" ${O}/><rect x="38" y="36" width="24" height="28" rx="3" fill="${c}"/><path d="M34 34h32M34 66h32" stroke="#2A1430" stroke-width="1.5" stroke-dasharray="2 3"/></g>`).join("")),
+  roll:(c="#F5F5F0",band="#1C6FB5")=>SV(`<rect x="12" y="34" width="76" height="32" rx="16" fill="${band}" ${O}/>
+    ${[0,1,2,3,4].map(i=>`<line x1="${26+i*12}" y1="36" x2="${26+i*12}" y2="64" stroke="#fff" stroke-opacity=".5" stroke-width="2"/>`).join("")}
+    <ellipse cx="80" cy="50" rx="10" ry="16" fill="${c}" ${O}/><circle cx="36" cy="82" r="10" fill="${c}" ${O}/><circle cx="60" cy="18" r="9" fill="${c}" ${O}/>`),
+  chips:(c="#F6C544",spot="#C98A1B")=>SV([[30,40,-20],[62,36,15],[46,64,5]].map(([x,y,r])=>`<g transform="rotate(${r} ${x} ${y})"><path d="M${x-22} ${y}c2-12 14-19 24-18c12 0 22 8 20 19c-1 11-12 17-23 16c-12 0-22-6-21-17z" fill="${c}" ${O}/><circle cx="${x-6}" cy="${y-4}" r="2" fill="${spot}"/><circle cx="${x+8}" cy="${y+5}" r="2.4" fill="${spot}"/><circle cx="${x+3}" cy="${y-8}" r="1.6" fill="${spot}"/></g>`).join("")),
+  saddles:(c="#F2C14E")=>SV([0,1,2,3,4].map(i=>`<path d="M18 ${30+i*11}q32 -14 64 0q-6 10 -32 12q-26 -2 -32 -12z" fill="${c}" ${O}/>`).join("")),
+  tri:(c="#F28C28",dust="#D8392B")=>SV([[50,26,0],[28,64,-25],[72,66,22]].map(([x,y,r])=>`<g transform="rotate(${r} ${x} ${y})"><path d="M${x} ${y-20}L${x+22} ${y+16}Q${x} ${y+22} ${x-22} ${y+16}z" fill="${c}" ${O}/>${[[-6,4],[6,8],[0,-6],[-10,12],[10,14]].map(([a,b])=>`<circle cx="${x+a}" cy="${y+b}" r="1.8" fill="${dust}"/>`).join("")}</g>`).join("")),
+  rolled:(c="#B8322A")=>SV([0,1,2].map(i=>`<g transform="rotate(${-30+i*25} 50 50) translate(${-18+i*18} 0)"><rect x="40" y="18" width="20" height="64" rx="10" fill="${c}" ${O}/><path d="M42 30l16 8M42 46l16 8M42 62l16 8" stroke="#2A1430" stroke-opacity=".45" stroke-width="2"/></g>`).join("")),
+  puffs:(c="#F4892A")=>SV([[34,36,-30],[64,44,20],[44,68,70]].map(([x,y,r])=>`<g transform="rotate(${r} ${x} ${y})"><path d="M${x-22} ${y}q4-10 10-6q4-8 10-2q6-7 11 0q7-4 10 5q4 8-4 11q-2 8-10 4q-5 6-11 0q-7 5-11-2q-8-2-5-10z" fill="${c}" ${O}/></g>`).join("")),
+  rings:(c="#EFD08A")=>SV([[32,38],[66,34],[50,66],[26,70],[74,68]].map(([x,y])=>`<circle cx="${x}" cy="${y}" r="15" fill="${c}" ${O}/><circle cx="${x}" cy="${y}" r="6" fill="var(--c)" ${O}/>`).join("")),
+  crackers:(c="#E9B96E")=>SV([[20,18,-12],[52,22,10],[30,54,6],[60,56,-8]].map(([x,y,r])=>`<g transform="rotate(${r} ${x+14} ${y+14})"><rect x="${x}" y="${y}" width="28" height="28" rx="7" fill="${c}" ${O}/>${[[8,8],[20,8],[14,14],[8,20],[20,20]].map(([a,b])=>`<circle cx="${x+a}" cy="${y+b}" r="1.6" fill="#8A5A22"/>`).join("")}</g>`).join("")),
+  shrimpsticks:(c="#F1C27D")=>SV([0,1,2,3].map(i=>`<path d="M${18+i*8} ${22+i*14}q30 -8 62 4" fill="none" stroke="#2A1430" stroke-width="13" stroke-linecap="round"/><path d="M${18+i*8} ${22+i*14}q30 -8 62 4" fill="none" stroke="${c}" stroke-width="8" stroke-linecap="round"/>`).join("")),
+  sandwich:()=>SV(`<ellipse cx="50" cy="66" rx="36" ry="12" fill="#1F1A1C" ${O}/><rect x="14" y="52" width="72" height="14" fill="#1F1A1C"/><path d="M14 52v14M86 52v14" ${O}/>
+    <rect x="15" y="46" width="70" height="8" fill="#F7F2E8"/><ellipse cx="50" cy="42" rx="36" ry="12" fill="#2A2426" ${O}/><path d="M14 42v4M86 42v4" ${O}/>
+    <circle cx="50" cy="42" r="7" fill="none" stroke="#fff" stroke-opacity=".25" stroke-width="2"/>${[0,60,120,180,240,300].map(a=>`<circle cx="${50+Math.cos(a*Math.PI/180)*22}" cy="${42+Math.sin(a*Math.PI/180)*7}" r="2" fill="#fff" fill-opacity=".2"/>`).join("")}`),
+  chocopie:()=>SV(`<path d="M14 58q0-26 36-26t36 26v8q0 12-36 12t-36-12z" fill="#5A2E1B" ${O}/><path d="M16 60h68" stroke="#FFF6E0" stroke-width="5"/><path d="M22 44q14-8 28-6" stroke="#fff" stroke-opacity=".3" stroke-width="3" fill="none" stroke-linecap="round"/>`),
+  digestive:()=>SV(`<circle cx="50" cy="50" r="36" fill="#D9A45B" ${O}/><path d="M14 50a36 36 0 0 0 72 0z" fill="#4A2616" ${O}/>${[[36,30],[50,24],[64,30],[42,40],[58,40]].map(([x,y])=>`<circle cx="${x}" cy="${y}" r="2" fill="#8A5A22"/>`).join("")}`),
+  jaffa:()=>SV(`<ellipse cx="50" cy="64" rx="36" ry="12" fill="#E8B76A" ${O}/><ellipse cx="50" cy="56" rx="30" ry="10" fill="#F28C28"/><ellipse cx="50" cy="52" rx="30" ry="12" fill="#3B1D12" ${O}/><path d="M30 52q20-10 40 0" stroke="#fff" stroke-opacity=".25" stroke-width="2" fill="none"/>`),
+  timtam:()=>SV(`<rect x="12" y="30" width="76" height="40" rx="8" fill="#4A2616" ${O}/><path d="M12 50h76" stroke="#8A4A2A" stroke-width="3"/>${[0,1,2,3,4,5].map(i=>`<path d="M${18+i*12} 34l-4 8" stroke="#fff" stroke-opacity=".25" stroke-width="2"/>`).join("")}`),
+  stroop:()=>SV(`<defs><clipPath id="swc"><circle cx="50" cy="50" r="37"/></clipPath></defs><circle cx="50" cy="50" r="38" fill="#D8A05A" ${O}/><g clip-path="url(#swc)">${[-24,-12,0,12,24].map(d=>`<path d="M${26+d} 18l48 64M${74+d} 18l-48 64" stroke="#A86B2E" stroke-width="2" opacity=".7"/>`).join("")}</g><circle cx="50" cy="50" r="38" fill="none" ${O}/>`),
+  bar:(c="#4B1E78",choc="#6B3A24")=>SV(`<rect x="16" y="14" width="68" height="72" rx="4" fill="${choc}" ${O}/>${[0,1,2].map(r=>[0,1].map(k=>`<rect x="${22+k*30}" y="${20+r*14}" width="26" height="10" rx="2" fill="#fff" fill-opacity=".12"/>`).join("")).join("")}
+    <path d="M16 60h68v26H16z" fill="${c}" ${O}/><path d="M16 60l10-6 10 6 10-6 10 6 10-6 10 6 8-6" fill="#D9D9E0" ${O}/>`),
+  prism:()=>SV(`<path d="M8 72h84" ${O}/>${[0,1,2,3].map(i=>`<path d="M${10+i*20} 72l10-30l10 30z" fill="#C79A5B" ${O}/><path d="M${20+i*20} 42l10 30" stroke="#8A5A22" stroke-width="2"/>`).join("")}<rect x="8" y="72" width="84" height="10" rx="2" fill="#E2B866" ${O}/>`),
+  bears:(cs=["#E8384F","#F6C400","#7BC043","#F28C28"])=>SV(cs.map((c,i)=>{const x=22+(i%2)*38,y=22+Math.floor(i/2)*40;
+    return `<g transform="translate(${x-14} ${y-16}) rotate(${i%2?10:-10} 14 18)"><circle cx="6" cy="4" r="5" fill="${c}" ${O}/><circle cx="22" cy="4" r="5" fill="${c}" ${O}/><circle cx="14" cy="10" r="9" fill="${c}" ${O}/><rect x="3" y="16" width="22" height="20" rx="9" fill="${c}" ${O}/></g>`}).join("")),
+  lolly:(c="#E30613")=>SV(`<rect x="47" y="50" width="6" height="42" rx="3" fill="#fff" ${O}/><circle cx="50" cy="36" r="24" fill="${c}" ${O}/><path d="M36 30q8-12 22-8" stroke="#fff" stroke-opacity=".6" stroke-width="4" fill="none" stroke-linecap="round"/><path d="M28 40q22 10 44 0" stroke="#fff" stroke-opacity=".35" stroke-width="3" fill="none"/>`),
+  mazapan:()=>SV(`<ellipse cx="50" cy="62" rx="34" ry="12" fill="#D9BF8C" ${O}/><rect x="16" y="44" width="68" height="18" fill="#E8D3A6"/><path d="M16 44v18M84 44v18" ${O}/><ellipse cx="50" cy="44" rx="34" ry="12" fill="#F0E0B8" ${O}/>${[[38,42],[52,40],[62,46],[46,48]].map(([x,y])=>`<circle cx="${x}" cy="${y}" r="1.6" fill="#B8955A"/>`).join("")}`)
+};
+const ART = {
+  "Pocky":()=>DRAW.sticks(), "Pepero":()=>DRAW.sticks("#4A2616","#E2B266"), "Yan Yan":()=>DRAW.cup(),
+  "Kit Kat":()=>DRAW.wafer(), "Kinder Bueno":()=>DRAW.wafer("#8A5230","#FFFFFF"), "Hi-Chew":()=>DRAW.chew(),
+  "Mentos":()=>DRAW.roll(), "Calbee Potato Chips":()=>DRAW.chips(), "Walkers":()=>DRAW.chips(), "Tayto":()=>DRAW.chips("#F3CF6A"),
+  "Lay's":()=>DRAW.chips("#FAD45C"), "Pringles":()=>DRAW.saddles(), "Doritos":()=>DRAW.tri(), "Takis":()=>DRAW.rolled(),
+  "Cheetos":()=>DRAW.puffs(), "Kurkure":()=>DRAW.puffs("#E8762B"), "Twisties":()=>DRAW.puffs("#F2A33A"),
+  "Monster Munch":()=>DRAW.puffs("#E9B04A"), "Bamba":()=>DRAW.puffs("#E3B25C"), "Skips":()=>DRAW.puffs("#F7C6D4"),
+  "Hula Hoops":()=>DRAW.rings(), "Arnott's Shapes":()=>DRAW.crackers(), "Kappa Ebisen":()=>DRAW.shrimpsticks(),
+  "Saeukkang":()=>DRAW.shrimpsticks("#F4A77A"), "Oreo":()=>DRAW.sandwich(), "Choco Pie":()=>DRAW.chocopie(),
+  "McVitie's Digestives":()=>DRAW.digestive(), "Jaffa Cakes":()=>DRAW.jaffa(), "Tim Tam":()=>DRAW.timtam(),
+  "Stroopwafels":()=>DRAW.stroop(), "Cadbury Dairy Milk":()=>DRAW.bar("#4B1E78"), "Milka":()=>DRAW.bar("#8E7CC3"),
+  "Toblerone":()=>DRAW.prism(), "Haribo Goldbears":()=>DRAW.bears(), "Chupa Chups":()=>DRAW.lolly(),
+  "Mazapán De la Rosa":()=>DRAW.mazapan()
+};
+
+DRAW.pretzel=(c="#B8743A")=>SV([[34,38,-15],[64,62,20]].map(([x,y,r])=>`<g transform="rotate(${r} ${x} ${y})"><path d="M${x-18} ${y+10}c-10-14 0-30 12-26c8 3 10 14 6 22M${x+18} ${y+10}c10-14 0-30-12-26c-8 3-10 14-6 22M${x-16} ${y+12}l32-4" fill="none" stroke="#2A1430" stroke-width="10" stroke-linecap="round"/><path d="M${x-18} ${y+10}c-10-14 0-30 12-26c8 3 10 14 6 22M${x+18} ${y+10}c10-14 0-30-12-26c-8 3-10 14-6 22M${x-16} ${y+12}l32-4" fill="none" stroke="${c}" stroke-width="6" stroke-linecap="round"/><circle cx="${x-6}" cy="${y-8}" r="1.5" fill="#fff"/><circle cx="${x+10}" cy="${y}" r="1.5" fill="#fff"/></g>`).join(""));
+DRAW.chocpretzel=()=>DRAW.pretzel("#4A2616");
+DRAW.popcorn=(c="#FFF3C4")=>SV(`<path d="M24 46h52l-8 44H32z" fill="#E4002B" ${O}/><path d="M36 46l3 44M50 46v44M64 46l-3 44" stroke="#fff" stroke-width="4"/>${[[30,40],[44,32],[58,34],[70,42],[38,22],[54,20],[64,28],[48,44]].map(([x,y])=>`<circle cx="${x}" cy="${y}" r="9" fill="${c}" ${O}/>`).join("")}`);
+DRAW.gummies=(cs=["#E8384F","#F6C400","#7BC043","#F28C28","#8E44AD"])=>SV(cs.map((c,i)=>{const x=[28,62,40,72,30][i],y=[30,28,56,62,76][i];return `<path d="M${x} ${y-12}c10 0 13 8 13 13c0 8-6 12-13 12s-13-4-13-12c0-5 3-13 13-13z" fill="${c}" ${O}/><circle cx="${x-4}" cy="${y-4}" r="2.5" fill="#fff" fill-opacity=".6"/>`}).join(""));
+DRAW.hardcandy=(cs=["#E8384F","#7BC043","#8E44AD","#F28C28"])=>SV(cs.map((c,i)=>{const x=[32,68,34,66][i],y=[30,34,68,70][i];return `<path d="M${x-22} ${y-7}l8 7-8 7zM${x+22} ${y-7}l-8 7 8 7z" fill="${c}" opacity=".8" ${O}/><ellipse cx="${x}" cy="${y}" rx="13" ry="10" fill="${c}" ${O}/><ellipse cx="${x-4}" cy="${y-3}" rx="4" ry="2.5" fill="#fff" fill-opacity=".55"/>`}).join(""));
+DRAW.roundcrackers=(c="#E9B96E")=>SV([[34,34],[66,40],[46,68]].map(([x,y])=>`<circle cx="${x}" cy="${y}" r="18" fill="${c}" ${O}/>${[[-6,-6],[6,-6],[0,0],[-6,6],[6,6]].map(([a,b])=>`<circle cx="${x+a}" cy="${y+b}" r="1.6" fill="#8A5A22"/>`).join("")}<path d="M${x-18} ${y}q18 3 36 0" fill="none" stroke="#C98A3A" stroke-width="1.5"/>`).join(""));
+DRAW.teddy=(c="#D9A45B")=>SV([[32,34,-10],[66,40,12],[46,70,0]].map(([x,y,r])=>`<g transform="rotate(${r} ${x} ${y})"><circle cx="${x-9}" cy="${y-13}" r="5" fill="${c}" ${O}/><circle cx="${x+9}" cy="${y-13}" r="5" fill="${c}" ${O}/><circle cx="${x}" cy="${y-4}" r="10" fill="${c}" ${O}/><ellipse cx="${x}" cy="${y+12}" rx="11" ry="10" fill="${c}" ${O}/><circle cx="${x-3}" cy="${y-6}" r="1.5" fill="#2A1430"/><circle cx="${x+3}" cy="${y-6}" r="1.5" fill="#2A1430"/></g>`).join(""));
+DRAW.waferroll=()=>SV([0,1,2].map(i=>`<g transform="rotate(${-25+i*8} 50 50) translate(0 ${-20+i*20})"><rect x="14" y="42" width="72" height="16" rx="8" fill="#E2B266" ${O}/>${[0,1,2,3,4,5].map(k=>`<path d="M${22+k*11} 43l-6 14" stroke="#A86B2E" stroke-width="2"/>`).join("")}<ellipse cx="86" cy="50" rx="4" ry="8" fill="#4A2616" ${O}/></g>`).join(""));
+DRAW.pretz=()=>DRAW.sticks("#E2B266","#E2B266");
+DRAW.koala=()=>SV([[34,36],[66,40],[48,70]].map(([x,y])=>`<ellipse cx="${x}" cy="${y}" rx="16" ry="13" fill="#E6B876" ${O}/><circle cx="${x-12}" cy="${y-10}" r="5" fill="#E6B876" ${O}/><circle cx="${x+12}" cy="${y-10}" r="5" fill="#E6B876" ${O}/><circle cx="${x-4}" cy="${y-2}" r="1.6" fill="#2A1430"/><circle cx="${x+4}" cy="${y-2}" r="1.6" fill="#2A1430"/><ellipse cx="${x}" cy="${y+3}" rx="3" ry="2" fill="#6B3A24"/>`).join(""));
+DRAW.tamarind=()=>SV(`<rect x="18" y="34" width="64" height="30" rx="8" fill="#6E3B1E" ${O}/>${[[30,44],[46,52],[60,42],[70,54]].map(([x,y])=>`<circle cx="${x}" cy="${y}" r="2.5" fill="#C0392B"/>`).join("")}<path d="M18 40l-8-6v30l8-6M82 40l8-6v30l-8-6" fill="#E8D8B0" ${O}/>`);
+
+DRAW.can=(c="#E4002B",stripe="#fff")=>SV(`<rect x="28" y="14" width="44" height="74" rx="7" fill="${c}" ${O}/><rect x="31" y="10" width="38" height="8" rx="3" fill="#C9CDD4" ${O}/><path d="M28 40h44M28 62h44" stroke="${stripe}" stroke-opacity=".55" stroke-width="5"/><rect x="34" y="22" width="5" height="58" rx="2.5" fill="#fff" fill-opacity=".35"/><rect x="47" y="12" width="8" height="3" rx="1.5" fill="#8A8F99"/>`);
+DRAW.bottle=(c="#3A7D44",liquid="#F2A33A")=>SV(`<path d="M43 8h14v14q10 8 10 22v42q0 6-6 6H39q-6 0-6-6V44q0-14 10-22z" fill="#DDEFE8" fill-opacity=".85" ${O}/><path d="M35 50h30v36q0 3-3 3H38q-3 0-3-3z" fill="${liquid}" opacity=".9"/><rect x="41" y="4" width="18" height="8" rx="2" fill="${c}" ${O}/><rect x="35" y="56" width="30" height="16" fill="${c}" ${O}/><rect x="38" y="30" width="4" height="50" rx="2" fill="#fff" fill-opacity=".5"/>`);
+DRAW.ramune=()=>SV(`<path d="M42 6h16v10q0 6-4 10q8 4 8 14q0 6-4 8q8 6 8 18v20q0 6-6 6H40q-6 0-6-6V66q0-12 8-18q-4-2-4-8q0-10 8-14q-4-4-4-10z" fill="#9FD8F5" fill-opacity=".85" ${O}/><circle cx="50" cy="36" r="6" fill="#E8F7FF" ${O}/><rect x="36" y="64" width="28" height="14" fill="#3FA9F5" ${O}/><rect x="40" y="2" width="20" height="6" rx="2" fill="#E4002B" ${O}/>`);
+DRAW.umaibo=()=>SV([0,1,2].map(i=>`<g transform="rotate(${-20+i*20} 50 50) translate(${-20+i*20} 0)"><rect x="40" y="16" width="20" height="68" rx="10" fill="#F2C75C" ${O}/><circle cx="50" cy="50" r="4" fill="#fff" ${O}/>${[26,38,62,74].map(y=>`<circle cx="${45+(y%3)*4}" cy="${y}" r="1.5" fill="#B8862E"/>`).join("")}</g>`).join(""));
+DRAW.jagarico=()=>SV(`${[0,1,2,3,4].map(i=>`<rect x="${30+i*8}" y="${12+(i%2)*6}" width="6" height="50" rx="3" fill="#E9C46A" ${O} transform="rotate(${-10+i*5} ${33+i*8} 60)"/>`).join("")}<path d="M22 44h56l-6 46H28z" fill="#E83828" ${O}/><path d="M26 58h48" stroke="#fff" stroke-width="4"/>`);
+DRAW.mushroom=()=>SV([[34,42],[66,48],[46,72]].map(([x,y])=>`<rect x="${x-5}" y="${y}" width="10" height="16" rx="3" fill="#E6B876" ${O}/><path d="M${x-15} ${y+2}q0-18 15-18t15 18z" fill="#5A2E1B" ${O}/>`).join(""));
+DRAW.cones=()=>SV([[30,38,-25],[62,34,15],[46,66,-5]].map(([x,y,r])=>`<g transform="rotate(${r} ${x} ${y})"><path d="M${x-12} ${y-12}q12-6 24 0l-12 30z" fill="#F2B84B" ${O}/><ellipse cx="${x}" cy="${y-12}" rx="12" ry="4" fill="#E0A030" ${O}/></g>`).join(""));
+DRAW.whiterabbit=()=>SV([[34,36,-15],[66,40,10],[48,70,0]].map(([x,y,r])=>`<g transform="rotate(${r} ${x} ${y})"><path d="M${x-22} ${y-6}l6 6-6 6M${x+22} ${y-6}l-6 6 6 6" fill="none" ${O}/><rect x="${x-16}" y="${y-8}" width="32" height="16" rx="8" fill="#fff" ${O}/><path d="M${x-10} ${y-8}v16M${x+10} ${y-8}v16" stroke="#1F4E9E" stroke-width="3"/><circle cx="${x}" cy="${y}" r="3" fill="#E60012"/></g>`).join(""));
+DRAW.seaweed=()=>SV([[22,22,-8],[48,30,6],[30,54,4]].map(([x,y,r])=>`<g transform="rotate(${r} ${x+18} ${y+14})"><rect x="${x}" y="${y}" width="36" height="28" rx="4" fill="#1F4A2C" ${O}/><path d="M${x+6} ${y+8}h24M${x+6} ${y+16}h20" stroke="#4F8A5B" stroke-width="2"/></g>`).join(""));
+DRAW.noodles=()=>SV(`<rect x="18" y="26" width="64" height="48" rx="10" fill="#F2C75C" ${O}/>${[34,42,50,58,66].map(y=>`<path d="M22 ${y}q6-6 12 0t12 0t12 0t12 0t8 0" fill="none" stroke="#C98A1B" stroke-width="2.5"/>`).join("")}`);
+DRAW.jar=()=>SV(`<path d="M34 20h32v8q12 6 12 22v28q0 10-10 10H32q-10 0-10-10V50q0-16 12-22z" fill="#F8D34B" ${O}/><rect x="36" y="10" width="28" height="12" rx="3" fill="#2E7D32" ${O}/><path d="M26 56h48" stroke="#fff" stroke-width="3" stroke-opacity=".7"/><rect x="30" y="36" width="5" height="40" rx="2.5" fill="#fff" fill-opacity=".5"/>`);
+const artFor = s => { if (s.a==='can') return DRAW.can(s.bg, s.fg); if (s.a==='bottle') return DRAW.bottle(s.bg, s.liq||'#F2A33A'); if (s.a && DRAW[s.a]) return DRAW[s.a](); return (ART[s.n]||(()=>DRAW.chips()))(); };
+
+/* ---------- Helpers ---------- */
+const $ = s => document.querySelector(s);
+const norm = s => s.toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g,"").replace(/\band\b/g,"&").replace(/[’']/g,"").replace(/[^a-z0-9&]+/g," ").trim();
+const LOOKUP = new Map();
+for (const [name,info] of Object.entries(FLAVORS)){
+  LOOKUP.set(norm(name),name);
+  (info.alt||[]).forEach(a=>LOOKUP.set(norm(a),name));
+}
+// Word-order-insensitive keys ("lime chili" = "chili lime") and filler words that can be ignored
+const FILLER=new Set(["flavor","flavour","flavored","flavoured","taste","style","the"]);
+const tokKey=k=>k.split(" ").filter(w=>w&&!FILLER.has(w)&&w!=="&").sort().join(" ");
+const TOKLOOK=new Map(); for(const [k,v] of LOOKUP){ const t=tokKey(k); if(t&&!TOKLOOK.has(t)) TOKLOOK.set(t,v); }
+function editDist(a,b){ // Damerau-Levenshtein (adjacent swaps count as one edit)
+  const d=[...Array(a.length+1)].map((_,i)=>[i,...Array(b.length).fill(0)]); for(let j=1;j<=b.length;j++) d[0][j]=j;
+  for(let i=1;i<=a.length;i++)for(let j=1;j<=b.length;j++){
+    const c=a[i-1]===b[j-1]?0:1; d[i][j]=Math.min(d[i-1][j]+1,d[i][j-1]+1,d[i-1][j-1]+c);
+    if(i>1&&j>1&&a[i-1]===b[j-2]&&a[i-2]===b[j-1]) d[i][j]=Math.min(d[i][j],d[i-2][j-2]+1);
+  } return d[a.length][b.length];
+}
+const allowedEdits=n=>n<=3?0:n<=5?1:n<=9?2:3;
+// Returns {name, fuzzy} for a confident match, {amb:[a,b]} when two flavors are equally close, or null.
+function resolveFlavor(raw){
+  const q=norm(raw); if(!q) return null;
+  if(LOOKUP.has(q)) return {name:LOOKUP.get(q),fuzzy:false};
+  const t=tokKey(q); if(TOKLOOK.has(t)) return {name:TOKLOOK.get(t),fuzzy:false};
+  // Extra words around a known name ("cheddar cheese", "barbeque sauce"): use the longest name fully contained
+  const qs=new Set(t.split(" ")); let sub=[],subLen=0;
+  for(const [k,v] of LOOKUP){ const kt=tokKey(k).split(" ").filter(Boolean); if(!kt.length||!kt.every(w=>qs.has(w))) continue;
+    if(kt.length>subLen){subLen=kt.length;sub=[v]} else if(kt.length===subLen&&!sub.includes(v)) sub.push(v); }
+  if(sub.length===1) return {name:sub[0],fuzzy:true};
+  if(sub.length>1) return {amb:sub.slice(0,3)};
+  const lim=allowedEdits(t.replace(/ /g,"").length); if(!lim) return null;
+  const best=new Map();
+  for(const [k,v] of LOOKUP){ const kk=tokKey(k); const dd=Math.min(editDist(q,k),editDist(t,kk)); if(dd<=lim&&(!best.has(v)||best.get(v)>dd)) best.set(v,dd); }
+  const ranked=[...best.entries()].sort((a,b)=>a[1]-b[1]);
+  if(!ranked.length) return null;
+  if(ranked.length>1&&ranked[1][1]===ranked[0][1]) return {amb:ranked.slice(0,3).map(x=>x[0])};
+  return {name:ranked[0][0],fuzzy:true};
+}
+const FLAVOR_NAMES = Object.keys(FLAVORS).sort((a,b)=>a.localeCompare(b));
+function mulberry32(a){return function(){a|=0;a=a+0x6D2B79F5|0;let t=Math.imul(a^a>>>15,1|a);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296}}
+const store = {
+  get(k,d){try{const v=localStorage.getItem(k);return v?JSON.parse(v):d}catch(e){return d}},
+  set(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}}
+};
+
+/* ---------- Flavor families ----------
+   An item with a specific flavor also counts for the broader one, so Habanero Takis match Hot & Spicy Twisties
+   and Nacho Cheese Doritos match Cheese Cheetos. When two items only share the broad flavor through the same
+   specific one (both have Cheese & Onion), the specific flavor is the answer and guessing the broad one finds it. */
+const PARENTS={
+  "Nacho Cheese":["Cheese"], "Cheese & Onion":["Cheese","Onion"], "Cheese & Garlic":["Cheese","Garlic"],
+  "Sour Cream & Onion":["Sour Cream","Onion"], "Pickled Onion":["Onion"],
+  "Jalapeño":["Hot & Spicy"], "Habanero":["Hot & Spicy"], "Chipotle":["Hot & Spicy"], "Peri Peri":["Hot & Spicy"],
+  "Buffalo":["Hot & Spicy"], "Sweet Chili":["Hot & Spicy"], "Chili Lime":["Hot & Spicy","Lime"], "Adobada":["Hot & Spicy"],
+  "Kimchi":["Hot & Spicy"], "Tom Yum":["Hot & Spicy"], "Masala":["Curry"],
+  "Salted Caramel":["Caramel"], "Honey Mustard":["Honey","Mustard"], "Peanut Butter":["Peanut"],
+  "Muscat":["Grape"], "Matcha":["Tea"], "Prawn Cocktail":["Shrimp"], "Ketchup":["Tomato"]
+};
+const EXP=SNACKS.map(s=>{const set=new Set(s.f);s.f.forEach(f=>(PARENTS[f]||[]).forEach(p=>set.add(p)));return set});
+const itemHas=(s,g)=>EXP[SNACKS.indexOf(s)].has(g);
+const isChildOf=(c,p)=>(PARENTS[c]||[]).includes(p);
+
+/* ---------- Puzzle pools ---------- */
+// Pairs: two items (snacks or drinks) from different countries.
+// Trios (Challenge): three items from at least two countries.
+// A puzzle needs 1–6 shared flavors (7+ is too easy even when only 3 must be found).
+function sharedOf(idx){
+  const all=[...EXP[idx[0]]].filter(x=>idx.every(i=>EXP[i].has(x)));
+  // Drop a broad flavor that some item only has through a shared specific one (it's the same link)
+  return all.filter(p=>!(all.some(c=>isChildOf(c,p)) && !idx.every(i=>SNACKS[i].f.includes(p))));
+}
+// Very common flavors (20+ items: Orange, Lemon, Strawberry…) can't be the only link: too easy to guess blind.
+const FLAVOR_COUNT={}; EXP.forEach(set=>set.forEach(f=>FLAVOR_COUNT[f]=(FLAVOR_COUNT[f]||0)+1));
+const MAX_SHARED=6;
+function okLink(sh){return sh.length>=1&&sh.length<=MAX_SHARED&&!(sh.length===1&&FLAVOR_COUNT[sh[0]]>=20)}
+const PAIRS=[], TRIOS=[];
+for(let i=0;i<SNACKS.length;i++)for(let j=i+1;j<SNACKS.length;j++){
+  const ij=[...EXP[i]].filter(x=>EXP[j].has(x));
+  if(!ij.length) continue;
+  if(SNACKS[i].c!==SNACKS[j].c&&okLink(sharedOf([i,j])))PAIRS.push([i,j]);
+  for(let k=j+1;k<SNACKS.length;k++){
+    if(!ij.some(x=>EXP[k].has(x))) continue;
+    if(new Set([SNACKS[i].c,SNACKS[j].c,SNACKS[k].c]).size>=2&&okLink(sharedOf([i,j,k])))TRIOS.push([i,j,k]);
+  }
+}
+function shuffleWith(arr,r){for(let i=arr.length-1;i>0;i--){const k=Math.floor(r()*(i+1));[arr[i],arr[k]]=[arr[k],arr[i]]}return arr}
+// Seeded shuffle, then deal round-robin by each puzzle's rarest shared flavor so answers vary from day to day.
+function spread(pool,seed){
+  const r=mulberry32(seed); shuffleWith(pool,r);
+  pool.forEach(p=>shuffleWith(p,r));
+  const groups=new Map();
+  pool.forEach(p=>{const k=sharedOf(p).sort((a,b)=>FLAVOR_COUNT[a]-FLAVOR_COUNT[b])[0];if(!groups.has(k))groups.set(k,[]);groups.get(k).push(p)});
+  const gs=shuffleWith([...groups.values()],r), out=[];
+  while(out.length<pool.length) gs.forEach(g=>{if(g.length)out.push(g.shift())});
+  return out;
+}
+const DAILY_PAIRS=spread(PAIRS.map(p=>[...p]),20260925);
+const DAILY_TRIOS=spread(TRIOS.map(p=>[...p]),19930101);
+
+const EPOCH = new Date(2026,8,25); // Puzzle No. 1 = Sep 25, 2026
+function todayNumber(){const n=new Date();const d=new Date(n.getFullYear(),n.getMonth(),n.getDate());return Math.round((d-EPOCH)/864e5)+1}
+
+/* ---------- Difficulty (set by the site from the last 7 days of results) ---------- */
+let DIFF={level:"normal",hint1At:2,hint2At:4,label:"Standard hints"};
+let ANALYTICS=false;
+let TARGET=5;                          // shared difficulty target for today's Daily/Challenge (from /api/config)
+let LEARNED={pairs:{},flavors:{}};     // observed difficulty per pair / flavor: [difficulty, finished rounds]
+let AVOID=new Set();                   // pairs flagged as ambiguous by the analytics; skipped when dealing
+
+/* ---------- Scoring ---------- */
+const NEED_CAP_EARLY=3;
+const ROUND_POINTS=1000, MISS_COST=125, MAX_MISSES=6, NEED_CAP=NEED_CAP_EARLY;
+/* ---------- Hidden difficulty profile (1–10 scale) ----------
+   Built from the spec's four main levers (flavor prominence, product familiarity, distractor flavors,
+   category distance) plus flavor specificity and country distance. Starting values are editorial estimates;
+   LEARNED (from /api/config) blends in observed pair and flavor difficulty as players generate data. */
+const SAVORY_FAMS=new Set(["Savory","Cheesy","Spicy","Tangy","Seafood"]);
+function categoryOf(s){
+  if(s.d) return /milk|cultured/i.test(s.t)?"Milk drink":"Soda";
+  if(/gum|chew|candy|lollipop|sweets|jelly|mint|taffy|pastille|bean|tamarind/i.test(s.t)) return "Candy";
+  if(/chip|crisp|puff|popcorn|corn|pretzel|cracker|stick|ring|seaweed|noodle|snack mix/i.test(s.t)&&!/biscuit|chocolate|butter crackers|dipping/i.test(s.t)) return "Savory snack";
+  const sav=s.f.filter(f=>FLAVORS[f]&&SAVORY_FAMS.has(FLAVORS[f].fam)).length;
+  if(sav*2>=s.f.length) return "Savory snack";
+  if(/chocolate|wafer|mushroom/i.test(s.t)) return "Chocolate";
+  return "Cookie & cake";
+}
+// Product familiarity 1–10 (9 = sold and advertised worldwide, 6 = well known in its home market, 3 = regional or niche)
+const FAMILIAR=new Set(["Pringles","Lay's","Doritos","Cheetos","Oreo","Kit Kat","Coca-Cola Flavors","Fanta","Sprite","Skittles","Starburst","Haribo Goldbears","Mentos","Chupa Chups","Pocky","Milka","Toblerone","Kinder Bueno","Cadbury Dairy Milk","Hi-Chew","Jolly Rancher","Life Savers","Airheads","Sour Patch Kids","Takis","Pepero","Choco Pie","Tim Tam","Walkers","Lotus Biscoff","Hello Panda","Ritter Sport","Crush","Sunkist","Tango","Sanpellegrino","White Rabbit","Cheez-It","SunChips","Chex Mix","McVitie's Digestives","Jaffa Cakes","Calbee Potato Chips","Yan Yan","Koala's March","Tony's Chocolonely","Honey Butter Chip"]);
+const NICHE=new Set(["Frisps","funny-frisch","Zweifel KEZZ","Wedel CRUSH","Caprice","Fazer Domino","Meiji Fruit Juice Gummy","Kanro Pure Gummy","Up Gummy","Poifull","Oh Yes","ACE Crackers","Barcel Snaps","Duvalín","Savoy","Farmbake","Kettle (Australia)","PROPER Crunch Corn","Clearly Canadian","The Pop Shoppe","Boylan","Sprecher","Virgil's","Culture Pop","Loux","Frize Botânicos","Kofola","Hartwall Jaffa","Tomomasu Fruit Cider","Frula Ramune","Mitsuya Squash","Wilkinson","Sangaria Hajikete","Demisoda","Tams","Chaparritas","Kirks","Remedy Sodaly","Bickford's Esprit","Saxbys Spliced","KA Sparkling","Cawston Press","Lemonsoda","Sumol","Club-Mate","Thomas Henry","fritz-limo","Kuai Kuai","Irvins","Chitato","Mamee Monster","Tohato Caramel Corn","Kkobuk Chips","Butterkist","Jelly Tots","POM-BEAR","Skips","Lorenz Crunchips","San Carlo","Red Rock Deli","Jatz","Tiny Teddy","Pulparindo","Bingo! Mad Angles","Want Want Senbei"]);
+const familiarity=s=>FAMILIAR.has(s.n)?9:NICHE.has(s.n)?3:6;
+// Flavor specificity 1–10 (spec tiers): common = 2, medium = 5, everything else = 8
+const EASY_F=new Set(["Orange","Vanilla","Strawberry","Lemon","Cherry","Grape","Apple","Banana","Mint","Cheese","BBQ","Salted","Hot & Spicy","Salt & Vinegar","Cola","Peach","Watermelon","Coffee","Caramel"]);
+const MED_F=new Set(["Ginger","Honey","Cinnamon","Coconut","Mango","Pineapple","Raspberry","Lime","Peanut","Hazelnut","Almond","Matcha","Sour Cream & Onion","Chicken","Onion","Pizza","Ranch","Jalapeño","Cheese & Onion","Paprika","Pepper","Tomato","Garlic","Curry","Peanut Butter","Cookies & Cream","Melon","Blueberry","Dark Chocolate","White Chocolate","Toffee","Sweet Chili","Chili Lime","Seaweed","Shrimp","Wasabi","Root Beer","Cream Soda","Passion Fruit","Grapefruit","Mixed Berry","Blue Raspberry","Fruit Punch","Yogurt","Tea","Butter","Beef","Bacon","Sweet Potato","Corn","Salted Caramel","Birthday Cake","Pumpkin","Nacho Cheese","Sour Cream","Popcorn","Cotton Candy","Bubblegum","Brownie","Chocolate Chip","Cheesecake","Maple","Kiwi","Dill Pickle","Ketchup","Buffalo","Taco","Salsa","Habanero","Teriyaki","Soy Sauce","Red Velvet","Churro","Marshmallow"]);
+const specificity=f=>{ const L=(typeof LEARNED!=="undefined")&&LEARNED.flavors&&LEARNED.flavors[f];
+  const prior=EASY_F.has(f)?2:MED_F.has(f)?5:8; if(!L) return prior; const w=L[1]/(L[1]+30); return prior*(1-w)+L[0]*w; };
+// How strongly an item "advertises" a flavor: early in its list (headline) = 9, mid-list = 6, deep catalog = 3, only via a broader family = 5
+function prominence(s,f){ const i=s.f.indexOf(f); if(i<0) return 5; const n=s.f.length; return n<=5||i<3?9:i<8?6:3; }
+const CATDIST={"Savory snack|Savory snack":2,"Candy|Candy":2,"Chocolate|Chocolate":2,"Cookie & cake|Cookie & cake":2,"Soda|Soda":2,"Milk drink|Milk drink":2,"Soda|Milk drink":3,
+  "Candy|Chocolate":3,"Chocolate|Cookie & cake":3,"Candy|Cookie & cake":4,"Candy|Soda":5,"Candy|Milk drink":5,"Chocolate|Milk drink":5,"Cookie & cake|Milk drink":5,
+  "Chocolate|Soda":6,"Cookie & cake|Soda":7,"Savory snack|Candy":7,"Savory snack|Chocolate":7,"Savory snack|Cookie & cake":6,"Savory snack|Soda":8,"Savory snack|Milk drink":8};
+const catDist=(a,b)=>CATDIST[a+"|"+b]??CATDIST[b+"|"+a]??5;
+const PROFILE_CACHE=new Map();
+function profileOf(idx){
+  const key=[...idx].sort((a,b)=>a-b).join("-");
+  if(PROFILE_CACHE.has(key)) return PROFILE_CACHE.get(key);
+  const items=idx.map(i=>SNACKS[i]), answers=sharedOf(idx), need=Math.min(answers.length,NEED_CAP);
+  const easiest=[...answers].sort((a,b)=>specificity(a)-specificity(b)).slice(0,need);
+  const spec=easiest.reduce((t,f)=>t+specificity(f),0)/need;
+  const prom=easiest.reduce((t,f)=>t+items.reduce((u,s)=>u+prominence(s,f),0)/items.length,0)/need;
+  const fam=items.reduce((t,s)=>t+familiarity(s),0)/items.length;
+  const all=new Set(); items.forEach(s=>s.f.forEach(f=>all.add(f)));
+  const partial=[...all].filter(f=>!answers.includes(f)&&items.filter(s=>itemHas(s,f)).length>=1).length;
+  const distr=Math.min(10,Math.round(Math.log2(1+partial)*2.2*10)/10);
+  const cats=items.map(categoryOf);
+  let cd=0,pairsN=0; for(let i=0;i<cats.length;i++)for(let j=i+1;j<cats.length;j++){cd+=catDist(cats[i],cats[j]);pairsN++} cd/=pairsN;
+  const cross=new Set(items.map(s=>s.c)).size>1;
+  let d=0.30*spec+0.25*(10-prom)+0.15*(10-fam)+0.15*distr+0.10*cd+0.05*(cross?6:3);
+  d-=Math.min(1.5,0.5*(answers.length-need));           // spare valid answers make a round easier
+  d=Math.max(1,Math.min(10,5+(d-3.9)*1.8));              // spread the raw score across the 1–10 scale
+  const L=(typeof LEARNED!=="undefined")&&LEARNED.pairs&&LEARNED.pairs[key];
+  const prior=Math.round(d*10)/10;
+  if(L){ const w=L[1]/(L[1]+25); d=d*(1-w)+L[0]*w; }       // blend in observed difficulty
+  const kinds=items.map(s=>s.d?"drink":"snack").sort().join("+");
+  const p={key,difficulty:Math.round(d*10)/10,prior,flavor_specificity:+spec.toFixed(1),flavor_prominence:+prom.toFixed(1),product_familiarity:+fam.toFixed(1),
+    distractor_strength:distr,cross_category_distance:+cd.toFixed(1),cross_country:cross,number_of_valid_flavors:answers.length,
+    answer_ambiguity:Math.max(0,answers.length-need),pair_type:kinds,categories:cats,primary:easiest[0],answers};
+  PROFILE_CACHE.set(key,p); return p;
+}
+
+const MODES={
+  daily:{label:"Daily",rounds:3,size:2,key:"snackdle-d8-",stats:"snackdle-s5-daily"},
+  challenge:{label:"Challenge",rounds:1,size:3,key:"snackdle-c8-",stats:"snackdle-s5-challenge"},
+  endless:{label:"Endless",rounds:1}
+};
+// Which answer does a guess find? The flavor itself, or the specific shared flavor it's the broad version of.
+function matchGuess(g,answers,items,found){
+  if(answers.includes(g)) return g;
+  if(!items.every(s=>itemHas(s,g))) return null;
+  const kids=answers.filter(a=>isChildOf(a,g));
+  return kids.find(a=>!found.includes(a))||kids[0]||null;
+}
+// A round: items (indexes), guesses. Derived: answers, need, found, misses, done, won, score.
+function roundInfo(rd){
+  const items=rd.items.map(i=>SNACKS[i]);
+  const answers=sharedOf(rd.items);
+  const need=Math.min(answers.length,NEED_CAP);
+  const found=[]; let misses=0;
+  rd.guesses.forEach(g=>{const a=matchGuess(g,answers,items,found); if(a){ if(!found.includes(a)) found.push(a) } else misses++;});
+  const won=found.length>=need, lost=!won&&(rd.free?!!rd.revealed:misses>=MAX_MISSES);
+  const score=Math.max(0,Math.round(ROUND_POINTS*Math.min(found.length,need)/need)-MISS_COST*misses);
+  return {items,answers,need,found,misses,won,lost,done:won||lost,score};
+}
+
+/* ---------- State ---------- */
+// game = {mode, no, rounds:[{items,guesses}], cur}
+let game=null, endlessSize=2;
+const cur = () => game.rounds[game.cur];
+const info = () => roundInfo(cur());
+const gameDone = () => game.rounds.every(r=>roundInfo(r).done);
+const gameTotal = () => game.rounds.reduce((t,r)=>t+roundInfo(r).score,0);
+
+function dealFor(pool,idx){return pool[((idx)%pool.length+pool.length)%pool.length]}
+function loadDaily(m){
+  const no=todayNumber(), M=MODES[m];
+  const saved=store.get(M.key+no,null);
+  const rounds=dealDay(m,no).map(items=>({items,guesses:[]}));
+  if(saved&&Array.isArray(saved.rounds)) saved.rounds.forEach((sr,r)=>{if(rounds[r]&&sr.items&&sr.items.join()===rounds[r].items.join()) rounds[r].guesses=sr.guesses||[]});
+  game={mode:m,no,rounds,cur:0};
+  game.cur=Math.max(0,rounds.findIndex(r=>!roundInfo(r).done)); if(rounds.every(r=>roundInfo(r).done)) game.cur=rounds.length-1;
+  finishLoad();
+}
+/* Deal today's rounds from the seeded pool, choosing pairs near a difficulty target.
+   Daily ramps up: round 1 easier, round 2 on target, round 3 a bit harder. Everyone gets the same puzzles:
+   the target for each puzzle number is fixed by the site the first time that day is requested. */
+function hash32(n){ n=Math.imul(n^0x9e3779b9,0x85ebca6b); n^=n>>>13; n=Math.imul(n,0xc2b2ae35); return (n^(n>>>16))>>>0; }
+function pickByTarget(pool,start,target,exclude){
+  let best=null,bestD=1e9;
+  for(let k=0;k<pool.length&&k<1500;k++){
+    const idx=pool[(start+k)%pool.length];
+    if(idx.some(i=>exclude.has(i))) continue;
+    const p=profileOf(idx); if(AVOID.has(p.key)) continue;
+    const dd=Math.abs(p.difficulty-target);
+    if(dd<=0.6) return idx;
+    if(dd<bestD){bestD=dd;best=idx}
+  }
+  return best||pool[start%pool.length];
+}
+function dealDay(m,no){
+  const M=MODES[m], pool=M.size===3?DAILY_TRIOS:DAILY_PAIRS, used=new Set(), out=[];
+  const ramp=M.rounds===3?[-1.2,0,1]:[0.5];
+  for(let r=0;r<M.rounds;r++){
+    const t=Math.max(1.5,Math.min(9,TARGET+ramp[r]));
+    const idx=pickByTarget(pool,hash32(no*7+r*131+(M.size===3?999:0))%pool.length,t,used);
+    idx.forEach(i=>used.add(i)); out.push([...idx]);
+  }
+  return out;
+}
+function saveDaily(){ store.set(MODES[game.mode].key+game.no,{rounds:game.rounds}); }
+// Endless: shuffled bag, no repeats until the whole pool has been played.
+function endlessState(){return store.get("snackdle-endless8",{size:2,cur:null,guesses:[],revealed:false,bag2:[],bag3:[]})}
+function saveEndless(st){store.set("snackdle-endless8",st)}
+/* Player skill: rolling record of this player's last 20 finished rounds (any mode), kept in this browser.
+   Every 5 rounds the player's Endless target moves by at most 0.5, per the spec's gradual-adjustment rules. */
+function skillState(){ return store.get("snackdle-skill",{target:4.5,hist:[],sinceChange:0}); }
+function recordSkill(R){
+  const sk=skillState();
+  sk.hist=[...sk.hist,{won:R.won,misses:R.misses,hint:R.hintUsed?1:0,first:R.firstWin?1:0}].slice(-20);
+  sk.sinceChange=(sk.sinceChange||0)+1;
+  if(sk.sinceChange>=5&&sk.hist.length>=8){
+    const last=sk.hist.slice(-10), n=last.length;
+    const solve=last.filter(x=>x.won).length/n, miss=last.reduce((t,x)=>t+x.misses,0)/n, hint=last.reduce((t,x)=>t+x.hint,0)/n;
+    let delta=0;
+    if(solve>=0.8&&miss<1.5&&hint<0.2) delta=0.5;
+    else if(solve<0.4||miss>4) delta=-0.5;
+    if(delta){ sk.target=Math.max(2,Math.min(8,sk.target+delta)); sk.sinceChange=0; }
+  }
+  store.set("snackdle-skill",sk);
+}
+function nextEndless(st){
+  const bagKey="bag"+st.size, pool=st.size===3?TRIOS:PAIRS;
+  if(!st[bagKey]||!st[bagKey].length) st[bagKey]=shuffleWith(pool.map((_,i)=>i),Math.random);
+  const bag=st[bagKey], target=skillState().target;
+  // look at up to 60 random candidates still in the bag and take the one nearest this player's level
+  let bestPos=bag.length-1,bestD=1e9;
+  for(let k=0;k<Math.min(60,bag.length);k++){
+    const pos=Math.floor(Math.random()*bag.length), p=profileOf(pool[bag[pos]]);
+    if(AVOID.has(p.key)) continue;
+    const dd=Math.abs(p.difficulty-target)+Math.random()*0.3;
+    if(dd<bestD){bestD=dd;bestPos=pos}
+  }
+  const pick=bag.splice(bestPos,1)[0];
+  st.cur=shuffleWith([...pool[pick]],Math.random); st.guesses=[]; st.revealed=false; st.t0=Date.now();
+}
+function loadEndless(forceNew){
+  const st=endlessState();
+  if(forceNew||!st.cur||st.cur.length!==st.size){ nextEndless(st); saveEndless(st); }
+  endlessSize=st.size;
+  game={mode:"endless",no:null,rounds:[{items:st.cur,guesses:st.guesses,free:true,revealed:!!st.revealed,t0:st.t0}],cur:0};
+  finishLoad();
+}
+function finishLoad(){
+  $("#msg").textContent=""; $("#guess").value=""; closeSugg();
+  try{ if(location.hash!=="#"+game.mode) history.replaceState(null,"","#"+game.mode) }catch(e){}
+  render();
+}
+function switchMode(m){ if(m==="endless") loadEndless(false); else loadDaily(m); }
+
+/* ---------- Render ---------- */
+function kindWords(items){
+  const d=items.filter(s=>s.d).length, n=items.length;
+  const num=n===3?"three":"two";
+  if(d===0) return `these ${num} snacks`;
+  if(d===n) return `these ${num} drinks`;
+  return n===2?"this snack and drink":`these ${num} snacks and drinks`;
+}
+function packet(s,i){
+  const known=cur().guesses.filter(g=>itemHas(s,g));
+  const cls=s.d?"can":"bag";
+  return `<div class="${cls}" style="--c:${s.bg};--c2:${s.fg}" aria-label="${s.d?"Drink":"Snack"} ${i+1}: ${s.n}, ${s.t} from ${s.c}">
+    ${s.d?'<span class="band" aria-hidden="true"></span>':""}
+    <span class="cc" title="${s.c}">${s.cc}</span>
+    <div class="art">${artFor(s)}</div>
+    <p class="pname">${s.n}</p>
+    <div class="pinfo">${s.t} · ${s.c}</div>
+    <div class="known" aria-label="Flavors confirmed for ${s.n}">${known.map(k=>`<span>${k}</span>`).join("")}</div></div>`;
+}
+/* Crop every drawing to its artwork and center it. The drawings were made on a 100×100 grid with uneven
+   margins, so their visual center wasn't the box center. getBBox() gives the true artwork bounds; the
+   viewBox is set to those bounds plus the outline width, and xMidYMid centers it in the ellipse. */
+function fitArt(root){
+  (root||document).querySelectorAll(".art svg, .mini svg").forEach(svg=>{
+    if(svg.dataset.fit) return;
+    try{
+      const b=svg.getBBox(); if(!b.width||!b.height) return;
+      const pad=2;  // outlines are 2.5px wide; getBBox ignores stroke, so add half of it plus a hair
+      svg.setAttribute("viewBox",`${(b.x-pad).toFixed(2)} ${(b.y-pad).toFixed(2)} ${(b.width+2*pad).toFixed(2)} ${(b.height+2*pad).toFixed(2)}`);
+      svg.setAttribute("preserveAspectRatio","xMidYMid meet");
+      svg.dataset.fit="1";
+    }catch(e){}
+  });
+}
+function render(){
+  if(!cur().t0&&!info().done) cur().t0=Date.now();
+  const R=info(), items=R.items, m=game.mode;
+  document.querySelectorAll(".tab").forEach(t=>t.setAttribute("aria-selected",t.dataset.mode===m?"true":"false"));
+  const dateStr=new Date().toLocaleDateString(undefined,{month:"short",day:"numeric",year:"numeric"});
+  $(".burst div").innerHTML = m==="daily"?"3 rounds<small>every day!</small>":m==="challenge"?"Trio<small>1 round</small>":"Free<small>play</small>";
+  $("#meta").textContent = m==="daily"?`Daily No. ${game.no} · ${dateStr}`:m==="challenge"?`Challenge No. ${game.no} · ${dateStr}`:`Endless · ${items.length===3?"trios":"pairs"}`;
+
+  // Round tracker (Daily): three pills with each round's score
+  const rb=$("#roundbar");
+  if(game.rounds.length>1){
+    rb.hidden=false;
+    rb.innerHTML=game.rounds.map((r,i)=>{const ri=roundInfo(r);const st=i===game.cur?"cur":ri.done?"done":"";
+      return `<button type="button" class="rpill ${st}" data-r="${i}" ${ri.done||i===game.cur?"":"disabled"} aria-label="Round ${i+1}${ri.done?`, ${ri.score} points`:""}">
+        <span>Round ${i+1}</span><b>${ri.done?ri.score.toLocaleString():i===game.cur?"Playing":"—"}</b></button>`}).join("")
+      +`<div class="rtotal"><span>Total</span><b>${gameTotal().toLocaleString()}<small> / ${(game.rounds.length*ROUND_POINTS).toLocaleString()}</small></b></div>`;
+    rb.querySelectorAll("[data-r]").forEach(b=>b.onclick=()=>{game.cur=+b.dataset.r;finishLoad()});
+  } else rb.hidden=true;
+
+  // Instruction line
+  const X=R.answers.length, what=kindWords(items);
+  const countLine = X===1 ? `There is <b>1 shared flavor</b> between ${what}.` : `There are <b>${X} shared flavors</b> between ${what}.`;
+  const needLine = X===1 ? "Find it." : X<=NEED_CAP ? `Find all ${X}.` : `Find any ${NEED_CAP}.`;
+  const free=m==="endless";
+  $("#tagline").innerHTML=`${countLine} ${needLine} <span class="rules">${free?"Endless is just for fun: no points, no limit on guesses.":`Each round is worth ${ROUND_POINTS.toLocaleString()} points; every wrong guess costs ${MISS_COST}.${DIFF.level!=="normal"?` This week: ${DIFF.label.toLowerCase()}.`:""}`}</span>`;
+
+  const mu=$("#matchup"); mu.classList.toggle("trio",items.length===3);
+  mu.innerHTML=items.map(packet).join(`<div class="link" aria-hidden="true"><div>+</div></div>`);
+
+  // Progress: found slots + miss meter + live score
+  $("#progress").innerHTML=`<div class="slots" aria-label="Flavors found">${[...Array(R.need)].map((_,i)=>{const f=R.found[i];return `<span class="slot${f?" got":""}">${f?`✓ ${f}`:`Flavor ${i+1}`}</span>`}).join("")}</div>
+    ${free?"":`<div class="meter"><span class="mlabel">Misses</span>${[...Array(MAX_MISSES)].map((_,i)=>`<i class="${i<R.misses?"x":""}"></i>`).join("")}</div>
+    <div class="live"><span>Round score</span><b>${(R.done?R.score:Math.max(0,ROUND_POINTS-MISS_COST*R.misses)).toLocaleString()}</b></div>`}`;
+
+  const bd=$(".board"); bd.style.setProperty("--n",items.length); bd.classList.toggle("trio",items.length===3);
+  $("#bhead").innerHTML=`<span>#</span><span>Flavor</span>`+items.map(s=>`<span title="${s.n}"><i class="mini">${artFor(s)}</i>${s.n}</span>`).join("");
+  const g=cur().guesses;
+  const rows=g.map((x,i)=>{
+    const hits=items.map(s=>itemHas(s,x)), win=hits.every(Boolean);
+    const mk=(y,s)=>`<span class="mark ${y?'y':'n'}" aria-label="${s.n} ${y?'has':'does not have'} ${x}">${y?'✓':'✕'}</span>`;
+    return `<div class="grow${win?' win':''}${i===g.length-1?' pop':''}"><span class="n">${i+1}</span><span class="f">${x}${win||free?"":` <small class="pen">−${MISS_COST}</small>`}</span>${hits.map((y,k)=>mk(y,items[k])).join("")}</div>`});
+  if(!R.done) rows.push(`<div class="grow empty"><span class="n">${g.length+1}</span><span class="f">Your next guess</span>${items.map(()=>"<span></span>").join("")}</div>`);
+  $("#rows").innerHTML=rows.join("");
+
+  // Hints point at the first flavor not yet found
+  const target=R.answers.find(a=>!R.found.includes(a))||R.answers[0];
+  const h1=$("#h1"), h2=$("#h2");
+  const h1At=m==="endless"?2:DIFF.hint1At, h2At=m==="endless"?4:DIFF.hint2At;
+  const when=n=>n===0?"from the start":`after ${n} ${n===1?"miss":"misses"}`;
+  if(R.misses>=h1At||R.done){h1.className="hint open";h1.innerHTML=`<b>Hint 1 · flavor family${h1At===0&&!R.done?" · starter hint":""}</b><span>${FLAVORS[target].fam}</span>`}
+  else {h1.className="hint";h1.innerHTML=`<b>Hint 1 · ${when(h1At)}</b>Flavor family of a flavor you haven't found`}
+  if(R.misses>=h2At||R.done){h2.className="hint open";h2.innerHTML=`<b>Hint 2 · first letter${h2At===0&&!R.done?" · starter hint":""}</b><span>${target[0]}…</span>`}
+  else {h2.className="hint";h2.innerHTML=`<b>Hint 2 · ${when(h2At)}</b>First letter of that flavor`}
+
+  $("#guess").disabled=R.done; $("#goBtn").disabled=R.done;
+  $("#guess").placeholder = R.done ? "Round over" : "e.g. Strawberry, Salt & Vinegar, Matcha…";
+  renderResult(); renderBar();
+  fitArt();
+}
+const emo = (items,x) => {const n=items.filter(s=>itemHas(s,x)).length;return n===items.length?"🟩":n?"🟨":"⬜"};
+function shareText(){
+  const lines=game.rounds.map((r,i)=>{const ri=roundInfo(r);return `${game.rounds.length>1?`R${i+1} `:""}${r.guesses.map(x=>emo(ri.items,x)).join("")} ${ri.score}`});
+  const head=game.mode==="daily"?`Snack Crackle Pop No. ${game.no}`:game.mode==="challenge"?`Snack Crackle Pop Challenge No. ${game.no}`:`Snack Crackle Pop Endless`;
+  return `${head} · ${gameTotal().toLocaleString()}/${(game.rounds.length*ROUND_POINTS).toLocaleString()}\n${lines.join("\n")}`;
+}
+function renderResult(){
+  const r=$("#result"), R=info();
+  if(!R.done){r.hidden=true;return}
+  r.hidden=false;
+  const names=R.items.map(s=>s.n); const nameStr=names.length===3?`${names[0]}, ${names[1]} and ${names[2]}`:`${names[0]} and ${names[1]}`;
+  const missed=R.answers.filter(a=>!R.found.includes(a));
+  const last=game.cur===game.rounds.length-1, allDone=gameDone();
+  const free=game.mode==="endless";
+  const head = R.won ? (R.misses===0?"Perfect round":"Connected!") : free ? "Here's the answer" : "Out of misses";
+  let body=`<h2>${head}${free?"":` <span class="pts">+${R.score.toLocaleString()}</span>`}</h2>
+    <p>${R.won?`You found ${R.need===1?"the link":`${R.need} links`} between ${nameStr} with ${R.misses} ${R.misses===1?"miss":"misses"}.`:`${nameStr} share these flavors:`}</p>
+    <div class="answers">${R.answers.map(a=>`<span class="${R.found.includes(a)?"":"other"}">${a}</span>`).join("")}</div>
+    ${R.won&&missed.length?`<p class="note">Other shared flavors you didn't need: ${missed.join(", ")}.</p>`:""}`;
+  if(game.mode==="daily"&&!allDone){
+    const nxt=game.rounds.findIndex(x=>!roundInfo(x).done);
+    body+=`<div class="share-row"><button class="go" type="button" id="nextR" style="padding:10px 18px">Next round (${nxt+1} of ${game.rounds.length})</button></div>`;
+  } else if(game.mode!=="endless"){
+    const total=gameTotal(), max=game.rounds.length*ROUND_POINTS;
+    body+=`${game.rounds.length>1?`<div class="final"><span>Today's total</span><b>${total.toLocaleString()}</b><small>/ ${max.toLocaleString()}</small></div>
+      <div class="breakdown">${game.rounds.map((x,i)=>{const ri=roundInfo(x);return `<div><span>Round ${i+1}</span><span>${ri.items.map(s=>s.n).join(" + ")}</span><b>${ri.score.toLocaleString()}</b></div>`}).join("")}</div>`:""}
+      <div class="share-row"><pre class="grid-emoji" id="shareTxt">${shareText()}</pre><button class="icon-btn" type="button" id="shareBtn">Copy result</button></div>
+      <p class="next" style="margin-top:12px">New ${game.mode==="challenge"?"trio":"pairs"} in <span id="countdown"></span></p>`;
+  } else {
+    body+=`<div class="share-row"><button class="go" type="button" id="nextRound" style="padding:10px 18px">Next round</button></div>`;
+  }
+  r.innerHTML=body;
+  const sb=$("#shareBtn"); if(sb) sb.onclick=async()=>{
+    try{await navigator.clipboard.writeText(shareText());toast("Result copied")}
+    catch(e){const t=$("#shareTxt");t.hidden=false;const sel=getSelection(),rg=document.createRange();rg.selectNodeContents(t);sel.removeAllRanges();sel.addRange(rg);toast("Selected. Copy it with your keyboard")}
+  };
+  const nr=$("#nextRound"); if(nr) nr.onclick=()=>loadEndless(true);
+  const nx=$("#nextR"); if(nx) nx.onclick=()=>{game.cur=game.rounds.findIndex(x=>!roundInfo(x).done);finishLoad();window.scrollTo({top:0,behavior:"smooth"})};
+  tick();
+}
+function renderBar(){
+  const p=$("#pbar");
+  if(game.mode!=="endless"){
+    p.innerHTML=gameDone()?`<span>Want more?</span><button class="textbtn" type="button" data-go="${game.mode==="daily"?"challenge":"daily"}">Play today's ${game.mode==="daily"?"Challenge":"Daily"}</button><button class="textbtn" type="button" data-go="endless">Play Endless</button>`:"";
+  } else {
+    p.innerHTML=`<div class="seg" role="group" aria-label="Endless puzzle size">
+        <button type="button" data-size="2" aria-pressed="${endlessSize===2}">Pairs</button>
+        <button type="button" data-size="3" aria-pressed="${endlessSize===3}">Trios</button></div>
+      ${info().done?"":`<button class="textbtn" type="button" id="reveal">Show answers</button><button class="textbtn" type="button" id="skip">New round</button>`}`;
+    p.querySelectorAll("[data-size]").forEach(b=>b.onclick=()=>{const s=endlessState();const n=+b.dataset.size;if(n===s.size)return;
+      s.size=n; nextEndless(s); saveEndless(s); loadEndless(false)});
+    const sk=$("#skip"); if(sk) sk.onclick=()=>{ const R=info(); logEvent({t:"skip",...puzzleMeta(R),total_guesses:cur().guesses.length,found:R.found}); loadEndless(true); };
+    const rv=$("#reveal"); if(rv) rv.onclick=()=>{$("#msg").textContent="";const R=info(); logEvent({t:"skip",reveal:true,...puzzleMeta(R),total_guesses:cur().guesses.length,found:R.found});const s=endlessState();s.revealed=true;saveEndless(s);cur().revealed=true;render()};
+  }
+  p.querySelectorAll("[data-go]").forEach(b=>b.onclick=()=>switchMode(b.dataset.go));
+}
+function tick(){
+  const el=$("#countdown"); if(!el) return;
+  const n=new Date(), m=new Date(n.getFullYear(),n.getMonth(),n.getDate()+1), s=Math.max(0,Math.floor((m-n)/1000));
+  el.textContent=[Math.floor(s/3600),Math.floor(s%3600/60),s%60].map(x=>String(x).padStart(2,"0")).join(":");
+}
+// Rolls over to the new daily puzzle at local midnight, even if the page stays open.
+setInterval(()=>{ if(game&&game.mode!=="endless"&&todayNumber()!==game.no){ const m=game.mode; game.no=todayNumber(); loadConfig().then(()=>loadDaily(m)); } else tick(); },1000);
+
+/* ---------- Anonymous analytics (public site only) ----------
+   Sends: mode, puzzle no, round, item names, the flavor guessed, right/wrong, round/game results,
+   and a random player ID made in this browser. Nothing is sent from Endless or from the Claude preview. */
+function playerId(){ let id=store.get("snackdle-pid",null); if(!id){ id=Math.random().toString(36).slice(2,12)+Date.now().toString(36).slice(-6); store.set("snackdle-pid",id);} return id; }
+function logEvent(ev){
+  if(!ANALYTICS) return;
+  try{ fetch("/api/log",{method:"POST",headers:{"Content-Type":"application/json"},keepalive:true,
+    body:JSON.stringify({...ev,mode:game.mode,no:game.no||todayNumber(),r:game.cur,player:playerId()})}).catch(()=>{}); }catch(e){}
+}
+// Puzzle description sent with round results (hidden difficulty profile + categories/countries)
+function puzzleMeta(R){
+  const p=profileOf(cur().items);
+  return {pair:p.key,items:R.items.map(s=>s.n),countries:R.items.map(s=>s.c),categories:p.categories,answers:R.answers,
+    profile:{difficulty:p.difficulty,prior:p.prior,flavor_specificity:p.flavor_specificity,flavor_prominence:p.flavor_prominence,
+      product_familiarity:p.product_familiarity,distractor_strength:p.distractor_strength,cross_category_distance:p.cross_category_distance,
+      cross_country:p.cross_country,number_of_valid_flavors:p.number_of_valid_flavors,pair_type:p.pair_type}};
+}
+function applyConfig(j){
+  if(!j||!j.difficulty) return false;
+  ANALYTICS=!!j.analytics;
+  const d=j.difficulty; if(Number.isInteger(d.hint1At)&&Number.isInteger(d.hint2At)) DIFF=d;
+  if(typeof j.target==="number") TARGET=Math.max(1.5,Math.min(9,j.target));
+  if(j.learned) LEARNED={pairs:j.learned.pairs||{},flavors:j.learned.flavors||{}};
+  AVOID=new Set(j.avoid||[]); PROFILE_CACHE.clear();
+  return true;
+}
+// The day's config is fetched once and cached, so the Daily puzzle never changes under a player mid-day.
+async function loadConfig(){
+  if(!/^https?:$/.test(location.protocol)) return;
+  const no=todayNumber(), cached=store.get("snackdle-cfg",null);
+  if(cached&&cached.no===no){ applyConfig(cached.cfg); return; }
+  try{
+    const ctl=new AbortController(), timer=setTimeout(()=>ctl.abort(),2500);
+    const r=await fetch("/api/config?no="+no,{cache:"no-store",signal:ctl.signal}); clearTimeout(timer);
+    if(!r.ok) return;
+    const j=await r.json(); if(applyConfig(j)) store.set("snackdle-cfg",{no,cfg:j});
+  }catch(e){}
+}
+/* ---------- Guessing ---------- */
+function submit(raw){
+  const msg=$("#msg"), R=info();
+  msg.style.color="";
+  if(R.done) return;
+  if(!raw.trim()){msg.textContent="Type a flavor first.";return}
+  const res=resolveFlavor(raw);
+  if(res&&res.amb){msg.textContent=`Did you mean ${res.amb.join(" or ")}? Pick one from the list.`;return}
+  if(!res&&/^(milk )?choc(olate)?$/.test(norm(raw))){msg.textContent="Plain chocolate isn't used as a flavor here. Try Dark Chocolate or White Chocolate.";return}
+  if(!res){msg.textContent=`"${raw}" isn't on the flavor list. Check the spelling or pick a suggestion.`;return}
+  const name=res.name, heard=res.fuzzy?`Reading "${raw.trim()}" as ${name}. `:"";
+  
+  if(cur().guesses.includes(name)){msg.textContent=`${heard}You already tried ${name}.`;return}
+  const hit=matchGuess(name,R.answers,R.items,R.found);
+  if(hit&&R.found.includes(hit)){msg.textContent=`${heard}${name} is covered by ${hit}, which you already found.`;return}
+  const rd=cur(), now=Date.now(); if(!rd.t0) rd.t0=now;
+  const h1=game.mode==="endless"?2:DIFF.hint1At, hintVisible=R.misses>=h1;
+  const matchedItems=R.items.filter(s=>itemHas(s,name)).length, partial=!hit&&matchedItems>0;
+  if(!rd.guesses.length){ rd.tFirst=now-rd.t0; rd.firstHit=!!hit; }
+  rd.hint=rd.hint||hintVisible; if(partial) rd.partials=(rd.partials||0)+1;
+  rd.guesses.push(name);
+  const after=info();
+  if(after.won&&!rd.tSolve) rd.tSolve=now-rd.t0;
+  logEvent({t:"guess",pair:profileOf(rd.items).key,guess:name,fuzzy:!!res.fuzzy,correct:!!hit,partial,counted_as:hit||null,
+    guess_number:rd.guesses.length,hint_visible:hintVisible,ms_since_start:now-rd.t0});
+  if(after.done){
+    logEvent({t:"round",...puzzleMeta(after),won:after.won,misses:after.misses,score:game.mode==="endless"?null:after.score,
+      total_guesses:rd.guesses.length,first_guess_correct:!!rd.firstHit,ms_to_first_guess:rd.tFirst||0,ms_to_solve:after.won?rd.tSolve:null,
+      hint_used:!!rd.hint,partial_guesses:rd.partials||0,found:after.found});
+    recordSkill({won:after.won,misses:after.misses,hintUsed:!!rd.hint,firstWin:!!rd.firstHit});
+    if(game.mode!=="endless"&&gameDone()) logEvent({t:"game",total:gameTotal(),max:game.rounds.length*ROUND_POINTS}); }
+  const via = hit&&hit!==name ? ` (counts as ${hit})` : "";
+  msg.style.color = hit ? "var(--hit)" : "";
+  msg.textContent = heard + (hit ? (after.won?"":`${name} is shared${via}. ${after.need-after.found.length} to go.`) : `${name} isn't shared by all of them.`);
+  if(game.mode==="endless"){
+    const st=endlessState(); st.guesses=cur().guesses; saveEndless(st);
+  } else {
+    saveDaily();
+    if(after.done&&gameDone()) recordStats();
+  }
+  $("#guess").value=""; closeSugg(); render();
+}
+function recordStats(){
+  const k=MODES[game.mode].stats;
+  const st=store.get(k,{played:0,total:0,best:0,streak:0,maxStreak:0,last:null,history:[]});
+  if(st.last===game.no) return;
+  const t=gameTotal();
+  st.played++; st.total+=t; st.best=Math.max(st.best,t);
+  st.streak=(st.last===game.no-1?st.streak:0)+1; st.maxStreak=Math.max(st.maxStreak,st.streak);
+  st.last=game.no; st.history=[...(st.history||[]),{no:game.no,score:t}].slice(-7);
+  store.set(k,st);
+  setTimeout(()=>openModal("#statsModal"),900);
+}
+
+/* ---------- Autocomplete ---------- */
+let sel=-1, items=[];
+function suggest(){
+  const q=norm($("#guess").value), ul=$("#sugg");
+  if(!q){closeSugg();return}
+  const hits=new Map();
+  for(const [k,v] of LOOKUP){ if(k.includes(q)){ const score=k.startsWith(q)?0:1; if(!hits.has(v)||hits.get(v)>score) hits.set(v,score);} }
+  if(!hits.size&&q.length>=4){ const lim=allowedEdits(q.length)||1;
+    for(const [k,v] of LOOKUP){ const dd=editDist(q,k.slice(0,q.length+1)); if(dd<=lim&&(!hits.has(v)||hits.get(v)>2+dd)) hits.set(v,2+dd); } }
+  items=[...hits.entries()].sort((a,b)=>a[1]-b[1]||a[0].localeCompare(b[0])).map(x=>x[0]).slice(0,8);
+  if(!items.length){closeSugg();return}
+  sel=-1;
+  ul.innerHTML=items.map((v,i)=>`<li role="option" id="opt${i}" aria-selected="false" class="${cur().guesses.includes(v)?'used':''}" data-v="${v}">${v}<small>${cur().guesses.includes(v)?'tried':FLAVORS[v].fam}</small></li>`).join("");
+  ul.hidden=false; $("#guess").setAttribute("aria-expanded","true");
+}
+function closeSugg(){$("#sugg").hidden=true;$("#guess").setAttribute("aria-expanded","false");sel=-1}
+function hl(){[...$("#sugg").children].forEach((li,i)=>li.setAttribute("aria-selected",i===sel?"true":"false"));
+  $("#guess").setAttribute("aria-activedescendant",sel>=0?"opt"+sel:"")}
+$("#guess").addEventListener("input",suggest);
+$("#guess").addEventListener("keydown",e=>{
+  if($("#sugg").hidden) return;
+  if(e.key==="ArrowDown"){e.preventDefault();sel=Math.min(items.length-1,sel+1);hl()}
+  else if(e.key==="ArrowUp"){e.preventDefault();sel=Math.max(0,sel-1);hl()}
+  else if(e.key==="Enter"&&sel>=0){e.preventDefault();submit(items[sel])}
+  else if(e.key==="Escape"){closeSugg()}
+});
+$("#sugg").addEventListener("mousedown",e=>{const li=e.target.closest("li");if(li){e.preventDefault();submit(li.dataset.v)}});
+$("#guess").addEventListener("blur",()=>setTimeout(closeSugg,120));
+$("#form").addEventListener("submit",e=>{e.preventDefault();
+  const v=$("#guess").value; const r=resolveFlavor(v); if((!r||r.amb)&&items.length===1&&!$("#sugg").hidden){submit(items[0])} else submit(v)});
+
+/* ---------- Modals & toast ---------- */
+function openModal(id){
+  if(id==="#statsModal") fillStats();
+  $(id).hidden=false; $(id).querySelector("[data-close]").focus();
+}
+document.querySelectorAll(".scrim").forEach(s=>{
+  s.addEventListener("click",e=>{if(e.target===s||e.target.hasAttribute("data-close")) s.hidden=true});
+});
+document.addEventListener("keydown",e=>{if(e.key==="Escape")document.querySelectorAll(".scrim").forEach(s=>s.hidden=true)});
+$("#helpBtn").onclick=()=>openModal("#helpModal");
+$("#statsBtn").onclick=()=>openModal("#statsModal");
+function fillStats(){
+  const sm = game&&game.mode==="challenge" ? "challenge" : "daily", max=MODES[sm].rounds*ROUND_POINTS;
+  $("#statsTitle").textContent = sm==="challenge" ? "Challenge stats" : "Daily stats";
+  const st=store.get(MODES[sm].stats,{played:0,total:0,best:0,streak:0,maxStreak:0,history:[]});
+  $("#statsGrid").innerHTML=[[st.played,"Played"],[st.played?Math.round(st.total/st.played).toLocaleString():0,"Average"],[st.best.toLocaleString(),"Best"],[st.streak,"Day streak"]]
+    .map(([v,l])=>`<div>${v}<small>${l}</small></div>`).join("");
+  const h=st.history||[];
+  $("#dist").innerHTML=(h.length?`<p class="endless-line" style="margin:0 0 4px">Last ${h.length} ${h.length===1?"game":"games"} (out of ${max.toLocaleString()})</p>`:`<p class="endless-line" style="margin:0">No games finished yet.</p>`)
+    + h.map(x=>`<div><span>${x.no}</span><span class="bar${game&&x.no===game.no&&game.mode===sm?' cur':''}" style="width:${Math.max(8,x.score/max*100)}%">${x.score.toLocaleString()}</span></div>`).join("")
+    ;
+}
+let tt; function toast(t){const el=$("#toast");el.textContent=t;el.hidden=false;clearTimeout(tt);tt=setTimeout(()=>el.hidden=true,1800)}
+
+/* ---------- Boot ---------- */
+document.querySelectorAll(".tab").forEach(t=>t.onclick=()=>switchMode(t.dataset.mode));
+(async function(){ await loadConfig(); const h=(location.hash||"").slice(1);switchMode(["daily","challenge","endless"].includes(h)?h:"daily")})();
+</script>
+</body>
+</html>
