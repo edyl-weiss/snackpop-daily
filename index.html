@@ -3,10 +3,10 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="description" content="Snack Crackle Pop: a daily flavor-matching puzzle. Name the flavors two snacks or soft drinks from around the world have both come in.">
+<meta name="description" content="Think you know snacks? Two snacks or sodas from around the world, one question: which flavors have they both come in? New puzzles every day.">
 <meta name="theme-color" content="#FF6A1A">
 <meta property="og:title" content="Snack Crackle Pop">
-<meta property="og:description" content="The daily flavor-matching game. Three rounds of international snacks and soft drinks, scored out of 3,000.">
+<meta property="og:description" content="So you think you know snacks? Three rounds, easy to hard, out of 3,000. Beat my score.">
 <meta property="og:type" content="website">
 <link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2064%2064%22%3E%3Cpath%20d%3D%22M8%2010l4-4%204%204%204-4%204%204%204-4%204%204%204-4%204%204%204-4%204%204%204-4%204%204v44l-4%204-4-4-4%204-4-4-4%204-4-4-4%204-4-4-4%204-4-4-4%204-4-4z%22%20fill%3D%22%23FF6A1A%22%20stroke%3D%22%232A1030%22%20stroke-width%3D%223%22/%3E%3Ctext%20x%3D%2232%22%20y%3D%2242%22%20font-family%3D%22Arial%20Black%2CArial%22%20font-size%3D%2220%22%20font-weight%3D%22900%22%20text-anchor%3D%22middle%22%20fill%3D%22%23FFD23F%22%20stroke%3D%22%232A1030%22%20stroke-width%3D%221.5%22%3ESCP%3C/text%3E%3C/svg%3E">
 <title>Snack Crackle Pop</title>
@@ -388,11 +388,11 @@ header{position:relative;display:grid;grid-template-columns:1fr auto;align-items
 </head>
 <body>
 <div class="wrap">
-  <div class="crimp top"><span class="tear">Tear here · open daily</span></div>
+  <div class="crimp top"><span class="tear">Tear here · fresh puzzles daily</span></div>
   <header>
     <div class="brand">
       <h1 class="logo"><span class="l1">Snack</span> <span class="l2">Crackle</span> <span class="l3">Pop!</span></h1>
-      <div><span class="ribbon">The flavor-matching game</span></div>
+      <div><span class="ribbon">So you think you know snacks?</span></div>
       <div class="meta" id="meta">Daily snack puzzle</div>
     </div>
     <div class="side">
@@ -417,9 +417,9 @@ header{position:relative;display:grid;grid-template-columns:1fr auto;align-items
   </div>
 
   <form class="play" id="form" autocomplete="off">
-    <label for="guess">Your flavor guess</label>
+    <label for="guess">Your guess</label>
     <div class="row">
-      <input id="guess" type="text" placeholder="e.g. Strawberry, Salt & Vinegar, Matcha…" role="combobox" aria-expanded="false" aria-controls="sugg" aria-autocomplete="list">
+      <input id="guess" type="text" placeholder="Name a flavor: BBQ, Mango, Matcha…" role="combobox" aria-expanded="false" aria-controls="sugg" aria-autocomplete="list">
       <button class="go" id="goBtn" type="submit">Guess</button>
     </div>
     <ul id="sugg" role="listbox" hidden></ul>
@@ -446,21 +446,21 @@ header{position:relative;display:grid;grid-template-columns:1fr auto;align-items
 
 <div class="scrim" id="helpModal" hidden>
   <div class="modal" role="dialog" aria-modal="true" aria-labelledby="helpTitle">
-    <h2 id="helpTitle">Directions</h2>
+    <h2 id="helpTitle">How to play</h2>
     <ol>
-      <li>You get two popular snacks or drinks, usually from different countries. The game tells you how many flavors they share.</li>
-      <li>Guess flavors they've <b>both</b> been sold in. If they share more than one, find them all, up to 3. Pick from the suggestions; spellings like "green tea" or "chilli lime" are understood.</li>
-      <li>Each round is worth <b>1,000 points</b>. Every wrong guess costs <b>125</b>. Six misses ends the round, and you keep points for the flavors you found.</li>
-      <li>Small typos are fine: "chese", "carmel" or "lime chili" are understood.</li>
-      <li>Broad flavors count: a Habanero or Flamin' Hot snack matches "Hot & Spicy", and Nacho Cheese matches "Cheese".</li>
-      <li>A wrong guess still shows a <b>✓</b> for any item that has that flavor, and adds it to that item's card as a clue.</li>
-      <li>Hints: the flavor family of one you haven't found, then its first letter. They normally unlock after 2 and 4 misses.</li>
-      <li>The game learns from how people play. Each Daily goes <b>Easy → Medium → Hard</b>: round 1 uses everyday flavors, round 3 needs a less common one. Puzzles get easier or harder over time based on results, and Endless adjusts to your own recent results.</li>
-      <li><b>Daily</b> is 3 rounds, for a best score of 3,000. New pairs every midnight, your time.</li>
-      <li><b>Challenge</b> is one daily round with three snacks or drinks. <b>Endless</b> deals new pairs or trios forever, just for fun: no points and no limit on guesses.</li>
+      <li>You get two snacks or drinks, usually from different countries. Your job: name the flavors they've <b>both</b> come in. We'll tell you how many there are.</li>
+      <li>If they share more than one, find them all, up to 3. Start typing and pick from the list.</li>
+      <li>Each round is worth <b>1,000 points</b>. Every wrong guess costs you <b>125</b>, and six misses ends the round. Anything you found still counts.</li>
+      <li>We're not fussy about spelling. "chese", "carmel", "green tea" and "lime chili" all work.</li>
+      <li>Broad flavors count. A Habanero or Flamin' Hot snack matches "Hot & Spicy", and Nacho Cheese matches "Cheese".</li>
+      <li>A wrong guess isn't wasted. You'll see a <b>✓</b> on anything that does have that flavor, and it gets added to that item's card as a clue.</li>
+      <li>Stuck? After 2 misses you get the flavor family of one you're missing. After 4, its first letter.</li>
+      <li><b>Daily</b> is three rounds, <b>Easy → Medium → Hard</b>, for a best score of 3,000. Round 1 is everyday flavors. Round 3 is where real snack experts earn it. New puzzles at midnight, your time.</li>
+      <li><b>Challenge</b> is one daily round with three items instead of two. <b>Endless</b> keeps dealing pairs or trios for as long as you want: no points, no miss limit.</li>
+      <li>The puzzles adjust based on how everyone plays, and Endless adjusts to you.</li>
     </ol>
-    <p style="color:var(--ink-soft);font-size:14px;margin:0">Flavors count if they're part of the product's current range, and blends count toward each named flavor (Strawberry Lime counts as Strawberry and as Lime).</p>
-    <button class="icon-btn close" type="button" data-close>Got it</button>
+    <p style="color:var(--ink-soft);font-size:14px;margin:0">The fine print: a flavor counts if it's part of the product's current lineup, and blends count toward each flavor in the name (Strawberry Lime counts as Strawberry and as Lime).</p>
+    <button class="icon-btn close" type="button" data-close>Let’s play</button>
   </div>
 </div>
 
@@ -1135,7 +1135,7 @@ function render(){
   const R=info(), items=R.items, m=game.mode;
   document.querySelectorAll(".tab").forEach(t=>t.setAttribute("aria-selected",t.dataset.mode===m?"true":"false"));
   const dateStr=new Date().toLocaleDateString(undefined,{month:"short",day:"numeric",year:"numeric"});
-  $(".burst div").innerHTML = m==="daily"?"3 rounds<small>every day!</small>":m==="challenge"?"Trio<small>1 round</small>":"Free<small>play</small>";
+  $(".burst div").innerHTML = m==="daily"?"3 rounds<small>easy → hard</small>":m==="challenge"?"Trio<small>3-way link</small>":"Non-stop<small>no scores</small>";
   $("#meta").textContent = m==="daily"?`Daily No. ${game.no} · ${dateStr}`:m==="challenge"?`Challenge No. ${game.no} · ${dateStr}`:`Endless · ${items.length===3?"trios":"pairs"}`;
 
   // Round tracker (Daily): three pills with each round's score
@@ -1151,10 +1151,12 @@ function render(){
 
   // Instruction line
   const X=R.answers.length, what=kindWords(items);
-  const countLine = X===1 ? `There is <b>1 shared flavor</b> between ${what}.` : `There are <b>${X} shared flavors</b> between ${what}.`;
-  const needLine = X===1 ? "Find it." : X<=NEED_CAP ? `Find all ${X}.` : `Find any ${NEED_CAP}.`;
+  const Cap=w=>w.charAt(0).toUpperCase()+w.slice(1);
+  const countLine = X===1 ? `${Cap(what)} have <b>1 flavor</b> in common.` : `${Cap(what)} have <b>${X} flavors</b> in common.`;
+  const needLine = X===1 ? "Can you name it?" : X<=NEED_CAP ? `Can you name all ${X}?` : `Name any ${NEED_CAP}.`;
+  const tierLine = m==="daily"&&TIERS[game.cur] ? ["Warm-up round. ","Medium round. Things get trickier. ","Hard round. This one sorts out the experts. "][game.cur] : m==="challenge" ? "Three at once. " : "";
   const free=m==="endless";
-  $("#tagline").innerHTML=`${countLine} ${needLine} <span class="rules">${free?"Endless is just for fun: no points, no limit on guesses.":`Each round is worth ${ROUND_POINTS.toLocaleString()} points; every wrong guess costs ${MISS_COST}.${DIFF.level!=="normal"?` This week: ${DIFF.label.toLowerCase()}.`:""}`}</span>`;
+  $("#tagline").innerHTML=`${countLine} ${needLine} <span class="rules">${free?"Just for fun: no points, no pressure, guess all you want.":`${tierLine}${ROUND_POINTS.toLocaleString()} points up for grabs. Each wrong guess costs ${MISS_COST}.${DIFF.level!=="normal"?` This week: ${DIFF.label.toLowerCase()}.`:""}`}</span>`;
 
   const mu=$("#matchup"); mu.classList.toggle("trio",items.length===3);
   mu.innerHTML=items.map(packet).join(`<div class="link" aria-hidden="true"><div>+</div></div>`);
@@ -1171,21 +1173,21 @@ function render(){
     const hits=items.map(s=>itemHas(s,x)), win=hits.every(Boolean);
     const mk=(y,s)=>`<span class="mark ${y?'y':'n'}" aria-label="${s.n} ${y?'has':'does not have'} ${x}">${y?'✓':'✕'}</span>`;
     return `<div class="grow${win?' win':''}${i===g.length-1?' pop':''}"><span class="n">${i+1}</span><span class="f">${x}${win||free?"":` <small class="pen">−${MISS_COST}</small>`}</span>${hits.map((y,k)=>mk(y,items[k])).join("")}</div>`});
-  if(!R.done) rows.push(`<div class="grow empty"><span class="n">${g.length+1}</span><span class="f">Your next guess</span>${items.map(()=>"<span></span>").join("")}</div>`);
+  if(!R.done) rows.push(`<div class="grow empty"><span class="n">${g.length+1}</span><span class="f">Next guess…</span>${items.map(()=>"<span></span>").join("")}</div>`);
   $("#rows").innerHTML=rows.join("");
 
   // Hints point at the first flavor not yet found
   const target=R.answers.find(a=>!R.found.includes(a))||R.answers[0];
   const h1=$("#h1"), h2=$("#h2");
   const h1At=m==="endless"?2:DIFF.hint1At, h2At=m==="endless"?4:DIFF.hint2At;
-  const when=n=>n===0?"from the start":`after ${n} ${n===1?"miss":"misses"}`;
-  if(R.misses>=h1At||R.done){h1.className="hint open";h1.innerHTML=`<b>Hint 1 · flavor family${h1At===0&&!R.done?" · starter hint":""}</b><span>${FLAVORS[target].fam}</span>`}
-  else {h1.className="hint";h1.innerHTML=`<b>Hint 1 · ${when(h1At)}</b>Flavor family of a flavor you haven't found`}
-  if(R.misses>=h2At||R.done){h2.className="hint open";h2.innerHTML=`<b>Hint 2 · first letter${h2At===0&&!R.done?" · starter hint":""}</b><span>${target[0]}…</span>`}
-  else {h2.className="hint";h2.innerHTML=`<b>Hint 2 · ${when(h2At)}</b>First letter of that flavor`}
+  const when=n=>n===0?"on the house":`unlocks after ${n} ${n===1?"miss":"misses"}`;
+  if(R.misses>=h1At||R.done){h1.className="hint open";h1.innerHTML=`<b>Hint 1 · flavor family${h1At===0&&!R.done?" · freebie":""}</b><span>${FLAVORS[target].fam}</span>`}
+  else {h1.className="hint";h1.innerHTML=`<b>Hint 1 · ${when(h1At)}</b>The family of a flavor you’re missing`}
+  if(R.misses>=h2At||R.done){h2.className="hint open";h2.innerHTML=`<b>Hint 2 · first letter${h2At===0&&!R.done?" · freebie":""}</b><span>${target[0]}…</span>`}
+  else {h2.className="hint";h2.innerHTML=`<b>Hint 2 · ${when(h2At)}</b>That flavor’s first letter`}
 
   $("#guess").disabled=R.done; $("#goBtn").disabled=R.done;
-  $("#guess").placeholder = R.done ? "Round over" : "e.g. Strawberry, Salt & Vinegar, Matcha…";
+  $("#guess").placeholder = R.done ? "Round’s done" : "Name a flavor: BBQ, Mango, Matcha…";
   renderResult(); renderBar();
   fitArt();
 }
@@ -1203,28 +1205,29 @@ function renderResult(){
   const missed=R.answers.filter(a=>!R.found.includes(a));
   const last=game.cur===game.rounds.length-1, allDone=gameDone();
   const free=game.mode==="endless";
-  const head = R.won ? (R.misses===0?"Perfect round":"Connected!") : free ? "Here's the answer" : "Out of misses";
+  const head = R.won ? (R.misses===0?"Flawless.":R.misses<=2?"Nailed it!":"Got there!") : free ? "Here’s what you missed" : "Stumped!";
   let body=`<h2>${head}${free||(!R.won&&!R.score)?"":` <span class="pts">+${R.score.toLocaleString()}</span>`}</h2>
-    ${R.won?`<p>You found ${R.need===1?"the link":`${R.need} links`} between ${nameStr} with ${R.misses} ${R.misses===1?"miss":"misses"}.</p>`
-      :`<p>${R.found.length?`You found ${R.found.length} of ${R.need}.`:"No match this time."} ${nameStr} share:</p><div class="reveal-line">${R.answers.length===1?"The flavor was":"The flavors were"}</div>`}
+    ${R.won?`<p>${R.misses===0?`You linked ${nameStr} without a single miss. Show-off.`:`You linked ${nameStr} with ${R.misses} ${R.misses===1?"miss":"misses"}.`}</p>`
+      :`<p>${R.found.length?`You got ${R.found.length} of ${R.need}. Not bad!`:"This one got away."} ${nameStr} share:</p><div class="reveal-line">${R.answers.length===1?"The flavor was":"The flavors were"}</div>`}
     <div class="answers">${R.answers.map(a=>`<span class="${R.found.includes(a)?"":"other"}">${a}</span>`).join("")}</div>
-    ${R.won&&missed.length?`<p class="note">Other shared flavors you didn't need: ${missed.join(", ")}.</p>`:""}`;
+    ${R.won&&missed.length?`<p class="note">Bonus flavors you could’ve said: ${missed.join(", ")}.</p>`:""}`;
   if(game.mode==="daily"&&!allDone){
     const nxt=game.rounds.findIndex(x=>!roundInfo(x).done);
-    body+=`<div class="share-row"><button class="go" type="button" id="nextR" style="padding:10px 18px">Next round (${nxt+1} of ${game.rounds.length})</button></div>`;
+    body+=`<div class="share-row"><button class="go" type="button" id="nextR" style="padding:10px 18px">Next up: ${TIERS[nxt]?TIERS[nxt].name:`round ${nxt+1}`} →</button></div>`;
   } else if(game.mode!=="endless"){
     const total=gameTotal(), max=game.rounds.length*ROUND_POINTS;
     body+=`${game.rounds.length>1?`<div class="final"><span>Today's total</span><b>${total.toLocaleString()}</b><small>/ ${max.toLocaleString()}</small></div>
       <div class="breakdown">${game.rounds.map((x,i)=>{const ri=roundInfo(x);return `<div><span>${TIERS[i]?TIERS[i].name:`Round ${i+1}`}</span><span>${ri.items.map(s=>s.n).join(" + ")}</span><b>${ri.score.toLocaleString()}</b></div>`}).join("")}</div>`:""}
-      <div class="share-row"><pre class="grid-emoji" id="shareTxt">${shareText()}</pre><button class="icon-btn" type="button" id="shareBtn">Copy result</button></div>
-      <p class="next" style="margin-top:12px">New ${game.mode==="challenge"?"trio":"pairs"} in <span id="countdown"></span></p>`;
+      <div class="share-row"><pre class="grid-emoji" id="shareTxt">${shareText()}</pre><button class="icon-btn" type="button" id="shareBtn">Copy your score</button></div>
+      <p class="note" style="margin:10px 0 0">Send it to the friend who thinks they know snacks.</p>
+      <p class="next" style="margin-top:12px">Fresh ${game.mode==="challenge"?"trio":"pairs"} in <span id="countdown"></span></p>`;
   } else {
-    body+=`<div class="share-row"><button class="go" type="button" id="nextRound" style="padding:10px 18px">Next round</button></div>`;
+    body+=`<div class="share-row"><button class="go" type="button" id="nextRound" style="padding:10px 18px">Deal me another</button></div>`;
   }
   r.innerHTML=body;
   const sb=$("#shareBtn"); if(sb) sb.onclick=async()=>{
-    try{await navigator.clipboard.writeText(shareText());toast("Result copied")}
-    catch(e){const t=$("#shareTxt");t.hidden=false;const sel=getSelection(),rg=document.createRange();rg.selectNodeContents(t);sel.removeAllRanges();sel.addRange(rg);toast("Selected. Copy it with your keyboard")}
+    try{await navigator.clipboard.writeText(shareText());toast("Copied! Now go send it")}
+    catch(e){const t=$("#shareTxt");t.hidden=false;const sel=getSelection(),rg=document.createRange();rg.selectNodeContents(t);sel.removeAllRanges();sel.addRange(rg);toast("Selected. Copy it and send it")}
   };
   const nr=$("#nextRound"); if(nr) nr.onclick=()=>loadEndless(true);
   const nx=$("#nextR"); if(nx) nx.onclick=()=>{game.cur=game.rounds.findIndex(x=>!roundInfo(x).done);finishLoad();window.scrollTo({top:0,behavior:"smooth"})};
@@ -1233,12 +1236,12 @@ function renderResult(){
 function renderBar(){
   const p=$("#pbar");
   if(game.mode!=="endless"){
-    p.innerHTML=gameDone()?`<span>Want more?</span><button class="textbtn" type="button" data-go="${game.mode==="daily"?"challenge":"daily"}">Play today's ${game.mode==="daily"?"Challenge":"Daily"}</button><button class="textbtn" type="button" data-go="endless">Play Endless</button>`:"";
+    p.innerHTML=gameDone()?`<span>Still hungry?</span><button class="textbtn" type="button" data-go="${game.mode==="daily"?"challenge":"daily"}">Play today's ${game.mode==="daily"?"Challenge":"Daily"}</button><button class="textbtn" type="button" data-go="endless">Try Endless</button>`:"";
   } else {
     p.innerHTML=`<div class="seg" role="group" aria-label="Endless puzzle size">
         <button type="button" data-size="2" aria-pressed="${endlessSize===2}">Pairs</button>
         <button type="button" data-size="3" aria-pressed="${endlessSize===3}">Trios</button></div>
-      ${info().done?"":`<button class="textbtn" type="button" id="reveal">Show answers</button><button class="textbtn" type="button" id="skip">New round</button>`}`;
+      ${info().done?"":`<button class="textbtn" type="button" id="reveal">I give up</button><button class="textbtn" type="button" id="skip">Skip this one</button>`}`;
     p.querySelectorAll("[data-size]").forEach(b=>b.onclick=()=>{const s=endlessState();const n=+b.dataset.size;if(n===s.size)return;
       s.size=n; nextEndless(s); saveEndless(s); loadEndless(false)});
     const sk=$("#skip"); if(sk) sk.onclick=()=>{ const R=info(); logEvent({t:"skip",...puzzleMeta(R),total_guesses:cur().guesses.length,found:R.found}); loadEndless(true); };
@@ -1297,16 +1300,16 @@ function submit(raw){
   const msg=$("#msg"), R=info();
   msg.style.color="";
   if(R.done) return;
-  if(!raw.trim()){msg.textContent="Type a flavor first.";return}
+  if(!raw.trim()){msg.textContent="Type a flavor first, then hit Guess.";return}
   const res=resolveFlavor(raw);
-  if(res&&res.amb){msg.textContent=`Did you mean ${res.amb.join(" or ")}? Pick one from the list.`;return}
-  if(!res&&/^(milk )?choc(olate)?$/.test(norm(raw))){msg.textContent="Plain chocolate isn't used as a flavor here. Try Dark Chocolate or White Chocolate.";return}
-  if(!res){msg.textContent=`"${raw}" isn't on the flavor list. Check the spelling or pick a suggestion.`;return}
-  const name=res.name, heard=res.fuzzy?`Reading "${raw.trim()}" as ${name}. `:"";
+  if(res&&res.amb){msg.textContent=`${res.amb.join(" or ")}? Pick the one you meant.`;return}
+  if(!res&&/^(milk )?choc(olate)?$/.test(norm(raw))){msg.textContent="Plain chocolate would be too easy, so it doesn’t count. Try Dark or White Chocolate.";return}
+  if(!res){msg.textContent=`Hmm, "${raw}" isn’t a flavor we know. Check the spelling or pick from the list.`;return}
+  const name=res.name, heard=res.fuzzy?`Going with ${name}. `:"";
   
-  if(cur().guesses.includes(name)){msg.textContent=`${heard}You already tried ${name}.`;return}
+  if(cur().guesses.includes(name)){msg.textContent=`${heard}You already tried ${name}. Mix it up!`;return}
   const hit=matchGuess(name,R.answers,R.items,R.found);
-  if(hit&&R.found.includes(hit)){msg.textContent=`${heard}${name} is covered by ${hit}, which you already found.`;return}
+  if(hit&&R.found.includes(hit)){msg.textContent=`${heard}${name} counts as ${hit}, and you’ve already got that one.`;return}
   const rd=cur(), now=Date.now(); if(!rd.t0) rd.t0=now;
   const h1=game.mode==="endless"?2:DIFF.hint1At, hintVisible=R.misses>=h1;
   const matchedItems=R.items.filter(s=>itemHas(s,name)).length, partial=!hit&&matchedItems>0;
@@ -1325,7 +1328,7 @@ function submit(raw){
     if(game.mode!=="endless"&&gameDone()) logEvent({t:"game",total:gameTotal(),max:game.rounds.length*ROUND_POINTS}); }
   const via = hit&&hit!==name ? ` (counts as ${hit})` : "";
   msg.style.color = hit ? "var(--hit)" : "";
-  msg.textContent = heard + (hit ? (after.won?"":`${name} is shared${via}. ${after.need-after.found.length} to go.`) : `${name} isn't shared by all of them.`);
+  msg.textContent = heard + (hit ? (after.won?"":`Yes! ${name} is a match${via}. ${after.need-after.found.length} more to go.`) : partial ? `Close! Only some of them come in ${name}.` : `Nope, not ${name}.`);
   if(game.mode==="endless"){
     const st=endlessState(); st.guesses=cur().guesses; saveEndless(st);
   } else {
@@ -1392,12 +1395,12 @@ $("#helpBtn").onclick=()=>openModal("#helpModal");
 $("#statsBtn").onclick=()=>openModal("#statsModal");
 function fillStats(){
   const sm = game&&game.mode==="challenge" ? "challenge" : "daily", max=MODES[sm].rounds*ROUND_POINTS;
-  $("#statsTitle").textContent = sm==="challenge" ? "Challenge stats" : "Daily stats";
+  $("#statsTitle").textContent = sm==="challenge" ? "Your Challenge stats" : "Your Daily stats";
   const st=store.get(MODES[sm].stats,{played:0,total:0,best:0,streak:0,maxStreak:0,history:[]});
   $("#statsGrid").innerHTML=[[st.played,"Played"],[st.played?Math.round(st.total/st.played).toLocaleString():0,"Average"],[st.best.toLocaleString(),"Best"],[st.streak,"Day streak"]]
     .map(([v,l])=>`<div>${v}<small>${l}</small></div>`).join("");
   const h=st.history||[];
-  $("#dist").innerHTML=(h.length?`<p class="endless-line" style="margin:0 0 4px">Last ${h.length} ${h.length===1?"game":"games"} (out of ${max.toLocaleString()})</p>`:`<p class="endless-line" style="margin:0">No games finished yet.</p>`)
+  $("#dist").innerHTML=(h.length?`<p class="endless-line" style="margin:0 0 4px">Your last ${h.length} ${h.length===1?"game":"games"} (out of ${max.toLocaleString()})</p>`:`<p class="endless-line" style="margin:0">No games yet. Go set a score for your friends to beat.</p>`)
     + h.map(x=>`<div><span>${x.no}</span><span class="bar${game&&x.no===game.no&&game.mode===sm?' cur':''}" style="width:${Math.max(8,x.score/max*100)}%">${x.score.toLocaleString()}</span></div>`).join("")
     ;
 }
