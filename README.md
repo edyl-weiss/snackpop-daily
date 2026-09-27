@@ -24,13 +24,6 @@ Daily flavor-matching game with adaptive difficulty. Static page (`index.html`) 
 - **Endless** adapts per player from their last 20 rounds (kept in their browser): ±0.5 at most every 5 rounds.
 - **Ambiguity**: a pair where one wrong answer dominates (≥40% of players who missed, at least twice the next answer) is flagged in the report and skipped when dealing until reviewed.
 
-Manual hint override: set the Vercel env var `SNACKDLE_DIFFICULTY` to `easier`, `easy`, `normal` or `hard`.
-
-## Setup
-1. Put this folder in a GitHub repository and import it in Vercel (Add New → Project). No build settings.
-2. Vercel project → Storage → Marketplace → **Upstash for Redis** (free) → connect to this project (adds `KV_REST_API_URL`, `KV_REST_API_TOKEN`).
-3. Redeploy. Check `https://<site>/api/config` shows `"analytics": true`.
-
 Without Redis the game still works (target 5, standard hints, nothing logged).
 
 ## Languages
