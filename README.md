@@ -25,3 +25,11 @@ Manual hint override: set the Vercel env var `SNACKDLE_DIFFICULTY` to `easier`, 
 3. Redeploy. Check `https://<site>/api/config` shows `"analytics": true`.
 
 Without Redis the game still works (target 5, standard hints, nothing logged).
+
+## Languages
+- English, French, Spanish, Simplified Chinese and Japanese. The page picks the browser's language when it's one of these, otherwise English; the language menu switches and remembers the choice. `?lang=en|fr|es|zh|ja` in the URL forces a language (handy for sharing).
+- Spanish: neutral Latin American (tú) with Spain's words accepted too (cacahuete, gamba, nata…); plain "limón" asks whether you mean lemon or lime.
+- Japanese: names as sold in Japan where one exists (`JA_NAMES`), packaging-style flavor names (うすしお, のりしお, コンソメ…) in `JA_FLAVORS`; hiragana, katakana, half-width and 〜味 all work; hint 2 gives the first kana of the reading.
+- Chinese: official mainland brand names where one exists (`ZH_NAMES`, original name shown underneath), Chinese flavor names with pinyin (`ZH_FLAVORS`) so "caomei" and "草莓味" both work; hint 2 gives the pinyin initial. Uses the phone's built-in Chinese font (PingFang / YaHei / Noto), no extra download.
+- All text lives in the `I18N` table in index.html; French flavor names and spellings are in `FR_FLAVORS`, plus `FR_TYPES`, `FR_COUNTRIES` and `FR_FAMS`. Adding a language = one more entry in each.
+- Guesses in either language are accepted in both versions. Saved games and analytics always use the English flavor names, so stats stay combined; round starts are also counted per language (`lang|en|fr|es|zh|ja` in the daily hash).

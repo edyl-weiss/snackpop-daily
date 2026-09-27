@@ -18,15 +18,16 @@
 :root{
   color-scheme:light;
   --shelf:#15343A; --shelf-2:#1C454C;
-  --bag:#FF6A1A; --bag-deep:#E2470B; --bag-hi:#FFA257;
+  --bag:#EE6420; --bag-deep:#E0561A; --bag-hi:#F26A22;
   --sun:#FFD23F; --sun-deep:#F5A800;
   --ink:#2A1030; --ink-soft:#6A4A5E;
   --label:#FFF6E2; --paper:#FFFFFF; --line:#E9D7B8;
   --hit:#139A5E; --miss:#B4A5A0; --tomato:#D7261E; --focus:#2A1030;
   --paper-tex:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .32 0 0 0 0 .18 0 0 0 0 .08 0.55 0 0 0 -.2'/%3E%3C/filter%3E%3Cfilter id='f'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.012 .55' numOctaves='2' seed='4' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .3 0 0 0 0 .16 0 0 0 0 .06 0 0 .45 0 -.2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3Crect width='100%25' height='100%25' filter='url(%23f)'/%3E%3C/svg%3E");
-  --display:"Lilita One","Arial Rounded MT Bold","Trebuchet MS",sans-serif;
-  --body:"Rubik","Segoe UI",system-ui,sans-serif;
-  --label-font:"Archivo Narrow","Arial Narrow","Roboto Condensed",sans-serif;
+  --cjk:"PingFang SC","Hiragino Sans GB","Microsoft YaHei","Noto Sans SC","Source Han Sans SC";
+  --display:"Lilita One","Arial Rounded MT Bold","Trebuchet MS",var(--cjk),sans-serif;
+  --body:"Rubik","Segoe UI",system-ui,var(--cjk),sans-serif;
+  --label-font:"Archivo Narrow","Arial Narrow","Roboto Condensed",var(--cjk),sans-serif;
 }
 *{box-sizing:border-box}
 [hidden]{display:none!important}
@@ -38,7 +39,7 @@ button{font:inherit;color:inherit;cursor:pointer}
 button:focus-visible,input:focus-visible{outline:3px solid var(--sun);outline-offset:2px}
 
 /* ---------- The bag ---------- */
-.wrap{max-width:780px;margin:0 auto;position:relative;
+.wrap{max-width:860px;margin:0 auto;position:relative;
   /* matte printed paper: fiber speckle, side gusset folds, a soft crumple, no shine */
   background:
     var(--paper-tex),
@@ -46,15 +47,15 @@ button:focus-visible,input:focus-visible{outline:3px solid var(--sun);outline-of
       transparent 86.5%,rgba(255,240,220,.10) 88%,rgba(0,0,0,.08) 88.5%,transparent 89.5%,transparent 97%,rgba(0,0,0,.10)),
     radial-gradient(60% 30% at 70% 62%,rgba(0,0,0,.05),transparent 70%),
     radial-gradient(50% 25% at 25% 38%,rgba(255,235,210,.06),transparent 70%),
-    linear-gradient(180deg,#F26A22,#EE6420 60%,#E0561A);
+    linear-gradient(180deg,var(--bag-hi),var(--bag) 60%,var(--bag-deep));
   border-radius:10px;
   box-shadow:0 26px 50px rgba(0,0,0,.45),inset 0 0 0 1px rgba(80,30,10,.25);
   padding-inline:clamp(14px,4vw,34px);padding-block:0 0;overflow:hidden}
 .crimp{margin-inline:calc(-1 * clamp(14px,4vw,34px));height:44px;position:relative;
-  background:var(--paper-tex),repeating-linear-gradient(90deg,rgba(60,20,0,.10) 0 1px,transparent 1px 7px),linear-gradient(180deg,#D9551C,#E86020);
+  background:var(--paper-tex),repeating-linear-gradient(90deg,rgba(60,20,0,.10) 0 1px,transparent 1px 7px),linear-gradient(180deg,var(--bag-deep),var(--bag));
   display:flex;align-items:center;justify-content:center}
 .crimp.top{border-bottom:2px dashed rgba(42,16,48,.35)}
-.crimp.bottom{margin-top:26px;height:64px;border-top:2px dashed rgba(42,16,48,.35);background:var(--paper-tex),repeating-linear-gradient(90deg,rgba(60,20,0,.10) 0 1px,transparent 1px 7px),linear-gradient(0deg,#D9551C,#E86020);justify-content:space-between;padding-inline:clamp(14px,4vw,34px)}
+.crimp.bottom{margin-top:26px;height:64px;border-top:2px dashed rgba(42,16,48,.35);background:var(--paper-tex),repeating-linear-gradient(90deg,rgba(60,20,0,.10) 0 1px,transparent 1px 7px),linear-gradient(0deg,var(--bag-deep),var(--bag));justify-content:space-between;padding-inline:clamp(14px,4vw,34px)}
 .tear{font-family:var(--label-font);font-weight:700;font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--ink);background:var(--sun);padding:2px 10px;border-radius:3px}
 .barcode{height:36px;width:120px;background:#fff;padding:4px 6px;border-radius:3px;
   background-image:repeating-linear-gradient(90deg,var(--ink) 0 2px,transparent 2px 3px,var(--ink) 3px 4px,transparent 4px 7px,var(--ink) 7px 10px,transparent 10px 11px);background-clip:content-box}
@@ -84,6 +85,12 @@ header{position:relative;display:grid;grid-template-columns:1fr auto;align-items
 .burst small{display:block;font-family:var(--label-font);font-weight:700;font-size:11px;letter-spacing:.06em}
 .hbtns{display:flex;gap:6px}
 .icon-btn{background:var(--label);border:2.5px solid var(--ink);border-radius:999px;padding:5px 14px;font-weight:800;font-size:13px;box-shadow:0 3px 0 var(--ink)}
+.icon-btn.lang{min-width:44px;padding-inline:10px}
+select.icon-btn.lang{appearance:none;-webkit-appearance:none;text-align:center;text-align-last:center;cursor:pointer;color:var(--ink);padding-right:10px}
+.porig{position:relative;z-index:1;font-family:var(--label-font);font-weight:700;font-size:12px;opacity:.9;margin-top:-4px}
+:root[lang="ja"]{--cjk:"Hiragino Sans","Hiragino Kaku Gothic ProN","Yu Gothic","Meiryo","Noto Sans JP"}
+:lang(zh) .pname{letter-spacing:.04em}
+:lang(zh) .tab small,:lang(zh) .rules{letter-spacing:.02em}
 .icon-btn:active{transform:translateY(3px);box-shadow:none}
 
 /* ---------- Flavor tabs ---------- */
@@ -97,7 +104,7 @@ header{position:relative;display:grid;grid-template-columns:1fr auto;align-items
 .roundbar{display:flex;gap:8px;flex-wrap:wrap;align-items:stretch;margin-top:16px}
 .rpill{display:flex;flex-direction:column;align-items:flex-start;gap:0;border:2px solid var(--ink);background:rgba(255,246,226,.9);border-radius:8px;padding:5px 12px;min-width:92px;text-align:left}
 .rpill span{font-family:var(--label-font);font-weight:700;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-soft)}
-.rpill b{font-family:var(--display);font-weight:400;font-size:20px;font-variant-numeric:tabular-nums}
+.rpill b{white-space:nowrap;font-family:var(--display);font-weight:400;font-size:20px;font-variant-numeric:tabular-nums}
 .rpill span{white-space:nowrap}.rpill .rn{font-style:normal}
 .rpill.cur{background:var(--sun)}
 .rpill.done b{color:var(--hit)}
@@ -192,13 +199,25 @@ header{position:relative;display:grid;grid-template-columns:1fr auto;align-items
 /* ---------- Guess table as a Nutrition Facts panel ---------- */
 .board{margin-top:14px;border:3px solid #000;background:var(--paper);color:#000;font-family:var(--label-font);--cw:96px}
 .board.trio{--cw:72px}
-.board::before{content:"Guess Facts";display:block;font-family:var(--body);font-weight:900;font-size:30px;letter-spacing:-.01em;padding:4px 10px 2px;border-bottom:1px solid #000}
-.bhead,.grow{display:grid;grid-template-columns:34px 1fr repeat(var(--n,2),var(--cw));align-items:center;gap:8px;padding:8px 10px}
+.board::before{content:var(--t-facts,"Guess Facts");display:block;font-family:var(--body);font-weight:900;font-size:30px;letter-spacing:-.01em;padding:4px 10px 2px;border-bottom:1px solid #000}
+.bhead,.grow{display:grid;grid-template-columns:34px 1fr repeat(var(--n,2),var(--cw)) 318px;align-items:center;gap:8px;padding:8px 10px}
 .bhead{border-bottom:8px solid #000;font-weight:700;font-size:12px;letter-spacing:.06em;text-transform:uppercase}
 .bhead span:nth-child(n+3){text-align:center;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .bhead .hn{font-style:normal}
 .mini{display:inline-grid;place-items:center;width:20px;height:20px;border-radius:50%;background:#fff;border:1.5px solid #000;vertical-align:middle;margin-right:4px;overflow:hidden}.mini svg{width:14px;height:14px;overflow:visible}
 .grow{border-top:1px solid #000;min-height:46px}
+/* Taste clues: one cell per trait the guess has. Green = at least one answer shares it, red = none do */
+.tr{display:grid;grid-template-columns:repeat(8,1fr);gap:3px;border-left:2px solid #000;padding-left:8px}
+.bhead .tr b{font-weight:700;font-size:10px;letter-spacing:0;text-align:center}
+.tc{height:28px;border-radius:5px;display:grid;place-items:center;font-family:var(--body);font-weight:900;font-size:13px}
+.tc.g{background:var(--hit);color:#fff}
+.tc.r{background:var(--tomato);color:#fff}
+.tc.x{background:#F1ECE6}
+@media (max-width:840px){
+  .bhead,.grow{grid-template-columns:34px 1fr repeat(var(--n,2),var(--cw))}
+  .bhead .tr,.grow .tr{grid-column:2 / -1;border-left:none;padding-left:0}
+  .bhead{row-gap:4px}
+}
 .grow .n{font-weight:700;font-size:14px}
 .grow .f{font-family:var(--body);font-weight:800;font-size:16px}
 .grow.empty .f{color:#9A9A9A;font-weight:500}
@@ -219,9 +238,9 @@ header{position:relative;display:grid;grid-template-columns:1fr auto;align-items
 
 /* ---------- Prize-inside coupon ---------- */
 .result{margin-top:20px;position:relative;background:var(--label);border:3px dashed var(--ink);border-radius:16px;padding:22px 18px 18px;box-shadow:0 6px 0 rgba(42,16,48,.35)}
-.result::before{content:"PRIZE INSIDE";position:absolute;top:-14px;left:18px;background:var(--ink);color:var(--sun);font-family:var(--display);font-size:16px;letter-spacing:.06em;padding:2px 12px;border-radius:6px}
+.result::before{content:var(--t-prize,"PRIZE INSIDE");position:absolute;top:-14px;left:18px;background:var(--ink);color:var(--sun);font-family:var(--display);font-size:16px;letter-spacing:.06em;padding:2px 12px;border-radius:6px}
 .result.lost{background:var(--ink);color:var(--label);border:4px solid var(--sun);box-shadow:0 0 0 4px var(--ink),0 10px 0 4px rgba(0,0,0,.35);animation:reveal .5s cubic-bezier(.2,1.4,.4,1)}
-.result.lost::before{content:"THE ANSWER";background:var(--tomato);color:#fff;font-size:18px;border:3px solid var(--ink);top:-18px}
+.result.lost::before{content:var(--t-answer,"THE ANSWER");background:var(--tomato);color:#fff;font-size:18px;border:3px solid var(--ink);top:-18px}
 .result.lost h2{color:var(--sun)}
 .result.lost .reveal-line{font-family:var(--label-font);font-weight:700;font-size:14px;letter-spacing:.12em;text-transform:uppercase;color:var(--sun);margin:4px 0 8px}
 .result.lost .answers{gap:10px}
@@ -364,6 +383,9 @@ header{position:relative;display:grid;grid-template-columns:1fr auto;align-items
   .bhead .mini{width:28px;height:28px;margin:0}.bhead .mini svg{width:20px;height:20px}
   .board.trio .mini{display:inline-grid}
   .grow .f{font-size:15px}
+  .bhead .tr b{font-size:8.5px}
+  .tr{gap:2px}
+  .tc{height:26px;font-size:12px}
   .mark{width:28px;height:28px}
 
   .hints{grid-template-columns:1fr 1fr;gap:8px}
@@ -383,7 +405,114 @@ header{position:relative;display:grid;grid-template-columns:1fr auto;align-items
   .modal li{font-size:15px}
   .stats div{font-size:24px}
 }
-@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+/* ---------- Game feel: color shifts + motion ---------- */
+/* Each mode is a different "flavor" of bag; the Daily bag heats up from Easy to Hard. Colors glide between states. */
+@property --bag{syntax:"<color>";inherits:true;initial-value:#EE6420}
+@property --bag-deep{syntax:"<color>";inherits:true;initial-value:#E0561A}
+@property --bag-hi{syntax:"<color>";inherits:true;initial-value:#F26A22}
+:root{transition:--bag .9s ease,--bag-deep .9s ease,--bag-hi .9s ease}
+:root[data-mode="daily"][data-tier="0"]{--bag-hi:#F8862E;--bag:#F27526;--bag-deep:#E4631F}
+:root[data-mode="daily"][data-tier="2"]{--bag-hi:#F26226;--bag:#EC5B21;--bag-deep:#D9481A}
+:root[data-mode="challenge"]{--bag-hi:#F0628F;--bag:#E24D7E;--bag-deep:#CC3A6B}
+:root[data-mode="endless"]{--bag-hi:#52C47A;--bag:#3FB36A;--bag-deep:#2E9B57}
+
+.wrap{animation:bagIn .7s cubic-bezier(.2,1.3,.4,1) both}
+@keyframes bagIn{from{transform:translateY(28px) scale(.97);opacity:0}}
+.logo span{animation:letterPop .6s cubic-bezier(.2,1.7,.4,1) both}
+.logo .l1{animation-delay:.15s}.logo .l2{animation-delay:.28s}.logo .l3{animation-delay:.41s}
+@keyframes letterPop{from{transform:translateY(-22px) scale(.5);opacity:0}}
+@media (hover:hover){.logo span:hover{animation:jiggle .45s ease}}
+@keyframes jiggle{25%{transform:translateY(-4px) rotate(-4deg)}75%{transform:translateY(-2px) rotate(3deg)}}
+.brand::before{animation:rays 18s linear infinite}
+@keyframes rays{to{filter:hue-rotate(12deg)}}
+.burst{animation:wobble 3.6s ease-in-out infinite}
+@keyframes wobble{0%,100%{transform:rotate(12deg) scale(1)}50%{transform:rotate(4deg) scale(1.07)}}
+.link div{animation:pulse 2.4s ease-in-out infinite}
+@keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.18)}}
+
+/* products: idle bob, dealt in on a new round, react to guesses */
+.matchup > .bag,.matchup > .can{animation:bob 3.8s ease-in-out infinite}
+.matchup > :nth-child(3){animation-delay:-1.3s}.matchup > :nth-child(5){animation-delay:-2.4s}
+@keyframes bob{0%,100%{transform:translateY(0) rotate(0)}50%{transform:translateY(-4px) rotate(.5deg)}}
+.matchup.deal > .bag,.matchup.deal > .can{animation:dealIn .6s cubic-bezier(.2,1.35,.4,1) both,bob 3.8s ease-in-out .7s infinite}
+.matchup.deal > :first-child{--dx:-60px;--r:-8deg}.matchup.deal > :last-child{--dx:60px;--r:8deg;animation-delay:.08s,.8s}
+.matchup.deal.trio > :nth-child(3){--dx:0;--dy:-50px;animation-delay:.04s,.75s}
+@keyframes dealIn{from{transform:translate(var(--dx,0),var(--dy,0)) rotate(var(--r,0)) scale(.85);opacity:0}}
+.matchup > .hop{animation:hop .55s cubic-bezier(.2,1.6,.4,1),bob 3.8s ease-in-out .6s infinite}
+.matchup > .nope{animation:nope .45s ease,bob 3.8s ease-in-out .5s infinite}
+@keyframes hop{35%{transform:translateY(-16px) rotate(-2deg) scale(1.03)}}
+@keyframes nope{20%{transform:translateX(-6px) rotate(-1deg)}45%{transform:translateX(5px) rotate(1deg)}70%{transform:translateX(-3px)}}
+.known span.new{animation:chipIn .5s cubic-bezier(.2,1.7,.4,1) .15s both}
+@keyframes chipIn{from{transform:scale(0) rotate(-12deg)}}
+.tagline.fresh{animation:fadeUp .45s ease both}
+@keyframes fadeUp{from{transform:translateY(8px);opacity:0}}
+.stamp{position:absolute;left:50%;top:44%;z-index:4;pointer-events:none;font-family:var(--display);font-size:clamp(34px,9vw,58px);color:var(--sun);
+  -webkit-text-stroke:2px var(--ink);text-shadow:4px 5px 0 var(--ink);text-transform:uppercase;white-space:nowrap;
+  animation:stamp 1.5s cubic-bezier(.2,1.4,.4,1) both}
+@keyframes stamp{0%{transform:translate(-50%,-50%) scale(2.4) rotate(-14deg);opacity:0}18%{transform:translate(-50%,-50%) scale(1) rotate(-8deg);opacity:1}
+  75%{transform:translate(-50%,-50%) scale(1) rotate(-8deg);opacity:1}100%{transform:translate(-50%,-60%) scale(.9) rotate(-8deg);opacity:0}}
+.window{position:relative}
+
+/* guess feedback */
+.row.shake{animation:shake .42s ease}
+@keyframes shake{15%,55%{transform:translateX(-8px)}35%,75%{transform:translateX(7px)}90%{transform:translateX(-2px)}}
+.msg.flash{animation:msgIn .3s ease both}
+@keyframes msgIn{from{transform:translateY(-4px);opacity:0}}
+.slot.got.new{animation:slotPop .55s cubic-bezier(.2,1.7,.4,1)}
+@keyframes slotPop{0%{transform:scale(.4)}60%{transform:scale(1.15)}}
+.meter i{transition:background-color .3s}
+.meter i.x.new{animation:thud .4s cubic-bezier(.2,1.7,.4,1)}
+@keyframes thud{0%{transform:scale(2);background:var(--tomato)}}
+.live b,.rtotal b{display:inline-block}
+.num-down{animation:numDown .6s ease}.num-up{animation:numUp .6s ease}
+@keyframes numDown{0%,40%{color:var(--tomato);transform:scale(1.18)}}
+@keyframes numUp{0%,40%{color:var(--hit);transform:scale(1.2)}}
+.grow.fresh{animation:rowIn .35s ease-out both}
+.grow.fresh.win{animation:rowIn .35s ease-out both,winFlash 1s ease .35s}
+@keyframes rowIn{from{transform:translateY(-6px);opacity:0}}
+@keyframes winFlash{0%{background:#9FE3BF}100%{background:#E6F6EE}}
+.grow.fresh .mark{animation:markPop .4s cubic-bezier(.2,1.7,.4,1) both;animation-delay:calc(.08s + var(--i,0)*90ms)}
+@keyframes markPop{from{transform:scale(0) rotate(-20deg)}}
+.grow.fresh .tc{animation:flip .45s ease both;animation-delay:calc(.3s + var(--i,0)*60ms)}
+@keyframes flip{from{transform:perspective(200px) rotateX(90deg)}}
+.hint.open.new{animation:hintFlip .7s cubic-bezier(.2,1.3,.4,1)}
+@keyframes hintFlip{0%{transform:perspective(400px) rotateY(90deg)}100%{transform:none}}
+.hint{transition:background-color .3s,border-color .3s}
+
+/* results */
+.result:not(.lost){animation:couponIn .6s cubic-bezier(.2,1.35,.4,1) both}
+@keyframes couponIn{from{transform:translateY(30px) rotate(1.5deg);opacity:0}}
+.result h2{animation:fadeUp .4s ease .15s both}
+.pts{display:inline-block;animation:ptsPop .6s cubic-bezier(.2,1.8,.4,1) .35s both}
+@keyframes ptsPop{from{transform:scale(0) rotate(-20deg)}}
+.answers span{animation:chipIn .45s cubic-bezier(.2,1.7,.4,1) both}
+.answers span:nth-child(2){animation-delay:.08s}.answers span:nth-child(3){animation-delay:.16s}.answers span:nth-child(n+4){animation-delay:.24s}
+.crumb{position:fixed;z-index:40;pointer-events:none;width:9px;height:9px;border-radius:2px;border:1.5px solid var(--ink);
+  animation:crumb var(--t,1s) cubic-bezier(.15,.6,.4,1) forwards}
+@keyframes crumb{to{transform:translate(var(--x),var(--y)) rotate(var(--rot));opacity:0}}
+
+/* controls */
+.go,.icon-btn,.tab,.rpill,.seg button,.textbtn{transition:transform .15s ease,box-shadow .15s ease,background-color .25s}
+@media (hover:hover){
+  .go:not(:disabled):hover{transform:translateY(-2px);box-shadow:0 6px 0 var(--ink)}
+  .icon-btn:hover{transform:translateY(-2px);box-shadow:0 5px 0 var(--ink)}
+  .tab:hover{transform:translateY(-2px);box-shadow:0 6px 0 var(--ink)}
+  .matchup > .bag:hover,.matchup > .can:hover{animation-play-state:paused}
+}
+.rpill.cur{animation:curGlow 2.2s ease-in-out infinite}
+@keyframes curGlow{0%,100%{box-shadow:0 0 0 0 rgba(255,210,63,0)}50%{box-shadow:0 0 0 5px rgba(255,210,63,.55)}}
+#guess{transition:box-shadow .2s,transform .2s}
+#guess:focus{box-shadow:inset 0 3px 0 rgba(0,0,0,.06),0 0 0 4px rgba(255,210,63,.6)}
+#sugg:not([hidden]){animation:dropIn .18s ease-out}
+@keyframes dropIn{from{transform:translateY(-6px);opacity:0}}
+.scrim:not([hidden]){animation:scrimIn .25s ease both}
+.scrim:not([hidden]) .modal{animation:modalIn .4s cubic-bezier(.2,1.35,.4,1) both}
+@keyframes scrimIn{from{opacity:0}}
+@keyframes modalIn{from{transform:translateY(24px) scale(.94);opacity:0}}
+.toast:not([hidden]){animation:toastIn .35s cubic-bezier(.2,1.6,.4,1) both}
+@keyframes toastIn{from{transform:translate(-50%,20px) scale(.8);opacity:0}}
+
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}.stamp,.crumb{display:none}}
 </style>
 </head>
 <body>
@@ -400,11 +529,12 @@ header{position:relative;display:grid;grid-template-columns:1fr auto;align-items
       <div class="hbtns">
         <button class="icon-btn" id="helpBtn" type="button">How to play</button>
         <button class="icon-btn" id="statsBtn" type="button">Stats</button>
+        <select class="icon-btn lang" id="langSel" aria-label="Language"><option value="en" lang="en">EN</option><option value="fr" lang="fr">FR</option><option value="es" lang="es">ES</option><option value="zh" lang="zh">中文</option><option value="ja" lang="ja">日本語</option></select>
       </div>
     </div>
   </header>
 
-  <nav class="tabs" role="tablist" aria-label="Game mode">
+  <nav class="tabs" id="tabs" role="tablist" aria-label="Game mode">
     <button class="tab" role="tab" type="button" data-mode="daily">Daily</button>
     <button class="tab" role="tab" type="button" data-mode="challenge">Challenge <small>3 items</small></button>
     <button class="tab" role="tab" type="button" data-mode="endless">Endless</button>
@@ -417,7 +547,7 @@ header{position:relative;display:grid;grid-template-columns:1fr auto;align-items
   </div>
 
   <form class="play" id="form" autocomplete="off">
-    <label for="guess">Your guess</label>
+    <label for="guess" id="guessLabel">Your guess</label>
     <div class="row">
       <input id="guess" type="text" placeholder="Name a flavor: BBQ, Mango, Matcha…" role="combobox" aria-expanded="false" aria-controls="sugg" aria-autocomplete="list">
       <button class="go" id="goBtn" type="submit">Guess</button>
@@ -447,20 +577,8 @@ header{position:relative;display:grid;grid-template-columns:1fr auto;align-items
 <div class="scrim" id="helpModal" hidden>
   <div class="modal" role="dialog" aria-modal="true" aria-labelledby="helpTitle">
     <h2 id="helpTitle">How to play</h2>
-    <ol>
-      <li>You get two snacks or drinks, usually from different countries. Your job: name the flavors they've <b>both</b> come in. We'll tell you how many there are.</li>
-      <li>If they share more than one, find them all, up to 3. Start typing and pick from the list.</li>
-      <li>Each round is worth <b>1,000 points</b>. Every wrong guess costs you <b>125</b>, and six misses ends the round. Anything you found still counts.</li>
-      <li>We're not fussy about spelling. "chese", "carmel", "green tea" and "lime chili" all work.</li>
-      <li>Broad flavors count. A Habanero or Flamin' Hot snack matches "Hot & Spicy", and Nacho Cheese matches "Cheese".</li>
-      <li>A wrong guess isn't wasted. You'll see a <b>✓</b> on anything that does have that flavor, and it gets added to that item's card as a clue.</li>
-      <li>Stuck? After 2 misses you get the flavor family of one you're missing. After 4, its first letter.</li>
-      <li><b>Daily</b> is three rounds, <b>Easy → Medium → Hard</b>, for a best score of 3,000. Round 1 is everyday flavors. Round 3 is where real snack experts earn it. New puzzles at midnight, your time.</li>
-      <li><b>Challenge</b> is one daily round with three items instead of two. <b>Endless</b> keeps dealing pairs or trios for as long as you want: no points, no miss limit.</li>
-      <li>The puzzles adjust based on how everyone plays, and Endless adjusts to you.</li>
-    </ol>
-    <p style="color:var(--ink-soft);font-size:14px;margin:0">The fine print: a flavor counts if it's part of the product's current lineup, and blends count toward each flavor in the name (Strawberry Lime counts as Strawberry and as Lime).</p>
-    <button class="icon-btn close" type="button" data-close>Let’s play</button>
+    <div id="helpBody"></div>
+    <button class="icon-btn close" id="helpClose" type="button" data-close>Let’s play</button>
   </div>
 </div>
 
@@ -469,7 +587,7 @@ header{position:relative;display:grid;grid-template-columns:1fr auto;align-items
     <h2 id="statsTitle">Your stats</h2>
     <div class="stats" id="statsGrid"></div>
     <div class="dist" id="dist"></div>
-    <button class="icon-btn close" type="button" data-close>Close</button>
+    <button class="icon-btn close" id="statsClose" type="button" data-close>Close</button>
   </div>
 </div>
 <div class="toast" id="toast" hidden></div>
@@ -534,6 +652,12 @@ const FLAVORS = {
   "Paprika":{fam:"Savory",alt:["papryka"]}, "Pizza":{fam:"Savory"},
   "Salted":{fam:"Savory",alt:["ready salted","lightly salted","sea salt","usushio","plain salted","salt","nature"]}
 };
+
+/* ---------- Taste traits (checked against Wikipedia plus a second food source per flavor, Sep 27 2026) ----------
+   Letters: w sweet · s salty · o sour · b bitter · h spicy (heat) · u savory (umami) · f fruity · c creamy. Judged as the flavor tastes in snacks and sodas. */
+const TRAITS=[["w","Sweet"],["s","Salty"],["o","Sour"],["b","Bitter"],["h","Spicy"],["u","Savory"],["f","Fruity"],["c","Creamy"]];
+const TASTE={"Strawberry": "wof", "Lemon": "wof", "Mango": "wf", "Coconut": "wfc", "Blue Raspberry": "wof", "Muscat": "wf", "Chamoy": "wsohf", "Toffee": "wc", "Cheesecake": "woc", "Jalapeño": "h", "Curry": "hu", "Salsa": "uho", "Onion": "u", "Pretzel": "su", "Garlic": "u", "Truffle": "u", "Honeycomb": "w", "Maple": "w", "Sesame": "u", "Licorice": "wb", "Soy Sauce": "su", "Chipotle": "hu", "Mushroom": "u", "Crab": "wus", "Sweet & Sour": "wo", "Takoyaki": "u", "Grapefruit": "wobf", "Lychee": "wof", "Blackberry": "wof", "Papaya": "wf", "Cucumber": "w", "Cream Soda": "wc", "Rose": "w", "Bubblegum": "wf", "Mint": "w", "Cookies & Cream": "wc", "Churro": "w", "Caramel": "wc", "Dark Chocolate": "wb", "Hazelnut": "w", "Wasabi": "h", "Masala": "hu", "Pickled Onion": "os", "Cheese": "usc", "Sour Cream & Onion": "ousc", "Chicken": "u", "Prawn Cocktail": "wuo", "Consommé": "us", "Salted": "s", "Banana": "wf", "Apple": "wof", "Pineapple": "wof", "Cherry": "wof", "Lime": "wof", "Melon": "wf", "Tamarind": "wof", "Popcorn": "ws", "Brownie": "w", "Habanero": "h", "Hot & Spicy": "h", "Honey Mustard": "woh", "Sour Cream": "ouc", "Tomato": "uo", "Cheese & Garlic": "usc", "Cinnamon": "wh", "Nougat": "w", "Pudding": "wc", "Kiwi": "wof", "Ramune": "wof", "Teriyaki": "wus", "Guacamole": "uosc", "Kimchi": "ohsu", "Squid": "us", "Mentaiko": "hsu", "Red Bean": "w", "Passion Fruit": "wof", "Pear": "wf", "Mixed Berry": "wof", "Plum": "wof", "Fruit Punch": "wof", "Ginger": "hw", "Tea": "bw", "Cola": "w", "Honey": "w", "Birthday Cake": "wc", "Pumpkin": "w", "Salted Caramel": "wsc", "White Chocolate": "wc", "Peanut": "us", "Chili Lime": "hof", "Salt & Vinegar": "so", "Worcester Sauce": "uos", "Nacho Cheese": "usc", "Ranch": "usc", "Beef": "u", "Shrimp": "us", "Paprika": "wu", "Orange": "wof", "Grape": "wof", "Raspberry": "wof", "Watermelon": "wf", "Blackcurrant": "wof", "Peach": "wf", "Coffee": "wb", "Chocolate Chip": "w", "Biscoff": "w", "Buffalo": "hou", "Adobada": "uho", "Mustard": "ho", "Pepper": "h", "Butter": "suc", "Corn": "wu", "Yogurt": "owc", "Marshmallow": "w", "Chestnut": "w", "Yuzu": "wobf", "Ketchup": "wou", "Taco": "u", "Peri Peri": "hou", "Tom Yum": "ohu", "Mayonnaise": "uoc", "Salad": "su", "Salted Egg": "suc", "Guava": "wof", "Blueberry": "wof", "Pomegranate": "wof", "Rhubarb": "owf", "Root Beer": "w", "Elderflower": "w", "Cotton Candy": "w", "Matcha": "wb", "Sweet Potato": "w", "Red Velvet": "woc", "Vanilla": "wc", "Turkish Delight": "w", "Almond": "wb", "Peanut Butter": "wusc", "Sweet Chili": "wh", "Dill Pickle": "os", "Chutney": "wohf", "Cheese & Onion": "usc", "BBQ": "wuo", "Bacon": "su", "Seaweed": "us", "Pizza": "u"};
+const hasTrait=(f,k)=>(TASTE[f]||"").includes(k);
 
 /* ---------- Snacks (popular at home; flavors = regular lines or well-known limited editions) ---------- */
 const SNACKS = [
@@ -779,16 +903,760 @@ DRAW.noodles=()=>SV(`<rect x="18" y="26" width="64" height="48" rx="10" fill="#F
 DRAW.jar=()=>SV(`<path d="M34 20h32v8q12 6 12 22v28q0 10-10 10H32q-10 0-10-10V50q0-16 12-22z" fill="#F8D34B" ${O}/><rect x="36" y="10" width="28" height="12" rx="3" fill="#2E7D32" ${O}/><path d="M26 56h48" stroke="#fff" stroke-width="3" stroke-opacity=".7"/><rect x="30" y="36" width="5" height="40" rx="2.5" fill="#fff" fill-opacity=".5"/>`);
 const artFor = s => { if (s.a==='can') return DRAW.can(s.bg, s.fg); if (s.a==='bottle') return DRAW.bottle(s.bg, s.liq||'#F2A33A'); if (s.a && DRAW[s.a]) return DRAW[s.a](); return (ART[s.n]||(()=>DRAW.chips()))(); };
 
+/* ---------- Languages ----------
+   Game logic always works in the English (canonical) flavor names; saved games and analytics use them too,
+   so every language shares the same stats. Only what the player sees is translated. Guesses are accepted
+   in any supported language (typing "fraise" works in the English version too). */
+const LANGS=["en","fr","es","zh","ja"];
+const FR_FLAVORS={
+"Strawberry":["Fraise","fraises","fraise des bois"],"Banana":["Banane"],"Orange":["Orange","mandarine","clémentine","orange sanguine"],
+"Lemon":["Citron","citron jaune","limonade","tarte au citron"],"Apple":["Pomme","pomme verte","tarte aux pommes","pomme d’amour"],
+"Grape":["Raisin","raisin blanc","raisin noir"],"Mango":["Mangue"],"Pineapple":["Ananas"],"Raspberry":["Framboise","framboises"],
+"Coconut":["Noix de coco"],"Cherry":["Cerise","cerises","griotte"],"Watermelon":["Pastèque"],"Blue Raspberry":["Framboise bleue"],
+"Lime":["Citron vert","limette"],"Blackcurrant":["Cassis"],"Muscat":["Muscat","raisin muscat"],"Melon":["Melon"],
+"Peach":["Pêche","pêche blanche"],"Chamoy":["Chamoy"],"Tamarind":["Tamarin"],
+"Coffee":["Café","expresso","moka"],"Toffee":["Toffee","caramel anglais"],"Popcorn":["Pop-corn","pop corn"],
+"Chocolate Chip":["Pépites de chocolat","pépites chocolat"],"Cheesecake":["Cheesecake"],"Brownie":["Brownie"],
+"Biscoff":["Spéculoos","pâte de spéculoos"],"Jalapeño":["Jalapeño"],"Habanero":["Habanero"],
+"Buffalo":["Buffalo","sauce buffalo"],"Curry":["Curry","cari"],
+"Hot & Spicy":["Piquant","épicé","pimenté","piment","très piquant"],"Adobada":["Adobada"],"Salsa":["Salsa"],
+"Honey Mustard":["Miel-moutarde","moutarde au miel"],"Mustard":["Moutarde","moutarde de dijon"],
+"Onion":["Oignon","oignons","soupe à l’oignon"],"Sour Cream":["Crème aigre","crème fraîche","crème sure"],
+"Pepper":["Poivre","poivre noir","sel & poivre"],"Pretzel":["Bretzel","bretzels"],"Tomato":["Tomate"],
+"Butter":["Beurre","beurre salé"],"Garlic":["Ail","pain à l’ail"],"Cheese & Garlic":["Fromage & ail"],
+"Corn":["Maïs","soupe de maïs"],"Truffle":["Truffe"],"Cinnamon":["Cannelle"],"Yogurt":["Yaourt","yogourt","yoghourt"],
+"Honeycomb":["Rayon de miel","nid d’abeille"],"Nougat":["Nougat"],"Marshmallow":["Guimauve","chamallow"],
+"Maple":["Érable","sirop d’érable"],"Pudding":["Crème dessert","flan","crème anglaise"],
+"Chestnut":["Châtaigne","marron","crème de marrons"],"Sesame":["Sésame","sésame noir"],"Kiwi":["Kiwi"],"Yuzu":["Yuzu"],
+"Licorice":["Réglisse","anis"],"Ramune":["Ramune"],"Ketchup":["Ketchup"],"Soy Sauce":["Sauce soja","soja"],
+"Teriyaki":["Teriyaki"],"Taco":["Taco","tacos"],"Chipotle":["Chipotle"],"Guacamole":["Guacamole"],
+"Peri Peri":["Peri-peri","piri-piri"],"Mushroom":["Champignon","champignons"],"Kimchi":["Kimchi"],"Tom Yum":["Tom yum"],
+"Crab":["Crabe"],"Squid":["Calamar","encornet","seiche"],"Mayonnaise":["Mayonnaise"],
+"Sweet & Sour":["Aigre-doux","sauce aigre-douce"],"Mentaiko":["Mentaiko","œufs de cabillaud"],"Salad":["Salade"],
+"Takoyaki":["Takoyaki"],"Red Bean":["Haricot rouge","pâte de haricot rouge"],"Salted Egg":["Œuf salé","jaune d’œuf salé"],
+"Grapefruit":["Pamplemousse","pomelo"],"Passion Fruit":["Fruit de la passion","maracuja"],"Guava":["Goyave"],
+"Lychee":["Litchi","letchi"],"Pear":["Poire"],"Blueberry":["Myrtille","bleuet"],"Blackberry":["Mûre","mûres"],
+"Mixed Berry":["Fruits rouges","fruits des bois","baies"],"Pomegranate":["Grenade"],"Papaya":["Papaye"],
+"Plum":["Prune","mirabelle","quetsche"],"Rhubarb":["Rhubarbe"],"Cucumber":["Concombre"],
+"Fruit Punch":["Punch aux fruits","cocktail de fruits"],"Root Beer":["Root beer"],"Cream Soda":["Cream soda","soda à la crème"],
+"Ginger":["Gingembre"],"Elderflower":["Fleur de sureau","sureau"],"Rose":["Rose","eau de rose"],
+"Tea":["Thé","thé noir","thé glacé","thé au lait"],"Cotton Candy":["Barbe à papa"],"Bubblegum":["Chewing-gum","bubble-gum"],
+"Cola":["Cola"],"Matcha":["Matcha","thé vert"],"Mint":["Menthe","menthe poivrée","menthe verte"],"Honey":["Miel"],
+"Sweet Potato":["Patate douce","igname violette"],"Cookies & Cream":["Cookies & crème","cookie crème"],
+"Birthday Cake":["Gâteau d’anniversaire","gâteau anniversaire"],"Red Velvet":["Red velvet"],"Churro":["Churros"],
+"Pumpkin":["Citrouille","potiron","courge"],"Vanilla":["Vanille"],"Caramel":["Caramel","confiture de lait"],
+"Salted Caramel":["Caramel au beurre salé","caramel salé"],"Turkish Delight":["Loukoum","lokoum"],
+"Dark Chocolate":["Chocolat noir","noir"],"White Chocolate":["Chocolat blanc","blanc"],"Almond":["Amande","amandes"],
+"Hazelnut":["Noisette","noisettes","praliné"],"Peanut":["Cacahuète","cacahuètes","arachide"],
+"Peanut Butter":["Beurre de cacahuète","beurre d’arachide"],"Wasabi":["Wasabi"],
+"Chili Lime":["Piment-citron vert","piment citron vert","piment citron"],"Sweet Chili":["Chili doux","sauce chili douce","piment doux"],
+"Masala":["Masala"],"Salt & Vinegar":["Sel & vinaigre","vinaigre"],"Dill Pickle":["Cornichon","cornichon à l’aneth","cornichons"],
+"Pickled Onion":["Oignon mariné","oignons au vinaigre"],"Worcester Sauce":["Sauce Worcestershire"],"Chutney":["Chutney"],
+"Cheese":["Fromage","emmental","comté"],"Nacho Cheese":["Fromage nacho"],"Cheese & Onion":["Fromage & oignon"],
+"Sour Cream & Onion":["Crème & oignon","crème fraîche & oignon","crème ciboulette"],"Ranch":["Ranch"],
+"BBQ":["Barbecue","barbecue fumé"],"Chicken":["Poulet","poulet rôti","poulet braisé"],"Beef":["Bœuf"],
+"Bacon":["Bacon","lard fumé","lardons"],"Prawn Cocktail":["Cocktail de crevettes","crevettes cocktail"],
+"Shrimp":["Crevette","crevettes","gambas"],"Seaweed":["Algues","algue"],"Consommé":["Consommé","bouillon"],
+"Paprika":["Paprika"],"Pizza":["Pizza"],"Salted":["Nature","salé","sel","sel de mer","fleur de sel"]
+};
+const FR_FAMS={Fruity:"Fruité",Tangy:"Acidulé",Sweet:"Sucré",Dessert:"Dessert",Spicy:"Épicé",Savory:"Salé",Cheesy:"Fromager",
+  Nutty:"Fruits à coque","Soda fountain":"Soda",Seafood:"Fruits de mer",Floral:"Floral",Chocolatey:"Chocolaté"};
+const FR_COUNTRIES={"Japan":"Japon","Japan & UK":"Japon & Royaume-Uni","South Korea":"Corée du Sud","United Kingdom":"Royaume-Uni",
+  "Ireland":"Irlande","Australia":"Australie","India":"Inde","Mexico":"Mexique","Israel":"Israël","Netherlands":"Pays-Bas",
+  "Germany":"Allemagne","Germany & Switzerland":"Allemagne & Suisse","Switzerland":"Suisse","Italy":"Italie","Spain":"Espagne",
+  "United States":"États-Unis","United States & UK":"États-Unis & Royaume-Uni","Belgium":"Belgique","Poland":"Pologne",
+  "Greece":"Grèce","Finland":"Finlande","China":"Chine","Taiwan":"Taïwan","Thailand":"Thaïlande","Philippines":"Philippines",
+  "Indonesia":"Indonésie","Malaysia":"Malaisie","Singapore":"Singapour","Canada":"Canada","Portugal":"Portugal","Czechia":"Tchéquie"};
+const FR_CC={UK:"RU",US:"ÉU"};
+const FR_TYPES={"Biscuit sticks":"Bâtonnets biscuités","Wafer bar":"Barre gaufrette","Chewy candy":"Bonbon à mâcher",
+  "Dipping sticks":"Bâtonnets à tremper","Potato chips":"Chips","Shrimp crackers":"Chips de crevette","Marshmallow cake":"Gâteau à la guimauve",
+  "Crisps":"Chips","Corn snack":"Biscuit apéro au maïs","Potato rings":"Anneaux de pomme de terre","Prawn cocktail puffs":"Soufflés cocktail de crevettes",
+  "Sponge biscuit":"Biscuit moelleux","Biscuit":"Biscuit","Chocolate bar":"Tablette de chocolat","Chocolate biscuit":"Biscuit au chocolat",
+  "Baked crackers":"Crackers cuits au four","Corn puffs":"Soufflés au maïs","Rolled tortilla chips":"Chips tortilla roulées",
+  "Peanut candy":"Confiserie à la cacahuète","Peanut puffs":"Soufflés à la cacahuète","Syrup waffle":"Gaufre au sirop",
+  "Chewy mints":"Bonbons à mâcher","Gummy bears":"Oursons gélifiés","Lollipop":"Sucette","Stacked chips":"Chips tuiles",
+  "Tortilla chips":"Chips tortilla","Cheese puffs":"Soufflés au fromage","Sandwich cookie":"Biscuit fourré","Multigrain chips":"Chips multicéréales",
+  "Flavored pretzels":"Bretzels aromatisés","Taffy bars":"Barres de tire","Hard candy":"Bonbon dur","Chocolate pretzels":"Bretzels au chocolat",
+  "Fruit chews":"Bonbons fruités à mâcher","Hard candy rings":"Bonbons anneaux","Sour gummies":"Bonbons acidulés","Kettle chips":"Chips à l’ancienne",
+  "Cheese crackers":"Crackers au fromage","Snack mix":"Mélange apéro","Ridged crisps":"Chips ondulées","Popcorn":"Pop-corn",
+  "Fruit sweets":"Bonbons aux fruits","Fruit gums":"Pâtes de fruits","Jelly sweets":"Bonbons gélifiés","Crunchy corn":"Maïs croustillant",
+  "Bear-shaped crisps":"Chips en forme d’ourson","Square chocolate bar":"Tablette carrée","Wafers":"Gaufrettes","Wafer rolls":"Gaufrettes roulées",
+  "Sandwich biscuit":"Biscuit fourré","Gummies":"Bonbons gélifiés","Savory sticks":"Bâtonnets salés","Filled biscuits":"Biscuits fourrés",
+  "Jelly beans":"Dragées gélifiées","Soda gummies":"Bonbons goût soda","Layered chips":"Chips feuilletées","Snack cake":"Petit gâteau",
+  "Butter crackers":"Crackers au beurre","Chili candy lollipop":"Sucette au piment","Tamarind candy":"Bonbon au tamarin",
+  "Hazelnut cream candy":"Crème de noisette","Teddy biscuits":"Biscuits oursons","Round crackers":"Crackers ronds","Square crackers":"Crackers carrés",
+  "Cookies":"Cookies","Puffed corn sticks":"Bâtonnets de maïs soufflé","Potato sticks in a cup":"Frites croustillantes en pot",
+  "Chocolate mushrooms":"Champignons chocolatés","Corn cones":"Cornets de maïs","Caramel corn puffs":"Soufflés de maïs caramélisés",
+  "Milk candy":"Bonbon au lait","Rice crackers":"Crackers de riz","Crispy seaweed":"Algues croustillantes","Prawn crackers":"Chips de crevette",
+  "Noodle snack":"Nouilles à grignoter","Salted egg chips":"Chips à l’œuf salé","Triangle chips":"Chips triangles","Flavored milk":"Lait aromatisé",
+  "Fruit soda":"Soda aux fruits","Orange soda":"Soda à l’orange","Lemon-lime soda":"Soda citron-citron vert","Cola":"Cola","Craft soda":"Soda artisanal",
+  "Cane-sugar soda":"Soda au sucre de canne","Prebiotic soda":"Soda prébiotique","Probiotic soda":"Soda probiotique",
+  "Sparkling fruit drink":"Boisson pétillante aux fruits","Retro soda":"Soda rétro","Fruit blend":"Mélange de fruits",
+  "Botanical lemonade":"Limonade aux plantes","Sparkling soft drinks":"Boissons pétillantes","Caribbean soda":"Soda des Caraïbes",
+  "Sparkling juice":"Jus pétillant","Fruit cordial soda":"Soda au sirop de fruits","Exotic fruit soda":"Soda aux fruits exotiques",
+  "Italian soda":"Soda italien","Lemonade":"Limonade","Sodas & lemonades":"Sodas & limonades","Mate soda":"Soda au maté","Citrus soda":"Soda aux agrumes",
+  "Fruit & cola soda":"Sodas fruits & cola","Sparkling mineral water":"Eau minérale pétillante","Herbal cola":"Cola aux plantes",
+  "Cultured milk drink":"Boisson lactée fermentée","Fruit cider (soda)":"Cidre de fruits (soda)","Ramune":"Ramune","Sparkling water":"Eau pétillante",
+  "Milk soda":"Soda au lait","Sparkling fruit soda":"Soda pétillant aux fruits","Fruit drink":"Boisson aux fruits","Classic soft drink":"Soda classique",
+  "Brewed soft drink":"Soda brassé","Sparkling soft drink":"Boisson pétillante","Soft drink":"Soda"};
+
+const I18N={
+en:{
+  locale:"en-US", title:"Snack Crackle Pop",
+  tear:"Tear here · fresh puzzles daily", ribbon:"So you think you know snacks?", bestby:"Best before: midnight",
+  help:"How to play", stats:"Stats", langBtn:"FR", langAria:"Passer en français",
+  tabs:["Daily","Challenge <small>3 items</small>","Endless"], modeAria:"Game mode",
+  guessLabel:"Your guess", guessBtn:"Guess", placeholder:"Name a flavor: BBQ, Mango, Matcha…", roundDone:"Round’s done",
+  burst:{daily:"3 rounds<small>easy → hard</small>",challenge:"Trio<small>3-way link</small>",endless:"Non-stop<small>no scores</small>"},
+  meta:(m,no,d,trio)=>m==="daily"?`Daily No. ${no} · ${d}`:m==="challenge"?`Challenge No. ${no} · ${d}`:`Endless · ${trio?"trios":"pairs"}`,
+  tiers:["Easy","Medium","Hard"], roundN:i=>`Round ${i}`, playing:"Playing", total:"Total", pts:n=>`${n} points`,
+  countLine:(d,n,X)=>{const num=n===3?"three":"two";
+    const w=d===0?`These ${num} snacks`:d===n?`These ${num} drinks`:n===2?"This snack and drink":`These ${num} snacks and drinks`;
+    return `${w} have <b>${X} flavor${X===1?"":"s"}</b> in common.`},
+  needLine:(X,cap)=>X===1?"Can you name it?":X<=cap?`Can you name all ${X}?`:`Name any ${cap}.`,
+  tierLines:["Warm-up round. ","Medium round. Things get trickier. ","Hard round. This one sorts out the experts. "], trioLine:"Three at once. ",
+  rulesFree:"Just for fun: no points, no pressure, guess all you want.",
+  rules:(p,c)=>`${p} points up for grabs. Each wrong guess costs ${c}.`,
+  thisWeek:l=>` This week: ${l}.`, diffLabel:{},
+  found:"Flavors found", flavorN:i=>`Flavor ${i}`, misses:"Misses", roundScore:"Round score",
+  facts:"Guess Facts", prize:"PRIZE INSIDE", answer:"THE ANSWER",
+  thFlavor:"Flavor", tasteClues:"Taste clues", nextGuess:"Next guess…",
+  traits:{w:"Sweet",s:"Salty",o:"Sour",b:"Bitter",h:"Spicy",u:"Savory",f:"Fruity",c:"Creamy"},
+  traitNo:(x,l)=>`${x} isn't ${l}`, traitCell:(l,g)=>`${l}: ${g?"an answer is":"no answer is"} ${l.toLowerCase()} too`,
+  markAria:(s,y,x)=>`${s} ${y?"has":"does not have"} ${x}`,
+  hint:"Hint", hintFam:"flavor family", hintLetter:"first letter", freebie:"freebie",
+  hintWhen:n=>n===0?"on the house":`unlocks after ${n} ${n===1?"miss":"misses"}`,
+  hint1Closed:"The family of a flavor you’re missing", hint2Closed:"That flavor’s first letter",
+  hint1Init:"Flavor family", hint2Init:"First letter",
+  and:" and ", list:(a)=>a.length===3?`${a[0]}, ${a[1]} and ${a[2]}`:`${a[0]} and ${a[1]}`,
+  heads:{flawless:"Flawless.",nailed:"Nailed it!",got:"Got there!",missed:"Here’s what you missed",stumped:"Stumped!"},
+  wonNoMiss:ns=>`You linked ${ns} without a single miss. Show-off.`,
+  won:(ns,m)=>`You linked ${ns} with ${m} ${m===1?"miss":"misses"}.`,
+  lostSome:(f,n)=>`You got ${f} of ${n}. Not bad!`, lostNone:"This one got away.", share:ns=>`${ns} share:`,
+  wasOne:"The flavor was", wasMany:"The flavors were", bonus:l=>`Bonus flavors you could’ve said: ${l}.`,
+  nextUp:t=>`Next up: ${t} →`, todayTotal:"Today's total", copyScore:"Copy your score",
+  sendIt:"Send it to the friend who thinks they know snacks.", freshIn:trio=>`Fresh ${trio?"trio":"pairs"} in`,
+  deal:"Deal me another", copied:"Copied! Now go send it", selected:"Selected. Copy it and send it",
+  hungry:"Still hungry?", playOther:m=>m==="challenge"?"Play today's Challenge":"Play today's Daily", tryEndless:"Try Endless",
+  sizeAria:"Endless puzzle size", pairs:"Pairs", trios:"Trios", giveUp:"I give up", skip:"Skip this one",
+  typeFirst:"Type a flavor first, then hit Guess.", amb:l=>`${l.join(" or ")}? Pick the one you meant.`,
+  choc:"Plain chocolate would be too easy, so it doesn’t count. Try Dark or White Chocolate.",
+  unknown:r=>`Hmm, "${r}" isn’t a flavor we know. Check the spelling or pick from the list.`,
+  heard:n=>`Going with ${n}. `, already:n=>`You already tried ${n}. Mix it up!`,
+  covered:(n,h)=>`${n} counts as ${h}, and you’ve already got that one.`,
+  via:h=>` (counts as ${h})`, hit:(n,v,left)=>`Yes! ${n} is a match${v}. ${left} more to go.`,
+  partial:n=>`Close! Only some of them come in ${n}.`, miss:n=>`Nope, not ${n}.`,
+  statsTitle:m=>m==="challenge"?"Your Challenge stats":"Your Daily stats",
+  statLabels:["Played","Average","Best","Day streak"],
+  lastN:(n,max)=>`Your last ${n} ${n===1?"game":"games"} (out of ${max})`, noGames:"No games yet. Go set a score for your friends to beat.",
+  tried:"tried", close:"Close", letsPlay:"Let’s play", helpTitle:"How to play",
+  shareHead:(m,no)=>m==="daily"?`Snack Crackle Pop No. ${no}`:m==="challenge"?`Snack Crackle Pop Challenge No. ${no}`:"Snack Crackle Pop Endless",
+  kind:d=>d?"Drink":"Snack", from:"from", confirmed:n=>`Flavors confirmed for ${n}`,
+  helpBody:`<ol>
+      <li>You get two snacks or drinks, usually from different countries. Your job: name the flavors they've <b>both</b> come in. We'll tell you how many there are.</li>
+      <li>If they share more than one, find them all, up to 3. Start typing and pick from the list.</li>
+      <li>Each round is worth <b>1,000 points</b>. Every wrong guess costs you <b>125</b>, and six misses ends the round. Anything you found still counts.</li>
+      <li>We're not fussy about spelling. "chese", "carmel", "green tea" and "lime chili" all work.</li>
+      <li>Broad flavors count. A Habanero or Flamin' Hot snack matches "Hot & Spicy", and Nacho Cheese matches "Cheese".</li>
+      <li>A wrong guess isn't wasted. You'll see a <b>✓</b> on anything that does have that flavor, and it gets added to that item's card as a clue.</li>
+      <li><b>Taste clues:</b> every guess lights up its tastes (sweet, salty, sour, bitter, spicy, savory) and whether it’s fruity or creamy. <b style="color:var(--hit)">Green</b> means at least one of the answers has that taste too. <b style="color:var(--tomato)">Red</b> means none of them do. Grey means your guess doesn't have that taste. Guessed Lemon (sweet + sour) and got green on sour and red on sweet? The answer is tangy, not sugary.</li>
+      <li>Stuck? After 2 misses you get the flavor family of one you're missing. After 4, its first letter.</li>
+      <li><b>Daily</b> is three rounds, <b>Easy → Medium → Hard</b>, for a best score of 3,000. Round 1 is everyday flavors. Round 3 is where real snack experts earn it. New puzzles at midnight, your time.</li>
+      <li><b>Challenge</b> is one daily round with three items instead of two. <b>Endless</b> keeps dealing pairs or trios for as long as you want: no points, no miss limit.</li>
+      <li>The puzzles adjust based on how everyone plays, and Endless adjusts to you.</li>
+    </ol>
+    <p style="color:var(--ink-soft);font-size:14px;margin:0">The fine print: a flavor counts if it's part of the product's current lineup, and blends count toward each flavor in the name (Strawberry Lime counts as Strawberry and as Lime). Also in French, Spanish, Chinese and Japanese: switch at the top.</p>`
+},
+fr:{
+  locale:"fr-FR", title:"Snack Crackle Pop",
+  tear:"Ouvrir ici · du neuf tous les jours", ribbon:"Expert en snacks ? Prouve-le !", bestby:"À consommer avant : minuit",
+  help:"Règles", stats:"Stats", langBtn:"EN", langAria:"Switch to English",
+  tabs:["Quotidien","Défi <small>3 produits</small>","Sans fin"], modeAria:"Mode de jeu",
+  guessLabel:"Ta réponse", guessBtn:"Deviner", placeholder:"Genre : mangue, barbecue…", roundDone:"Manche bouclée",
+  burst:{daily:"3 manches<small>crescendo</small>",challenge:"Trio<small>trois d’un coup</small>",endless:"Non-stop<small>zéro pression</small>"},
+  meta:(m,no,d,trio)=>m==="daily"?`Quotidien n° ${no} · ${d}`:m==="challenge"?`Défi n° ${no} · ${d}`:`Sans fin · ${trio?"trios":"paires"}`,
+  tiers:["Facile","Moyen","Difficile"], roundN:i=>`Manche ${i}`, playing:"En jeu", total:"Total", pts:n=>`${n} points`,
+  countLine:(d,n,X)=>{const num=n===3?"trois":"deux";
+    const w=d===0?`Ces ${num} snacks`:d===n?`Ces ${num} boissons`:n===2?"Ce snack et cette boisson":`Ces ${num} snacks et boissons`;
+    return `${w} ont <b>${X} saveur${X===1?"":"s"}</b> en commun.`},
+  needLine:(X,cap)=>X===1?"Tu la trouves ?":X<=cap?`Tu les trouves toutes les ${X} ?`:`Trouve-en ${cap}, ça suffira.`,
+  tierLines:["On s’échauffe. ","Ça commence à se corser. ","Là, on sépare les pros des touristes. "], trioLine:"Trois d’un coup, rien que ça. ",
+  rulesFree:"Pour le fun : pas de points, pas de pression. Essaie autant que tu veux.",
+  rules:(p,c)=>`${p} points à gagner. Chaque erreur t’en coûte ${c}.`,
+  thisWeek:l=>` Cette semaine : ${l}.`,
+  diffLabel:{easier:"les deux indices offerts",easy:"indice de famille offert dès le début",hard:"indices débloqués plus tard"},
+  found:"Saveurs trouvées", flavorN:i=>`Saveur ${i}`, misses:"Erreurs", roundScore:"Points de la manche",
+  facts:"Tes essais", prize:"CADEAU À L’INTÉRIEUR", answer:"LA RÉPONSE",
+  thFlavor:"Saveur", tasteClues:"Indices de goût", nextGuess:"À toi…",
+  traits:{w:"Sucré",s:"Salé",o:"Acide",b:"Amer",h:"Piquant",u:"Umami",f:"Fruité",c:"Crémeux"},
+  traitNo:(x,l)=>`${x} : pas ${l}`, traitCell:(l,g)=>`${l} : ${g?"au moins une réponse aussi":"aucune réponse"}`,
+  markAria:(s,y,x)=>`${s} ${y?"existe":"n’existe pas"} en ${x}`,
+  hint:"Indice", hintFam:"famille", hintLetter:"première lettre", freebie:"cadeau",
+  hintWhen:n=>n===0?"cadeau":`dispo après ${n} erreur${n>1?"s":""}`,
+  hint1Closed:"La famille d’une saveur qu’il te manque", hint2Closed:"La première lettre de cette saveur",
+  hint1Init:"Famille de saveur", hint2Init:"Première lettre",
+  and:" et ", list:(a)=>a.length===3?`${a[0]}, ${a[1]} et ${a[2]}`:`${a[0]} et ${a[1]}`,
+  heads:{flawless:"Zéro faute.",nailed:"Bien joué !",got:"Ouf, trouvé !",missed:"Voilà ce que tu as raté",stumped:"Séché !"},
+  wonNoMiss:ns=>`Le lien entre ${ns}, trouvé sans une seule erreur. Tu frimes, là.`,
+  won:(ns,m)=>`Le lien entre ${ns}, trouvé avec ${m} erreur${m>1?"s":""}.`,
+  lostSome:(f,n)=>`Tu en as trouvé ${f} sur ${n}. Pas mal !`, lostNone:"Celle-là, elle t’a eu.", share:ns=>`${ns} ont en commun :`,
+  wasOne:"La saveur était", wasMany:"Les saveurs étaient", bonus:l=>`Tu aurais aussi pu dire : ${l}.`,
+  nextUp:t=>`Manche suivante : ${t} →`, todayTotal:"Total du jour", copyScore:"Copier mon score",
+  sendIt:"Envoie-le au pote qui se prend pour un expert en snacks.", freshIn:trio=>trio?"Nouveau trio dans":"Nouvelles paires dans",
+  deal:"Encore une !", copied:"Copié ! Plus qu’à l’envoyer", selected:"Sélectionné. Copie-le et envoie-le",
+  hungry:"Encore faim ?", playOther:m=>m==="challenge"?"Tente le Défi du jour":"Fais la partie du jour", tryEndless:"Passe en mode Sans fin",
+  sizeAria:"Taille des énigmes Sans fin", pairs:"Paires", trios:"Trios", giveUp:"Je sèche", skip:"Suivante",
+  typeFirst:"Tape d’abord une saveur, puis Deviner.", amb:l=>`${l.join(" ou ")} ? Choisis la bonne.`,
+  choc:"Juste « chocolat », ce serait trop facile. Essaie noir ou blanc.",
+  unknown:r=>`Hmm, « ${r} », on connaît pas. Vérifie l’orthographe ou pioche dans la liste.`,
+  heard:n=>`On part sur ${n}. `, already:n=>`${n}, tu l’as déjà tenté. Varie un peu !`,
+  covered:(n,h)=>`${n}, ça compte comme ${h}, et tu l’as déjà.`,
+  via:h=>` (ça compte comme ${h})`, hit:(n,v,left)=>`Oui ! ${n}, bien vu${v}. Plus que ${left}.`,
+  partial:n=>`Pas loin ! Certains seulement existent en ${n}.`, miss:n=>`Raté, c’est pas ${n}.`,
+  statsTitle:m=>m==="challenge"?"Tes stats du Défi":"Tes stats du Quotidien",
+  statLabels:["Parties","Moyenne","Record","Série"],
+  lastN:(n,max)=>n===1?`Ta dernière partie (sur ${max})`:`Tes ${n} dernières parties (sur ${max})`, noGames:"Aucune partie pour l’instant. Va poser un score que tes potes devront battre.",
+  tried:"essayé", close:"Fermer", letsPlay:"C’est parti", helpTitle:"Comment jouer",
+  shareHead:(m,no)=>m==="daily"?`Snack Crackle Pop n° ${no}`:m==="challenge"?`Snack Crackle Pop Défi n° ${no}`:"Snack Crackle Pop Sans fin",
+  kind:d=>d?"Boisson":"Snack", from:"de", confirmed:n=>`Saveurs confirmées pour ${n}`,
+  helpBody:`<ol>
+      <li>On te montre deux snacks ou boissons, souvent de pays différents. Ton job : trouver les saveurs qu’ils ont <b>tous les deux</b>. On te dit combien il y en a.</li>
+      <li>S’il y en a plusieurs, trouve-les toutes (3 max). Commence à taper et choisis dans la liste.</li>
+      <li>Chaque manche rapporte <b>1 000 points</b>. Chaque erreur t’en coûte <b>125</b>, et au bout de six, la manche s’arrête. Ce que tu as trouvé reste acquis.</li>
+      <li>Pas de prise de tête sur l’orthographe : « fromge », « caramle », « thé vert » ou « citron vert piment », ça passe. Les noms en anglais aussi.</li>
+      <li>Les grandes familles comptent : un snack Habanero ou Flamin’ Hot, c’est du « Piquant », et Fromage nacho, c’est du « Fromage ».</li>
+      <li>Une erreur, c’est jamais perdu : tu vois un <b>✓</b> sur chaque produit qui a cette saveur, et elle s’affiche sur sa carte comme indice.</li>
+      <li><b>Indices de goût :</b> chaque essai allume ses goûts (sucré, salé, acide, amer, piquant, umami) et dit s’il est fruité ou crémeux. <b style="color:var(--hit)">Vert</b> : au moins une des réponses l’a aussi. <b style="color:var(--tomato)">Rouge</b> : aucune. Gris : ton essai n’a pas ce goût. Tu tentes Citron (sucré + acide) et t’as du vert sur acide, du rouge sur sucré ? La réponse est acidulée, pas sucrée.</li>
+      <li>Coincé ? Après 2 erreurs, on te donne la famille d’une saveur qui te manque. Après 4, sa première lettre.</li>
+      <li>Le <b>Quotidien</b>, c’est trois manches, <b>Facile → Moyen → Difficile</b>, pour 3 000 points max. La 1, c’est des saveurs de tous les jours. La 3, c’est là que les vrais experts se démarquent. Nouvelles énigmes à minuit, chez toi.</li>
+      <li>Le <b>Défi</b> : une manche par jour, mais avec trois produits au lieu de deux. <b>Sans fin</b> : des paires ou des trios à volonté, sans points ni limite d’erreurs.</li>
+      <li>Les énigmes s’ajustent selon comment tout le monde joue, et Sans fin s’adapte à toi.</li>
+    </ol>
+    <p style="color:var(--ink-soft);font-size:14px;margin:0">Petit détail : une saveur compte si elle fait partie de la gamme actuelle, et les mélanges comptent pour chaque saveur du nom (Fraise-Citron vert = Fraise et Citron vert). Les noms de marque restent en VO.</p>`
+}};
+/* ---------- Simplified Chinese (Mandarin) ----------
+   Brand names: official mainland-China names where one exists (checked on brand sites, Tmall/JD, Baidu Baike,
+   zh.wikipedia, Sep 27 2026); otherwise the original name is kept. Flavor names follow Chinese snack packaging
+   (烧烤味, 原味, 海苔, 番茄…). Each flavor has pinyin, so "caomei" finds 草莓; hint 2 gives the pinyin initial. */
+const ZH_NAMES={"Pocky":"百奇","Kit Kat":"奇巧","Hi-Chew":"嗨啾","Calbee Potato Chips":"卡乐比薯片","Saeukkang":"农心鲜虾条",
+  "Choco Pie":"好丽友派","McVitie's Digestives":"麦维他消化饼","Cadbury Dairy Milk":"吉百利牛奶巧克力","Mentos":"曼妥思",
+  "Haribo Goldbears":"哈瑞宝金熊","Milka":"妙卡","Toblerone":"瑞士三角","Kinder Bueno":"健达缤纷乐","Chupa Chups":"珍宝珠",
+  "Pringles":"品客","Lay's":"乐事","Doritos":"多力多滋","Cheetos":"奇多","Oreo":"奥利奥","Skittles":"彩虹糖",
+  "Ritter Sport":"瑞特运动","Lotus Biscoff":"和情缤咖时","Tony's Chocolonely":"东尼的寂寞巧克力","Loacker":"莱家",
+  "Pretz":"百力滋","Koala's March":"乐天小熊饼干","Hello Panda":"你好熊猫","Kinoko no Yama":"蘑菇山","White Rabbit":"大白兔",
+  "Want Want Senbei":"旺旺仙贝","Kuai Kuai":"乖乖","Tao Kae Noi":"小老板","Oishi Prawn Crackers":"上好佳鲜虾片",
+  "Mamee Monster":"妈咪面","Binggrae Flavored Milk":"宾格瑞","Sunkist":"新奇士","Fanta":"芬达","Sprite":"雪碧",
+  "Coca-Cola Flavors":"可口可乐","Fever-Tree":"芬味树","Sanpellegrino":"圣培露","CALPICO":"可尔必思","Bundaberg":"宾得宝"};
+const ZH_FLAVORS={ // [display, aliases…], pinyin of the display name
+"Strawberry":[["草莓"],"cao mei"],"Banana":[["香蕉"],"xiang jiao"],"Orange":[["橙子","甜橙","香橙","橘子","柑橘","血橙"],"cheng zi"],
+"Lemon":[["柠檬","柠檬水"],"ning meng"],"Apple":[["苹果","青苹果"],"ping guo"],"Grape":[["葡萄","白葡萄","紫葡萄"],"pu tao"],
+"Mango":[["芒果"],"mang guo"],"Pineapple":[["菠萝","凤梨"],"bo luo"],"Raspberry":[["覆盆子","树莓"],"fu pen zi"],
+"Coconut":[["椰子","椰香","椰奶"],"ye zi"],"Cherry":[["樱桃","车厘子"],"ying tao"],"Watermelon":[["西瓜"],"xi gua"],
+"Blue Raspberry":[["蓝覆盆子","蓝树莓"],"lan fu pen zi"],"Lime":[["青柠"],"qing ning"],"Blackcurrant":[["黑加仑","黑醋栗"],"hei jia lun"],
+"Muscat":[["麝香葡萄","阳光玫瑰","晴王"],"she xiang pu tao"],"Melon":[["蜜瓜","哈密瓜","甜瓜","网纹瓜"],"mi gua"],
+"Peach":[["桃子","水蜜桃","白桃","蜜桃"],"tao zi"],"Chamoy":[["墨西哥酸梅酱","chamoy"],"mo xi ge suan mei jiang"],
+"Tamarind":[["罗望子","酸角"],"luo wang zi"],"Coffee":[["咖啡","拿铁","摩卡","卡布奇诺","提拉米苏"],"ka fei"],
+"Toffee":[["太妃糖","太妃"],"tai fei tang"],"Popcorn":[["爆米花"],"bao mi hua"],"Chocolate Chip":[["巧克力豆","巧克力碎"],"qiao ke li dou"],
+"Cheesecake":[["芝士蛋糕","乳酪蛋糕"],"zhi shi dan gao"],"Brownie":[["布朗尼"],"bu lang ni"],"Biscoff":[["焦糖饼干","比斯可夫"],"jiao tang bing gan"],
+"Jalapeño":[["墨西哥辣椒","哈拉皮纽"],"mo xi ge la jiao"],"Habanero":[["哈瓦那辣椒"],"ha wa na la jiao"],"Buffalo":[["水牛城辣酱","水牛城辣翅"],"shui niu cheng la jiang"],
+"Curry":[["咖喱"],"ga li"],"Hot & Spicy":[["香辣","辣","麻辣","辣味","劲辣","火辣","特辣","辣椒"],"xiang la"],
+"Adobada":[["墨西哥腌肉","阿多巴达"],"mo xi ge yan rou"],"Salsa":[["莎莎酱"],"sha sha jiang"],"Honey Mustard":[["蜂蜜芥末酱","蜂蜜黄芥末"],"feng mi jie mo jiang"],
+"Mustard":[["黄芥末","芥末酱"],"huang jie mo"],"Onion":[["洋葱"],"yang cong"],"Sour Cream":[["酸奶油"],"suan nai you"],
+"Pepper":[["黑胡椒","胡椒","椒盐"],"hei hu jiao"],"Pretzel":[["椒盐卷饼","扭结饼"],"jiao yan juan bing"],"Tomato":[["番茄","西红柿"],"fan qie"],
+"Butter":[["黄油","牛油"],"huang you"],"Garlic":[["蒜香","大蒜","蒜"],"suan xiang"],"Cheese & Garlic":[["芝士蒜香"],"zhi shi suan xiang"],
+"Corn":[["玉米","玉米浓汤"],"yu mi"],"Truffle":[["松露"],"song lu"],"Cinnamon":[["肉桂"],"rou gui"],"Yogurt":[["酸奶","乳酸菌"],"suan nai"],
+"Honeycomb":[["蜂巢糖","蜂巢"],"feng chao tang"],"Nougat":[["牛轧糖"],"niu ga tang"],"Marshmallow":[["棉花软糖"],"mian hua ruan tang"],
+"Maple":[["枫糖","枫糖浆"],"feng tang"],"Pudding":[["布丁","焦糖布丁","卡仕达"],"bu ding"],"Chestnut":[["栗子","板栗"],"li zi"],
+"Sesame":[["芝麻","黑芝麻"],"zhi ma"],"Kiwi":[["猕猴桃","奇异果"],"mi hou tao"],"Yuzu":[["日本柚子","柚子"],"ri ben you zi"],
+"Licorice":[["甘草糖","甘草"],"gan cao tang"],"Ramune":[["波子汽水"],"bo zi qi shui"],"Ketchup":[["番茄酱"],"fan qie jiang"],
+"Soy Sauce":[["酱油"],"jiang you"],"Teriyaki":[["照烧"],"zhao shao"],"Taco":[["塔可"],"ta ke"],"Chipotle":[["烟熏辣椒"],"yan xun la jiao"],
+"Guacamole":[["牛油果酱"],"niu you guo jiang"],"Peri Peri":[["霹雳辣椒","非洲辣椒"],"pi li la jiao"],"Mushroom":[["蘑菇","香菇"],"mo gu"],
+"Kimchi":[["泡菜","韩式泡菜"],"pao cai"],"Tom Yum":[["冬阴功"],"dong yin gong"],"Crab":[["螃蟹","蟹","蟹黄"],"pang xie"],
+"Squid":[["鱿鱼"],"you yu"],"Mayonnaise":[["蛋黄酱","沙拉酱","美乃滋"],"dan huang jiang"],"Sweet & Sour":[["酸甜","糖醋"],"suan tian"],
+"Mentaiko":[["明太子"],"ming tai zi"],"Salad":[["沙拉","蔬菜沙拉"],"sha la"],"Takoyaki":[["章鱼小丸子","章鱼烧"],"zhang yu xiao wan zi"],
+"Red Bean":[["红豆"],"hong dou"],"Salted Egg":[["咸蛋黄"],"xian dan huang"],"Grapefruit":[["西柚"],"xi you"],
+"Passion Fruit":[["百香果"],"bai xiang guo"],"Guava":[["番石榴","芭乐"],"fan shi liu"],"Lychee":[["荔枝"],"li zhi"],
+"Pear":[["梨","雪梨","香梨"],"li"],"Blueberry":[["蓝莓"],"lan mei"],"Blackberry":[["黑莓"],"hei mei"],"Mixed Berry":[["混合莓果","莓果","野莓"],"hun he mei guo"],
+"Pomegranate":[["石榴"],"shi liu"],"Papaya":[["木瓜"],"mu gua"],"Plum":[["梅子","李子","话梅"],"mei zi"],"Rhubarb":[["大黄"],"da huang"],
+"Cucumber":[["黄瓜"],"huang gua"],"Fruit Punch":[["什锦果汁","水果宾治"],"shi jin guo zhi"],"Root Beer":[["根汁汽水","沙士","麦根沙士"],"gen zhi qi shui"],
+"Cream Soda":[["奶油苏打"],"nai you su da"],"Ginger":[["姜","生姜","姜汁","姜汁汽水"],"jiang"],"Elderflower":[["接骨木花"],"jie gu mu hua"],
+"Rose":[["玫瑰"],"mei gui"],"Tea":[["茶","红茶","奶茶","焙茶"],"cha"],"Cotton Candy":[["棉花糖"],"mian hua tang"],"Bubblegum":[["泡泡糖"],"pao pao tang"],
+"Cola":[["可乐"],"ke le"],"Matcha":[["抹茶","绿茶"],"mo cha"],"Mint":[["薄荷"],"bo he"],"Honey":[["蜂蜜"],"feng mi"],
+"Sweet Potato":[["红薯","紫薯","地瓜"],"hong shu"],"Cookies & Cream":[["曲奇奶油"],"qu qi nai you"],"Birthday Cake":[["生日蛋糕"],"sheng ri dan gao"],
+"Red Velvet":[["红丝绒"],"hong si rong"],"Churro":[["吉拿棒","西班牙油条"],"ji na bang"],"Pumpkin":[["南瓜"],"nan gua"],"Vanilla":[["香草"],"xiang cao"],
+"Caramel":[["焦糖"],"jiao tang"],"Salted Caramel":[["海盐焦糖","咸焦糖"],"hai yan jiao tang"],"Turkish Delight":[["土耳其软糖"],"tu er qi ruan tang"],
+"Dark Chocolate":[["黑巧克力","黑巧"],"hei qiao ke li"],"White Chocolate":[["白巧克力","白巧"],"bai qiao ke li"],"Almond":[["杏仁","巴旦木"],"xing ren"],
+"Hazelnut":[["榛子"],"zhen zi"],"Peanut":[["花生"],"hua sheng"],"Peanut Butter":[["花生酱"],"hua sheng jiang"],"Wasabi":[["芥末","青芥辣","山葵"],"jie mo"],
+"Chili Lime":[["青柠辣椒","酸辣青柠"],"qing ning la jiao"],"Sweet Chili":[["甜辣","泰式甜辣"],"tian la"],"Masala":[["玛莎拉","印度香料"],"ma sha la"],
+"Salt & Vinegar":[["盐醋","海盐醋","醋"],"yan cu"],"Dill Pickle":[["酸黄瓜","莳萝酸黄瓜"],"suan huang gua"],"Pickled Onion":[["腌洋葱"],"yan yang cong"],
+"Worcester Sauce":[["伍斯特酱","辣酱油"],"wu si te jiang"],"Chutney":[["印度酸辣酱"],"yin du suan la jiang"],
+"Cheese":[["芝士","奶酪","起司","车打芝士"],"zhi shi"],"Nacho Cheese":[["纳乔芝士"],"na qiao zhi shi"],"Cheese & Onion":[["芝士洋葱"],"zhi shi yang cong"],
+"Sour Cream & Onion":[["酸奶油洋葱","洋葱酸奶油"],"suan nai you yang cong"],"Ranch":[["田园酱","牧场酱"],"tian yuan jiang"],
+"BBQ":[["烧烤","烤肉","烟熏烧烤"],"shao kao"],"Chicken":[["鸡肉","烤鸡","鸡汁"],"ji rou"],"Beef":[["牛肉","牛排","烤牛肉"],"niu rou"],
+"Bacon":[["培根","烟肉"],"pei gen"],"Prawn Cocktail":[["鲜虾鸡尾酒酱","鸡尾酒虾"],"xian xia ji wei jiu jiang"],"Shrimp":[["虾","鲜虾","大虾"],"xia"],
+"Seaweed":[["海苔","紫菜"],"hai tai"],"Consommé":[["清汤","法式清汤"],"qing tang"],"Paprika":[["红椒粉","甜椒"],"hong jiao fen"],"Pizza":[["披萨","比萨"],"pi sa"],
+"Salted":[["原味","盐味","海盐","淡盐","盐"],"yuan wei"]
+};
+const ZH_FAMS={Fruity:"水果系",Tangy:"酸爽系",Sweet:"甜味系",Dessert:"甜点系",Spicy:"辣味系",Savory:"咸香系",Cheesy:"芝士奶香系",
+  Nutty:"坚果系","Soda fountain":"汽水系",Seafood:"海鲜系",Floral:"花香系",Chocolatey:"巧克力系"};
+const ZH_COUNTRIES={"Japan":"日本","Japan & UK":"日本·英国","South Korea":"韩国","United Kingdom":"英国","Ireland":"爱尔兰","Australia":"澳大利亚",
+  "India":"印度","Mexico":"墨西哥","Israel":"以色列","Netherlands":"荷兰","Germany":"德国","Germany & Switzerland":"德国·瑞士","Switzerland":"瑞士",
+  "Italy":"意大利","Spain":"西班牙","United States":"美国","United States & UK":"美国·英国","Belgium":"比利时","Poland":"波兰","Greece":"希腊",
+  "Finland":"芬兰","China":"中国","Taiwan":"中国台湾","Thailand":"泰国","Philippines":"菲律宾","Indonesia":"印度尼西亚","Malaysia":"马来西亚",
+  "Singapore":"新加坡","Canada":"加拿大","Portugal":"葡萄牙","Czechia":"捷克"};
+const ZH_TYPES={"Biscuit sticks":"饼干棒","Wafer bar":"威化巧克力","Chewy candy":"软糖","Dipping sticks":"蘸酱饼干棒","Potato chips":"薯片",
+  "Shrimp crackers":"虾条","Marshmallow cake":"夹心派","Crisps":"薯片","Corn snack":"玉米膨化","Potato rings":"土豆圈","Prawn cocktail puffs":"虾味膨化",
+  "Sponge biscuit":"夹心蛋糕饼","Biscuit":"饼干","Chocolate bar":"巧克力","Chocolate biscuit":"巧克力饼干","Baked crackers":"烘烤饼干",
+  "Corn puffs":"玉米泡芙","Rolled tortilla chips":"卷筒玉米片","Peanut candy":"花生糖","Peanut puffs":"花生泡芙","Syrup waffle":"焦糖华夫饼",
+  "Chewy mints":"嚼嚼糖","Gummy bears":"小熊软糖","Lollipop":"棒棒糖","Stacked chips":"罐装薯片","Tortilla chips":"玉米片","Cheese puffs":"芝士泡芙",
+  "Sandwich cookie":"夹心饼干","Multigrain chips":"杂粮脆片","Flavored pretzels":"调味椒盐卷饼","Taffy bars":"太妃软糖条","Hard candy":"硬糖",
+  "Chocolate pretzels":"巧克力卷饼","Fruit chews":"水果软糖","Hard candy rings":"环形硬糖","Sour gummies":"酸软糖","Kettle chips":"厚切薯片",
+  "Cheese crackers":"芝士饼干","Snack mix":"什锦零食","Ridged crisps":"波纹薯片","Popcorn":"爆米花","Fruit sweets":"水果糖","Fruit gums":"水果软糖",
+  "Jelly sweets":"果冻糖","Crunchy corn":"脆玉米粒","Bear-shaped crisps":"小熊薯片","Square chocolate bar":"方块巧克力","Wafers":"威化饼干",
+  "Wafer rolls":"蛋卷","Sandwich biscuit":"夹心饼干","Gummies":"软糖","Savory sticks":"咸味饼干棒","Filled biscuits":"夹心饼干","Jelly beans":"糖豆",
+  "Soda gummies":"汽水软糖","Layered chips":"多层脆片","Snack cake":"小蛋糕","Butter crackers":"黄油饼干","Chili candy lollipop":"辣味棒棒糖",
+  "Tamarind candy":"罗望子糖","Hazelnut cream candy":"榛子酱糖","Teddy biscuits":"小熊饼干","Round crackers":"圆饼干","Square crackers":"方饼干",
+  "Cookies":"曲奇","Puffed corn sticks":"玉米棒","Potato sticks in a cup":"杯装薯条","Chocolate mushrooms":"蘑菇巧克力","Corn cones":"玉米角",
+  "Caramel corn puffs":"焦糖玉米泡芙","Milk candy":"奶糖","Rice crackers":"米饼","Crispy seaweed":"脆海苔","Prawn crackers":"虾片",
+  "Noodle snack":"干脆面","Salted egg chips":"咸蛋黄薯片","Triangle chips":"三角脆片","Flavored milk":"调味牛奶","Fruit soda":"水果汽水",
+  "Orange soda":"橙味汽水","Lemon-lime soda":"柠檬汽水","Cola":"可乐","Craft soda":"精酿汽水","Cane-sugar soda":"蔗糖汽水","Prebiotic soda":"益生元汽水",
+  "Probiotic soda":"益生菌汽水","Sparkling fruit drink":"果味气泡饮","Retro soda":"复古汽水","Fruit blend":"混合果汁","Botanical lemonade":"植物柠檬水",
+  "Sparkling soft drinks":"气泡饮料","Caribbean soda":"加勒比汽水","Sparkling juice":"气泡果汁","Fruit cordial soda":"果味汽水","Exotic fruit soda":"热带水果汽水",
+  "Italian soda":"意式汽水","Lemonade":"柠檬水","Sodas & lemonades":"汽水和柠檬水","Mate soda":"马黛茶汽水","Citrus soda":"柑橘汽水","Fruit & cola soda":"果味和可乐汽水",
+  "Sparkling mineral water":"气泡矿泉水","Herbal cola":"草本可乐","Cultured milk drink":"乳酸菌饮料","Fruit cider (soda)":"果味苏打","Ramune":"波子汽水",
+  "Sparkling water":"气泡水","Milk soda":"牛奶汽水","Sparkling fruit soda":"果味气泡水","Fruit drink":"果味饮料","Classic soft drink":"经典汽水",
+  "Brewed soft drink":"酿造汽水","Sparkling soft drink":"气泡饮料","Soft drink":"汽水"};
+I18N.zh={
+  locale:"zh-CN", title:"Snack Crackle Pop",
+  tear:"从这里撕开 · 每天上新", ribbon:"你真觉得自己很懂零食？", bestby:"保质期至：今晚零点",
+  help:"玩法", stats:"战绩", langAria:"语言",
+  tabs:["每日","挑战 <small>3 款</small>","无尽"], modeAria:"游戏模式",
+  guessLabel:"你的答案", guessBtn:"猜！", placeholder:"输入口味：烧烤、芒果、抹茶…", roundDone:"这局结束啦",
+  burst:{daily:"3 局<small>由易到难</small>",challenge:"三款<small>一起比</small>",endless:"无限<small>不计分</small>"},
+  meta:(m,no,d,trio)=>m==="daily"?`每日第 ${no} 期 · ${d}`:m==="challenge"?`挑战第 ${no} 期 · ${d}`:`无尽模式 · ${trio?"三款":"两款"}`,
+  tiers:["简单","中等","困难"], roundN:i=>`第 ${i} 局`, playing:"进行中", total:"总分", pts:n=>`${n} 分`,
+  countLine:(d,n,X)=>{const num=n===3?"三":"两";
+    const w=d===0?`这${num}款零食`:d===n?`这${num}款饮料`:n===2?"这款零食和这款饮料":`这${num}款零食和饮料`;
+    return `${w}有 <b>${X} 个共同口味</b>。`},
+  needLine:(X,cap)=>X===1?"你能猜出来吗？":X<=cap?`${X} 个你都能猜中吗？`:`猜中任意 ${cap} 个就行。`,
+  tierLines:["热身局。","中等局，开始有点难度了。","困难局，真正的零食达人就看这一局。"], trioLine:"三款同场。",
+  rulesFree:"纯属娱乐：不计分，没压力，想猜多少猜多少。",
+  rules:(p,c)=>`本局 ${p} 分，每猜错一次扣 ${c} 分。`,
+  thisWeek:l=>` 本周：${l}。`,
+  diffLabel:{easier:"两个提示直接送",easy:"一开局就送口味类别提示",hard:"提示解锁得更晚"},
+  found:"已猜中的口味", flavorN:i=>`口味 ${i}`, misses:"猜错", roundScore:"本局得分",
+  facts:"猜测成分表", prize:"内有惊喜", answer:"答案揭晓",
+  thFlavor:"口味", tasteClues:"味道线索", nextGuess:"下一个猜什么…",
+  traits:{w:"甜",s:"咸",o:"酸",b:"苦",h:"辣",u:"鲜",f:"果香",c:"奶香"},
+  traitNo:(x,l)=>`${x}：无${l}`, traitCell:(l,g)=>g?`${l}：答案里也有`:`${l}：答案里没有`,
+  markAria:(s,y,x)=>`${s}${y?"有":"没有"}${x}口味`,
+  hint:"提示", hintFam:"口味类别", hintLetter:"拼音首字母", freebie:"白送",
+  hintWhen:n=>n===0?"直接送":`猜错 ${n} 次后解锁`,
+  hint1Closed:"你还没猜到的口味属于哪一类", hint2Closed:"那个口味的拼音首字母",
+  hint1Init:"口味类别", hint2Init:"拼音首字母",
+  and:"和", list:a=>a.length===3?`${a[0]}、${a[1]}和${a[2]}`:`${a[0]}和${a[1]}`,
+  heads:{flawless:"零失误！",nailed:"漂亮！",got:"搞定！",missed:"答案在这儿",stumped:"被难住了吧！"},
+  wonNoMiss:ns=>`${ns}的共同点，你一次没错就找到了。有点东西啊。`,
+  won:(ns,m)=>`你找到了${ns}的共同点，猜错了 ${m} 次。`,
+  lostSome:(f,n)=>`猜中了 ${f}/${n} 个，还不错！`, lostNone:"这题没拿下。", share:ns=>`${ns}的共同口味是：`,
+  wasOne:"答案是", wasMany:"答案是", bonus:l=>`其实这些也算对：${l}。`,
+  nextUp:t=>`下一局：${t} →`, todayTotal:"今日总分", copyScore:"复制成绩",
+  sendIt:"发给那个自称零食专家的朋友。", freshIn:trio=>trio?"新三款倒计时":"新题倒计时",
+  deal:"再来一题", copied:"复制好了！快去发吧", selected:"已选中，复制后发出去吧",
+  hungry:"还没吃饱？", playOther:m=>m==="challenge"?"来一局今日挑战":"来一局今日题目", tryEndless:"试试无尽模式",
+  sizeAria:"无尽模式题型", pairs:"两款", trios:"三款", giveUp:"我放弃", skip:"换一题",
+  typeFirst:"先输入一个口味，再点“猜！”。", amb:l=>`是${l.join("还是")}？选一个吧。`,
+  choc:"光说“巧克力”太简单啦，不算。试试黑巧克力或白巧克力。",
+  unknown:r=>`嗯……“${r}”不在口味表里。检查一下，或者从列表里选。`,
+  heard:n=>`按“${n}”算啦。`, already:n=>`${n}已经猜过了，换一个吧！`,
+  covered:(n,h)=>`${n}算作${h}，这个你已经猜中了。`,
+  via:h=>`（算作${h}）`, hit:(n,v,left)=>`对了！${n}${v}猜中。还差 ${left} 个。`,
+  partial:n=>`很接近！只有部分产品有${n}口味。`, miss:n=>`不对，不是${n}。`,
+  statsTitle:m=>m==="challenge"?"我的挑战战绩":"我的每日战绩",
+  statLabels:["已玩","平均","最高","连续天数"],
+  lastN:(n,max)=>`最近 ${n} 局（满分 ${max}）`, noGames:"还没玩过。先打个分数，让朋友们来挑战你。",
+  tried:"猜过了", close:"关闭", letsPlay:"开玩！", helpTitle:"怎么玩",
+  shareHead:(m,no)=>m==="daily"?`Snack Crackle Pop 每日第 ${no} 期`:m==="challenge"?`Snack Crackle Pop 挑战第 ${no} 期`:"Snack Crackle Pop 无尽模式",
+  kind:d=>d?"饮料":"零食", confirmed:n=>`${n}已确认的口味`,
+  helpBody:`<ol>
+      <li>你会看到两款零食或饮料，通常来自不同国家。你的任务：猜出它们<b>都</b>出过的口味。共同口味有几个，我们会先告诉你。</li>
+      <li>如果不止一个，就都找出来，最多 3 个。开始输入，从列表里选就行。</li>
+      <li>每局 <b>1000 分</b>。每猜错一次扣 <b>125 分</b>，错满 6 次这局就结束。已经猜中的照样算分。</li>
+      <li>不用纠结写法：打中文、拼音（比如 caomei）或者英文都行，“烧烤味”“番茄味薯片”这种也认。</li>
+      <li>大类也算：哈瓦那辣椒味或者 Flamin’ Hot 的零食都算“香辣”，纳乔芝士也算“芝士”。</li>
+      <li>猜错也不亏：只要某款产品有这个口味，就会打个 <b>✓</b>，还会显示在它的卡片上当线索。</li>
+      <li><b>味道线索：</b>每次猜测都会亮出它的味道（甜、咸、酸、苦、辣、鲜），以及有没有果香、奶香。<b style="color:var(--hit)">绿色</b>：至少一个答案也有这个味道。<b style="color:var(--tomato)">红色</b>：答案都没有。灰色：你猜的口味本身没这个味道。比如猜“柠檬”（甜 + 酸），结果酸是绿、甜是红？那答案偏酸，不偏甜。</li>
+      <li>卡住了？猜错 2 次后，告诉你一个没猜到的口味属于哪一类；猜错 4 次后，再给它的拼音首字母。</li>
+      <li><b>每日</b>模式有三局，<b>简单 → 中等 → 困难</b>，满分 3000。第 1 局都是常见口味，第 3 局才见真功夫。每天零点（你的当地时间）上新。</li>
+      <li><b>挑战</b>模式每天一局，一次比三款。<b>无尽</b>模式想玩多久玩多久：两款或三款，不计分，不限次数。</li>
+      <li>题目难度会根据大家的表现调整，无尽模式会根据你自己的水平调整。</li>
+    </ol>
+    <p style="color:var(--ink-soft);font-size:14px;margin:0">小字说明：口味必须是该产品目前在售的；组合口味里的每个口味都算（草莓青柠味同时算草莓和青柠）。没有官方中文名的品牌保留原名。</p>`
+};
+
+/* ---------- Spanish (neutral Latin American, tú) ----------
+   Brand names stay original (same packaging across Latin America and Spain). Flavor names use the words on
+   Latin American packaging, with Spain's words as alternates (cacahuate/cacahuete, camarón/gamba, crema/nata…).
+   "Limón" alone is ambiguous (lime in Mexico, lemon in Spain), so the game asks which one. */
+const ES_FLAVORS={
+"Strawberry":["Fresa","frutilla","fresas"],"Banana":["Plátano","banana","banano"],"Orange":["Naranja","mandarina","clementina","naranja sanguina"],
+"Lemon":["Limón amarillo","limonada","limón siciliano"],"Apple":["Manzana","manzana verde","pay de manzana"],"Grape":["Uva","uvas"],
+"Mango":["Mango"],"Pineapple":["Piña","ananá"],"Raspberry":["Frambuesa"],"Coconut":["Coco"],"Cherry":["Cereza","guinda"],
+"Watermelon":["Sandía"],"Blue Raspberry":["Frambuesa azul"],"Lime":["Limón verde","lima"],"Blackcurrant":["Grosella negra","casis"],
+"Muscat":["Moscatel","uva moscatel"],"Melon":["Melón"],"Peach":["Durazno","melocotón"],"Chamoy":["Chamoy"],"Tamarind":["Tamarindo"],
+"Coffee":["Café","capuchino","moca"],"Toffee":["Toffee"],"Popcorn":["Palomitas","palomitas de maíz","cotufas","pochoclo","canchita"],
+"Chocolate Chip":["Chispas de chocolate","chips de chocolate"],"Cheesecake":["Pay de queso","tarta de queso","cheesecake"],"Brownie":["Brownie"],
+"Biscoff":["Galleta caramelizada","speculoos"],"Jalapeño":["Jalapeño"],"Habanero":["Habanero"],"Buffalo":["Búfalo","alitas búfalo"],
+"Curry":["Curry"],"Hot & Spicy":["Picante","enchilado","chilito","muy picante","picoso"],"Adobada":["Adobada","adobo"],"Salsa":["Salsa","salsa mexicana","pico de gallo"],
+"Honey Mustard":["Miel mostaza","mostaza con miel"],"Mustard":["Mostaza"],"Onion":["Cebolla"],"Sour Cream":["Crema ácida","nata agria"],
+"Pepper":["Pimienta","pimienta negra","sal y pimienta"],"Pretzel":["Pretzel"],"Tomato":["Tomate","jitomate"],"Butter":["Mantequilla"],
+"Garlic":["Ajo"],"Cheese & Garlic":["Queso y ajo"],"Corn":["Elote","maíz"],"Truffle":["Trufa"],"Cinnamon":["Canela"],"Yogurt":["Yogur","yogurt"],
+"Honeycomb":["Panal de miel","panal"],"Nougat":["Turrón","nougat"],"Marshmallow":["Malvavisco","bombón","nube","nubes"],
+"Maple":["Maple","jarabe de arce","miel de maple"],"Pudding":["Pudín","flan","natilla","budín"],"Chestnut":["Castaña"],"Sesame":["Ajonjolí","sésamo"],
+"Kiwi":["Kiwi"],"Yuzu":["Yuzu"],"Licorice":["Regaliz","orozuz"],"Ramune":["Ramune"],"Ketchup":["Cátsup","kétchup","catsup"],
+"Soy Sauce":["Salsa de soya","salsa de soja","soya"],"Teriyaki":["Teriyaki"],"Taco":["Taco","tacos"],"Chipotle":["Chipotle"],"Guacamole":["Guacamole"],
+"Peri Peri":["Piri piri"],"Mushroom":["Champiñón","hongos","setas"],"Kimchi":["Kimchi"],"Tom Yum":["Tom yum"],"Crab":["Cangrejo","jaiba"],
+"Squid":["Calamar"],"Mayonnaise":["Mayonesa"],"Sweet & Sour":["Agridulce"],"Mentaiko":["Mentaiko"],"Salad":["Ensalada"],"Takoyaki":["Takoyaki"],
+"Red Bean":["Frijol rojo","judía roja","azuki"],"Salted Egg":["Yema de huevo salada","huevo salado"],"Grapefruit":["Toronja","pomelo"],
+"Passion Fruit":["Maracuyá","fruta de la pasión","parchita"],"Guava":["Guayaba"],"Lychee":["Lichi"],"Pear":["Pera"],"Blueberry":["Arándano","arándano azul","mora azul"],
+"Blackberry":["Zarzamora","mora"],"Mixed Berry":["Frutos rojos","frutos del bosque","moras"],"Pomegranate":["Granada"],"Papaya":["Papaya"],
+"Plum":["Ciruela"],"Rhubarb":["Ruibarbo"],"Cucumber":["Pepino"],"Fruit Punch":["Ponche de frutas","ponche"],"Root Beer":["Root beer","cerveza de raíz"],
+"Cream Soda":["Soda de crema","cream soda"],"Ginger":["Jengibre"],"Elderflower":["Flor de saúco","saúco"],"Rose":["Rosa","agua de rosas"],
+"Tea":["Té","té negro","té helado","té con leche"],"Cotton Candy":["Algodón de azúcar"],"Bubblegum":["Chicle","goma de mascar"],"Cola":["Cola"],
+"Matcha":["Matcha","té verde"],"Mint":["Menta"],"Honey":["Miel"],"Sweet Potato":["Camote","batata","boniato"],"Cookies & Cream":["Galletas con crema","cookies and cream"],
+"Birthday Cake":["Pastel de cumpleaños","tarta de cumpleaños"],"Red Velvet":["Red velvet","terciopelo rojo"],"Churro":["Churro","churros"],
+"Pumpkin":["Calabaza","pay de calabaza"],"Vanilla":["Vainilla"],"Caramel":["Caramelo","cajeta"],"Salted Caramel":["Caramelo salado"],
+"Turkish Delight":["Delicia turca","lokum"],"Dark Chocolate":["Chocolate amargo","chocolate negro"],"White Chocolate":["Chocolate blanco"],
+"Almond":["Almendra"],"Hazelnut":["Avellana"],"Peanut":["Cacahuate","cacahuete","maní"],"Peanut Butter":["Crema de cacahuate","mantequilla de maní","crema de cacahuete"],
+"Wasabi":["Wasabi"],"Chili Lime":["Chile y limón","chile limón"],"Sweet Chili":["Chile dulce","salsa de chile dulce"],"Masala":["Masala"],
+"Salt & Vinegar":["Sal y vinagre","vinagre"],"Dill Pickle":["Pepinillo","pepinillo al eneldo"],"Pickled Onion":["Cebolla encurtida","cebollitas en vinagre"],
+"Worcester Sauce":["Salsa inglesa","salsa worcestershire"],"Chutney":["Chutney"],"Cheese":["Queso","cheddar"],"Nacho Cheese":["Queso nacho","nachos"],
+"Cheese & Onion":["Queso y cebolla"],"Sour Cream & Onion":["Crema y cebolla","crema ácida y cebolla","crema y especias"],"Ranch":["Ranch"],
+"BBQ":["Barbacoa","bbq","barbecue"],"Chicken":["Pollo","pollo asado"],"Beef":["Res","carne","ternera","carne asada"],"Bacon":["Tocino","beicon"],
+"Prawn Cocktail":["Cóctel de camarón","cóctel de gambas"],"Shrimp":["Camarón","gamba","langostino"],"Seaweed":["Alga","algas","alga nori"],
+"Consommé":["Consomé","caldo"],"Paprika":["Pimentón","páprika"],"Pizza":["Pizza"],"Salted":["Sal","natural","clásica","con sal","sal de mar"]
+};
+const ES_FAMS={Fruity:"Frutal",Tangy:"Ácido",Sweet:"Dulce",Dessert:"Postre",Spicy:"Picante",Savory:"Salado",Cheesy:"Quesoso",
+  Nutty:"Frutos secos","Soda fountain":"Refresco",Seafood:"Mariscos",Floral:"Floral",Chocolatey:"Chocolatoso"};
+const ES_COUNTRIES={"Japan":"Japón","Japan & UK":"Japón y Reino Unido","South Korea":"Corea del Sur","United Kingdom":"Reino Unido","Ireland":"Irlanda",
+  "Australia":"Australia","India":"India","Mexico":"México","Israel":"Israel","Netherlands":"Países Bajos","Germany":"Alemania",
+  "Germany & Switzerland":"Alemania y Suiza","Switzerland":"Suiza","Italy":"Italia","Spain":"España","United States":"Estados Unidos",
+  "United States & UK":"EE. UU. y Reino Unido","Belgium":"Bélgica","Poland":"Polonia","Greece":"Grecia","Finland":"Finlandia","China":"China",
+  "Taiwan":"Taiwán","Thailand":"Tailandia","Philippines":"Filipinas","Indonesia":"Indonesia","Malaysia":"Malasia","Singapore":"Singapur",
+  "Canada":"Canadá","Portugal":"Portugal","Czechia":"Chequia"};
+const ES_CC={UK:"RU",US:"EE. UU."};
+const ES_TYPES={"Biscuit sticks":"Palitos de galleta","Wafer bar":"Barra de oblea","Chewy candy":"Dulce masticable","Dipping sticks":"Palitos para dipear",
+  "Potato chips":"Papas fritas","Shrimp crackers":"Botana de camarón","Marshmallow cake":"Pastelito con malvavisco","Crisps":"Papas fritas",
+  "Corn snack":"Botana de maíz","Potato rings":"Aros de papa","Prawn cocktail puffs":"Inflados de cóctel de camarón","Sponge biscuit":"Galleta con bizcocho",
+  "Biscuit":"Galleta","Chocolate bar":"Tableta de chocolate","Chocolate biscuit":"Galleta con chocolate","Baked crackers":"Galletas saladas horneadas",
+  "Corn puffs":"Inflados de maíz","Rolled tortilla chips":"Totopos enrollados","Peanut candy":"Dulce de cacahuate","Peanut puffs":"Inflados de cacahuate",
+  "Syrup waffle":"Wafle con jarabe","Chewy mints":"Pastillas masticables","Gummy bears":"Ositos de goma","Lollipop":"Paleta","Stacked chips":"Papas en lata",
+  "Tortilla chips":"Totopos","Cheese puffs":"Inflados de queso","Sandwich cookie":"Galleta rellena","Multigrain chips":"Chips multigrano",
+  "Flavored pretzels":"Pretzels sazonados","Taffy bars":"Barritas de caramelo suave","Hard candy":"Caramelo macizo","Chocolate pretzels":"Pretzels con chocolate",
+  "Fruit chews":"Masticables de fruta","Hard candy rings":"Caramelos en aro","Sour gummies":"Gomitas ácidas","Kettle chips":"Papas estilo casero",
+  "Cheese crackers":"Galletas de queso","Snack mix":"Mezcla de botanas","Ridged crisps":"Papas onduladas","Popcorn":"Palomitas",
+  "Fruit sweets":"Dulces de fruta","Fruit gums":"Gomitas de fruta","Jelly sweets":"Gomitas","Crunchy corn":"Maíz crujiente",
+  "Bear-shaped crisps":"Papas en forma de oso","Square chocolate bar":"Chocolate cuadrado","Wafers":"Obleas","Wafer rolls":"Barquillos",
+  "Sandwich biscuit":"Galleta rellena","Gummies":"Gomitas","Savory sticks":"Palitos salados","Filled biscuits":"Galletas rellenas",
+  "Jelly beans":"Grageas de goma","Soda gummies":"Gomitas sabor refresco","Layered chips":"Chips en capas","Snack cake":"Pastelito",
+  "Butter crackers":"Galletas de mantequilla","Chili candy lollipop":"Paleta enchilada","Tamarind candy":"Dulce de tamarindo",
+  "Hazelnut cream candy":"Dulce de crema de avellana","Teddy biscuits":"Galletitas de osito","Round crackers":"Galletas saladas redondas",
+  "Square crackers":"Galletas saladas cuadradas","Cookies":"Galletas","Puffed corn sticks":"Palitos de maíz inflado","Potato sticks in a cup":"Palitos de papa en vaso",
+  "Chocolate mushrooms":"Hongos de chocolate","Corn cones":"Conitos de maíz","Caramel corn puffs":"Inflados de maíz acaramelado","Milk candy":"Dulce de leche",
+  "Rice crackers":"Galletas de arroz","Crispy seaweed":"Alga crujiente","Prawn crackers":"Chips de camarón","Noodle snack":"Botana de fideos",
+  "Salted egg chips":"Chips de yema salada","Triangle chips":"Chips triangulares","Flavored milk":"Leche saborizada","Fruit soda":"Refresco de fruta",
+  "Orange soda":"Refresco de naranja","Lemon-lime soda":"Refresco de lima-limón","Cola":"Refresco de cola","Craft soda":"Refresco artesanal",
+  "Cane-sugar soda":"Refresco de caña","Prebiotic soda":"Refresco prebiótico","Probiotic soda":"Refresco probiótico","Sparkling fruit drink":"Bebida de fruta con gas",
+  "Retro soda":"Refresco retro","Fruit blend":"Mezcla de frutas","Botanical lemonade":"Limonada botánica","Sparkling soft drinks":"Bebidas con gas",
+  "Caribbean soda":"Refresco caribeño","Sparkling juice":"Jugo con gas","Fruit cordial soda":"Refresco de jarabe de frutas","Exotic fruit soda":"Refresco de fruta tropical",
+  "Italian soda":"Refresco italiano","Lemonade":"Limonada","Sodas & lemonades":"Refrescos y limonadas","Mate soda":"Refresco de mate","Citrus soda":"Refresco cítrico",
+  "Fruit & cola soda":"Refrescos de fruta y cola","Sparkling mineral water":"Agua mineral con gas","Herbal cola":"Cola de hierbas",
+  "Cultured milk drink":"Bebida láctea fermentada","Fruit cider (soda)":"Sidra de fruta (refresco)","Ramune":"Ramune","Sparkling water":"Agua con gas",
+  "Milk soda":"Refresco lácteo","Sparkling fruit soda":"Refresco de fruta con gas","Fruit drink":"Bebida de fruta","Classic soft drink":"Refresco clásico",
+  "Brewed soft drink":"Refresco fermentado","Sparkling soft drink":"Bebida con gas","Soft drink":"Refresco"};
+I18N.es={
+  locale:"es-MX", title:"Snack Crackle Pop",
+  tear:"Abre aquí · retos nuevos cada día", ribbon:"¿Experto en snacks? Demuéstralo.", bestby:"Consumir antes de: medianoche",
+  help:"Cómo jugar", stats:"Stats", tabs:["Diario","Reto <small>3 productos</small>","Sin fin"], modeAria:"Modo de juego",
+  guessLabel:"Tu respuesta", guessBtn:"Adivinar", placeholder:"Prueba: mango, barbacoa…", roundDone:"Ronda terminada",
+  burst:{daily:"3 rondas<small>de menos a más</small>",challenge:"Trío<small>tres a la vez</small>",endless:"Sin parar<small>cero presión</small>"},
+  meta:(m,no,d,trio)=>m==="daily"?`Diario n.º ${no} · ${d}`:m==="challenge"?`Reto n.º ${no} · ${d}`:`Sin fin · ${trio?"tríos":"pares"}`,
+  tiers:["Fácil","Medio","Difícil"], roundN:i=>`Ronda ${i}`, playing:"Jugando", total:"Total", pts:n=>`${n} puntos`,
+  countLine:(d,n,X)=>{const num=n===3?"tres":"dos";
+    const w=d===0?`Estos ${num} snacks`:d===n?`Estas ${num} bebidas`:n===2?"Este snack y esta bebida":`Estos ${num} snacks y bebidas`;
+    return `${w} tienen <b>${X} sabor${X===1?"":"es"}</b> en común.`},
+  needLine:(X,cap)=>X===1?"¿Le atinas?":X<=cap?`¿Te sabes los ${X}?`:`Con ${cap} basta.`,
+  tierLines:["Para calentar. ","Aquí se pone interesante. ","Aquí se separan los expertos de los aficionados. "], trioLine:"Tres de un jalón. ",
+  rulesFree:"Puro gusto: sin puntos, sin presión, adivina todo lo que quieras.",
+  rules:(p,c)=>`${p} puntos en juego. Cada error te cuesta ${c}.`,
+  thisWeek:l=>` Esta semana: ${l}.`, diffLabel:{easier:"las dos pistas de regalo",easy:"pista de familia desde el inicio",hard:"las pistas salen más tarde"},
+  found:"Sabores encontrados", flavorN:i=>`Sabor ${i}`, misses:"Errores", roundScore:"Puntos de la ronda",
+  facts:"Datos de tus intentos", prize:"¡PREMIO ADENTRO!", answer:"LA RESPUESTA",
+  thFlavor:"Sabor", tasteClues:"Pistas de sabor", nextGuess:"Te toca…",
+  traits:{w:"Dulce",s:"Salado",o:"Ácido",b:"Amargo",h:"Picante",u:"Umami",f:"Frutal",c:"Cremoso"},
+  traitNo:(x,l)=>`${x}: no es ${l}`, traitCell:(l,g)=>`${l}: ${g?"alguna respuesta también":"ninguna respuesta"}`,
+  markAria:(s,y,x)=>`${s} ${y?"sí viene":"no viene"} en ${x}`,
+  hint:"Pista", hintFam:"familia", hintLetter:"primera letra", freebie:"regalo",
+  hintWhen:n=>n===0?"de regalo":`sale tras ${n} error${n>1?"es":""}`,
+  hint1Closed:"La familia de un sabor que te falta", hint2Closed:"La primera letra de ese sabor",
+  hint1Init:"Familia del sabor", hint2Init:"Primera letra",
+  and:" y ", list:a=>a.length===3?`${a[0]}, ${a[1]} y ${a[2]}`:`${a[0]} y ${a[1]}`,
+  heads:{flawless:"Sin un solo error.",nailed:"¡Le atinaste!",got:"¡Por fin!",missed:"Esto es lo que te faltó",stumped:"¡Te dejó en blanco!"},
+  wonNoMiss:ns=>`Encontraste lo que tienen en común ${ns} sin fallar ni una. Presumido.`,
+  won:(ns,m)=>`Encontraste lo que tienen en común ${ns}, con ${m} error${m>1?"es":""}.`,
+  lostSome:(f,n)=>`Sacaste ${f} de ${n}. ¡Nada mal!`, lostNone:"Esta se te escapó.", share:ns=>`${ns} tienen en común:`,
+  wasOne:"El sabor era", wasMany:"Los sabores eran", bonus:l=>`También valían: ${l}.`,
+  nextUp:t=>`Sigue: ${t} →`, todayTotal:"Total de hoy", copyScore:"Copiar mi puntaje",
+  sendIt:"Mándaselo al amigo que se cree experto en snacks.", freshIn:trio=>trio?"Nuevo trío en":"Nuevos pares en",
+  deal:"¡Otra!", copied:"¡Copiado! Ahora mándalo", selected:"Seleccionado. Cópialo y mándalo",
+  hungry:"¿Todavía con hambre?", playOther:m=>m==="challenge"?"Juega el Reto de hoy":"Juega el Diario de hoy", tryEndless:"Prueba Sin fin",
+  sizeAria:"Tamaño de los retos Sin fin", pairs:"Pares", trios:"Tríos", giveUp:"Me rindo", skip:"Siguiente",
+  typeFirst:"Escribe un sabor primero y luego dale a Adivinar.", amb:l=>`¿${l.join(" o ")}? Elige el que querías.`,
+  choc:"Solo «chocolate» sería muy fácil, así que no cuenta. Prueba amargo o blanco.",
+  unknown:r=>`Mmm, «${r}» no lo conocemos. Revisa cómo lo escribiste o elige de la lista.`,
+  heard:n=>`Va con ${n}. `, already:n=>`${n} ya lo intentaste. ¡Cámbiale!`,
+  covered:(n,h)=>`${n} cuenta como ${h}, y ese ya lo tienes.`,
+  via:h=>` (cuenta como ${h})`, hit:(n,v,left)=>`¡Sí! ${n}, bien visto${v}. Te faltan ${left}.`,
+  partial:n=>`¡Casi! Solo algunos vienen en ${n}.`, miss:n=>`Nop, no es ${n}.`,
+  statsTitle:m=>m==="challenge"?"Tus stats del Reto":"Tus stats del Diario",
+  statLabels:["Jugadas","Promedio","Récord","Racha"],
+  lastN:(n,max)=>n===1?`Tu última partida (de ${max})`:`Tus últimas ${n} partidas (de ${max})`, noGames:"Todavía no juegas. Ve y pon un puntaje que tus amigos tengan que superar.",
+  tried:"ya", close:"Cerrar", letsPlay:"¡Va!", helpTitle:"Cómo jugar",
+  shareHead:(m,no)=>m==="daily"?`Snack Crackle Pop n.º ${no}`:m==="challenge"?`Snack Crackle Pop Reto n.º ${no}`:"Snack Crackle Pop Sin fin",
+  kind:d=>d?"Bebida":"Snack", confirmed:n=>`Sabores confirmados de ${n}`,
+  helpBody:`<ol>
+      <li>Te salen dos snacks o bebidas, casi siempre de países distintos. Tu misión: adivinar los sabores en los que han salido <b>los dos</b>. Te decimos cuántos son.</li>
+      <li>Si comparten varios, encuéntralos todos (máximo 3). Empieza a escribir y elige de la lista.</li>
+      <li>Cada ronda vale <b>1,000 puntos</b>. Cada error te cuesta <b>125</b>, y con seis errores se acaba la ronda. Lo que ya encontraste sí cuenta.</li>
+      <li>No te claves con la ortografía: «qeso», «caramleo», «té verde» o «limón chile» funcionan. En inglés también.</li>
+      <li>Las familias grandes cuentan: un snack Habanero o Flamin’ Hot cuenta como «Picante», y Queso nacho como «Queso».</li>
+      <li>Fallar no es perder el tiempo: verás un <b>✓</b> en cada producto que sí tiene ese sabor, y queda en su tarjeta como pista.</li>
+      <li><b>Pistas de sabor:</b> cada intento prende sus sabores (dulce, salado, ácido, amargo, picante, umami) y si es frutal o cremoso. <b style="color:var(--hit)">Verde</b>: al menos una respuesta también lo tiene. <b style="color:var(--tomato)">Rojo</b>: ninguna. Gris: tu intento no tiene ese sabor. ¿Pusiste Limón amarillo (dulce + ácido) y te salió verde en ácido y rojo en dulce? La respuesta es ácida, no dulce.</li>
+      <li>¿Atorado? Tras 2 errores te damos la familia de un sabor que te falta. Tras 4, su primera letra.</li>
+      <li>El <b>Diario</b> son tres rondas, <b>Fácil → Medio → Difícil</b>, para un máximo de 3,000. La 1 son sabores de todos los días. En la 3 se nota quién sabe de verdad. Retos nuevos a medianoche, hora local.</li>
+      <li>El <b>Reto</b> es una ronda al día con tres productos en vez de dos. <b>Sin fin</b> te reparte pares o tríos todo lo que quieras: sin puntos ni límite de errores.</li>
+      <li>Los retos se ajustan según cómo juega todo el mundo, y Sin fin se ajusta a ti.</li>
+    </ol>
+    <p style="color:var(--ink-soft);font-size:14px;margin:0">Letra chiquita: un sabor cuenta si está en la línea actual del producto, y las mezclas cuentan para cada sabor del nombre (Fresa-Limón verde cuenta como Fresa y como Limón verde). Las marcas se quedan con su nombre original.</p>`
+};
+
+/* ---------- Japanese ----------
+   Brand names: the name used on Japanese packaging or by the Japanese maker/importer (checked on maker sites,
+   ja.wikipedia, Amazon.co.jp/Rakuten, Sep 27 2026); items with no established Japanese name keep their original name.
+   Flavor names follow Japanese snack packaging (うすしお, のりしお, コンソメ…). Hiragana and katakana spellings both
+   work; hint 2 gives the first kana of the reading. */
+const JA_NAMES={"Pocky":"ポッキー","Kit Kat":"キットカット","Hi-Chew":"ハイチュウ","Yan Yan":"ヤンヤンつけボー","Calbee Potato Chips":"カルビー ポテトチップス",
+  "Kappa Ebisen":"かっぱえびせん","Saeukkang":"セウカン","Pepero":"ペペロ","Choco Pie":"チョコパイ","Monster Munch":"モンスターマンチ",
+  "Jaffa Cakes":"ジャファケーキ","McVitie's Digestives":"マクビティ ダイジェスティブ","Cadbury Dairy Milk":"キャドバリー デイリーミルク",
+  "Tim Tam":"ティムタム","Takis":"タキス","Mazapán De la Rosa":"マサパン","Bamba":"バンバ","Stroopwafels":"ストロープワッフル","Mentos":"メントス",
+  "Haribo Goldbears":"ハリボー ゴールドベア","Milka":"ミルカ","Toblerone":"トブラローネ","Kinder Bueno":"キンダーブエノ","Chupa Chups":"チュッパチャプス",
+  "Pringles":"プリングルズ","Lay's":"レイズ","Doritos":"ドリトス","Cheetos":"チートス","Oreo":"オレオ","SunChips":"サンチップス",
+  "Snyder's Pretzel Pieces":"スナイダーズ プレッツェル","Airheads":"エアヘッズ","Jolly Rancher":"ジョリーランチャー","Starburst":"スターバースト",
+  "Sour Patch Kids":"サワーパッチキッズ","Kettle Brand":"ケトルブランド","Cheez-It":"チーズイット","Chex Mix":"チェックスミックス","Skittles":"スキットルズ",
+  "Lorenz Crunchips":"ローレンツ クランチップス","Ritter Sport":"リッタースポーツ","Lotus Biscoff":"ロータス ビスコフ","Tony's Chocolonely":"トニーズチョコロンリー",
+  "Loacker":"ロアカー","San Carlo":"サンカルロ","Fazer Domino":"ファッツェル ドミノ","Alfort":"アルフォート","Meiji Fruit Juice Gummy":"果汁グミ",
+  "Pretz":"プリッツ","Koala's March":"コアラのマーチ","Kanro Pure Gummy":"ピュレグミ","Poifull":"ポイフル","Up Gummy":"アップグミ","Poca Chip":"ポカチップ",
+  "Kkobuk Chips":"コブクチップ","Oh Yes":"オーイエス","ACE Crackers":"エースクラッカー","Umaibō":"うまい棒","Jagarico":"じゃがりこ","Hello Panda":"ハローパンダ",
+  "Kinoko no Yama":"きのこの山","Tongari Corn":"とんがりコーン","Tohato Caramel Corn":"キャラメルコーン","Chip Star":"チップスター",
+  "Honey Butter Chip":"ハニーバターチップ","White Rabbit":"ホワイトラビット","Tao Kae Noi":"タオケーノイ","Irvins":"アービンズ","Binggrae Flavored Milk":"ビングレ",
+  "Sunkist":"サンキスト","Fanta":"ファンタ","Sprite":"スプライト","Coca-Cola Flavors":"コカ・コーラ","Fentimans":"フェンティマンス","Fever-Tree":"フィーバーツリー",
+  "Vimto":"ヴィムト","Sanpellegrino":"サンペレグリノ","Club-Mate":"クラブマテ","CALPICO":"カルピス","Tomomasu Fruit Cider":"果実サイダー","Frula Ramune":"フルーラ",
+  "Mitsuya Squash":"三ツ矢スカッシュ","Wilkinson":"ウィルキンソン","Sangaria Hajikete":"はじけてサイダー","Milkis":"ミルキス","Topo Chico Sabores":"トポチコ",
+  "Bundaberg":"バンダバーグ"};
+const JA_FLAVORS={ // [display, reading (hiragana), other spellings…]
+"Strawberry":["いちご","いちご","ストロベリー","苺"],"Banana":["バナナ","ばなな"],"Orange":["オレンジ","おれんじ","みかん","蜜柑","ブラッドオレンジ","デコポン"],
+"Lemon":["レモン","れもん","檸檬","レモネード"],"Apple":["りんご","りんご","アップル","林檎","青りんご"],"Grape":["ぶどう","ぶどう","グレープ","葡萄","巨峰"],
+"Mango":["マンゴー","まんごー"],"Pineapple":["パイン","ぱいん","パイナップル"],"Raspberry":["ラズベリー","らずべりー","フランボワーズ"],
+"Coconut":["ココナッツ","ここなっつ","ココナツ"],"Cherry":["さくらんぼ","さくらんぼ","チェリー"],"Watermelon":["すいか","すいか","スイカ","西瓜"],
+"Blue Raspberry":["ブルーラズベリー","ぶるーらずべりー"],"Lime":["ライム","らいむ"],"Blackcurrant":["カシス","かしす","ブラックカラント"],
+"Muscat":["マスカット","ますかっと","シャインマスカット"],"Melon":["メロン","めろん","メロンソーダ"],"Peach":["もも","もも","ピーチ","桃","白桃"],
+"Chamoy":["チャモイ","ちゃもい"],"Tamarind":["タマリンド","たまりんど"],"Coffee":["コーヒー","こーひー","珈琲","カフェオレ","ラテ","モカ","ティラミス"],
+"Toffee":["トフィー","とふぃー","タフィー"],"Popcorn":["ポップコーン","ぽっぷこーん"],"Chocolate Chip":["チョコチップ","ちょこちっぷ"],
+"Cheesecake":["チーズケーキ","ちーずけーき"],"Brownie":["ブラウニー","ぶらうにー"],"Biscoff":["ビスコフ","びすこふ","スペキュロス","カラメルビスケット"],
+"Jalapeño":["ハラペーニョ","はらぺーにょ"],"Habanero":["ハバネロ","はばねろ"],"Buffalo":["バッファロー","ばっふぁろー","バッファローウィング"],
+"Curry":["カレー","かれー"],"Hot & Spicy":["ピリ辛","ぴりから","激辛","辛口","ホットチリ","ホット&スパイシー","唐辛子","とうがらし","旨辛"],
+"Adobada":["アドバダ","あどばだ"],"Salsa":["サルサ","さるさ"],"Honey Mustard":["ハニーマスタード","はにーますたーど"],"Mustard":["マスタード","ますたーど","からし"],
+"Onion":["オニオン","おにおん","たまねぎ","玉ねぎ","オニオンコンソメ"],"Sour Cream":["サワークリーム","さわーくりーむ"],
+"Pepper":["ブラックペッパー","ぶらっくぺっぱー","こしょう","胡椒","ペッパー","黒こしょう"],"Pretzel":["プレッツェル","ぷれっつぇる"],
+"Tomato":["トマト","とまと"],"Butter":["バター","ばたー","バターしょうゆ"],"Garlic":["ガーリック","がーりっく","にんにく"],"Cheese & Garlic":["チーズガーリック","ちーずがーりっく"],
+"Corn":["コーン","こーん","とうもろこし","コーンポタージュ"],"Truffle":["トリュフ","とりゅふ"],"Cinnamon":["シナモン","しなもん"],"Yogurt":["ヨーグルト","よーぐると"],
+"Honeycomb":["ハニカム","はにかむ","ハニーコム"],"Nougat":["ヌガー","ぬがー"],"Marshmallow":["マシュマロ","ましゅまろ"],"Maple":["メープル","めーぷる","メープルシロップ"],
+"Pudding":["プリン","ぷりん","カスタード"],"Chestnut":["栗","くり","マロン","モンブラン"],"Sesame":["ごま","ごま","胡麻","黒ごま"],"Kiwi":["キウイ","きうい"],
+"Yuzu":["ゆず","ゆず","柚子"],"Licorice":["リコリス","りこりす","サルミアッキ"],"Ramune":["ラムネ","らむね"],"Ketchup":["ケチャップ","けちゃっぷ"],
+"Soy Sauce":["しょうゆ","しょうゆ","醤油"],"Teriyaki":["照り焼き","てりやき"],"Taco":["タコス","たこす"],"Chipotle":["チポトレ","ちぽとれ"],"Guacamole":["ワカモレ","わかもれ"],
+"Peri Peri":["ペリペリ","ぺりぺり","ピリピリ"],"Mushroom":["きのこ","きのこ","マッシュルーム","しいたけ"],"Kimchi":["キムチ","きむち"],"Tom Yum":["トムヤムクン","とむやむくん","トムヤム"],
+"Crab":["かに","かに","カニ","蟹"],"Squid":["いか","いか","イカ","するめ"],"Mayonnaise":["マヨネーズ","まよねーず","マヨ"],"Sweet & Sour":["甘酢","あまず","スイート&サワー"],
+"Mentaiko":["明太子","めんたいこ","明太","めんたい","たらこ"],"Salad":["サラダ","さらだ"],"Takoyaki":["たこ焼き","たこやき"],"Red Bean":["あずき","あずき","小豆","あんこ"],
+"Salted Egg":["塩たまご","しおたまご","塩漬け卵黄","ソルテッドエッグ"],"Grapefruit":["グレープフルーツ","ぐれーぷふるーつ"],"Passion Fruit":["パッションフルーツ","ぱっしょんふるーつ"],
+"Guava":["グアバ","ぐあば"],"Lychee":["ライチ","らいち"],"Pear":["洋なし","ようなし","ラ・フランス","梨","なし"],"Blueberry":["ブルーベリー","ぶるーべりー"],
+"Blackberry":["ブラックベリー","ぶらっくべりー"],"Mixed Berry":["ミックスベリー","みっくすべりー","ベリー"],"Pomegranate":["ざくろ","ざくろ"],"Papaya":["パパイヤ","ぱぱいや"],
+"Plum":["梅","うめ","プラム","すもも"],"Rhubarb":["ルバーブ","るばーぶ"],"Cucumber":["きゅうり","きゅうり","胡瓜"],"Fruit Punch":["フルーツポンチ","ふるーつぽんち","フルーツパンチ"],
+"Root Beer":["ルートビア","るーとびあ"],"Cream Soda":["クリームソーダ","くりーむそーだ"],"Ginger":["ジンジャー","じんじゃー","しょうが","生姜","ジンジャーエール"],
+"Elderflower":["エルダーフラワー","えるだーふらわー"],"Rose":["ローズ","ろーず","バラ"],"Tea":["紅茶","こうちゃ","ミルクティー","ほうじ茶","お茶"],
+"Cotton Candy":["わたあめ","わたあめ","綿菓子","コットンキャンディ"],"Bubblegum":["風船ガム","ふうせんがむ","バブルガム"],"Cola":["コーラ","こーら"],
+"Matcha":["抹茶","まっちゃ","緑茶"],"Mint":["ミント","みんと","ハッカ","チョコミント"],"Honey":["はちみつ","はちみつ","蜂蜜","ハニー"],
+"Sweet Potato":["さつまいも","さつまいも","紫いも","紅いも","安納芋"],"Cookies & Cream":["クッキー&クリーム","くっきーあんどくりーむ","クッキークリーム"],
+"Birthday Cake":["バースデーケーキ","ばーすでーけーき"],"Red Velvet":["レッドベルベット","れっどべるべっと"],"Churro":["チュロス","ちゅろす"],
+"Pumpkin":["かぼちゃ","かぼちゃ","パンプキン"],"Vanilla":["バニラ","ばにら"],"Caramel":["キャラメル","きゃらめる"],"Salted Caramel":["塩キャラメル","しおきゃらめる"],
+"Turkish Delight":["ロクム","ろくむ","ターキッシュデライト"],"Dark Chocolate":["ビターチョコ","びたーちょこ","ダークチョコ","ハイカカオ"],
+"White Chocolate":["ホワイトチョコ","ほわいとちょこ"],"Almond":["アーモンド","あーもんど"],"Hazelnut":["ヘーゼルナッツ","へーぜるなっつ"],
+"Peanut":["ピーナッツ","ぴーなっつ","落花生"],"Peanut Butter":["ピーナッツバター","ぴーなっつばたー"],"Wasabi":["わさび","わさび","ワサビ","山葵"],
+"Chili Lime":["チリライム","ちりらいむ"],"Sweet Chili":["スイートチリ","すいーとちり"],"Masala":["マサラ","まさら"],
+"Salt & Vinegar":["ソルト&ビネガー","そるとあんどびねがー","ビネガー","塩と酢"],"Dill Pickle":["ピクルス","ぴくるす","ディルピクルス"],
+"Pickled Onion":["オニオンピクルス","おにおんぴくるす"],"Worcester Sauce":["ウスターソース","うすたーそーす","ソース"],"Chutney":["チャツネ","ちゃつね"],
+"Cheese":["チーズ","ちーず","チェダー"],"Nacho Cheese":["ナチョチーズ","なちょちーず"],"Cheese & Onion":["チーズオニオン","ちーずおにおん"],
+"Sour Cream & Onion":["サワークリームオニオン","さわーくりーむおにおん"],"Ranch":["ランチ","らんち","ランチドレッシング"],
+"BBQ":["バーベキュー","ばーべきゅー","BBQ"],"Chicken":["チキン","ちきん","鶏","とり"],"Beef":["ビーフ","びーふ","牛肉","ステーキ"],"Bacon":["ベーコン","べーこん"],
+"Prawn Cocktail":["えびカクテル","えびかくてる","プロウンカクテル"],"Shrimp":["えび","えび","エビ","海老"],"Seaweed":["のり","のり","海苔","のりしお"],
+"Consommé":["コンソメ","こんそめ"],"Paprika":["パプリカ","ぱぷりか"],"Pizza":["ピザ","ぴざ"],"Salted":["うすしお","うすしお","しお","塩","塩味"]
+};
+const JA_FAMS={Fruity:"フルーツ系",Tangy:"すっぱい系",Sweet:"あまい系",Dessert:"スイーツ系",Spicy:"辛い系",Savory:"しょっぱい系",Cheesy:"チーズ系",
+  Nutty:"ナッツ系","Soda fountain":"ソーダ系",Seafood:"海鮮系",Floral:"花系",Chocolatey:"チョコ系"};
+const JA_COUNTRIES={"Japan":"日本","Japan & UK":"日本・イギリス","South Korea":"韓国","United Kingdom":"イギリス","Ireland":"アイルランド","Australia":"オーストラリア",
+  "India":"インド","Mexico":"メキシコ","Israel":"イスラエル","Netherlands":"オランダ","Germany":"ドイツ","Germany & Switzerland":"ドイツ・スイス","Switzerland":"スイス",
+  "Italy":"イタリア","Spain":"スペイン","United States":"アメリカ","United States & UK":"アメリカ・イギリス","Belgium":"ベルギー","Poland":"ポーランド","Greece":"ギリシャ",
+  "Finland":"フィンランド","China":"中国","Taiwan":"台湾","Thailand":"タイ","Philippines":"フィリピン","Indonesia":"インドネシア","Malaysia":"マレーシア",
+  "Singapore":"シンガポール","Canada":"カナダ","Portugal":"ポルトガル","Czechia":"チェコ"};
+const JA_TYPES={"Biscuit sticks":"ビスケットスティック","Wafer bar":"ウエハースチョコ","Chewy candy":"ソフトキャンディ","Dipping sticks":"つけて食べるスティック",
+  "Potato chips":"ポテトチップス","Shrimp crackers":"えびせん","Marshmallow cake":"マシュマロケーキ","Crisps":"ポテトチップス","Corn snack":"コーンスナック",
+  "Potato rings":"リング型ポテトスナック","Prawn cocktail puffs":"えびカクテル味のパフ","Sponge biscuit":"スポンジビスケット","Biscuit":"ビスケット",
+  "Chocolate bar":"板チョコ","Chocolate biscuit":"チョコビスケット","Baked crackers":"焼きクラッカー","Corn puffs":"コーンパフ","Rolled tortilla chips":"ロール型トルティーヤチップス",
+  "Peanut candy":"ピーナッツ菓子","Peanut puffs":"ピーナッツパフ","Syrup waffle":"シロップワッフル","Chewy mints":"チューイングキャンディ","Gummy bears":"くまグミ",
+  "Lollipop":"棒つきキャンディ","Stacked chips":"筒入りポテトチップス","Tortilla chips":"トルティーヤチップス","Cheese puffs":"チーズスナック",
+  "Sandwich cookie":"サンドクッキー","Multigrain chips":"雑穀チップス","Flavored pretzels":"味つきプレッツェル","Taffy bars":"タフィーキャンディ","Hard candy":"ハードキャンディ",
+  "Chocolate pretzels":"チョコプレッツェル","Fruit chews":"フルーツソフトキャンディ","Hard candy rings":"リング型キャンディ","Sour gummies":"すっぱいグミ",
+  "Kettle chips":"厚切りポテトチップス","Cheese crackers":"チーズクラッカー","Snack mix":"スナックミックス","Ridged crisps":"ギザギザポテトチップス","Popcorn":"ポップコーン",
+  "Fruit sweets":"フルーツキャンディ","Fruit gums":"フルーツグミ","Jelly sweets":"ゼリーキャンディ","Crunchy corn":"カリカリコーン","Bear-shaped crisps":"くま型ポテトスナック",
+  "Square chocolate bar":"正方形チョコ","Wafers":"ウエハース","Wafer rolls":"ロールウエハース","Sandwich biscuit":"サンドビスケット","Gummies":"グミ",
+  "Savory sticks":"プレッツェルスティック","Filled biscuits":"中にクリーム入りビスケット","Jelly beans":"ジェリービーンズ","Soda gummies":"ソーダ味グミ",
+  "Layered chips":"層になったチップス","Snack cake":"スナックケーキ","Butter crackers":"バタークラッカー","Chili candy lollipop":"チリ味キャンディ",
+  "Tamarind candy":"タマリンドキャンディ","Hazelnut cream candy":"ヘーゼルナッツクリーム","Teddy biscuits":"くま型ビスケット","Round crackers":"丸いクラッカー",
+  "Square crackers":"四角いクラッカー","Cookies":"クッキー","Puffed corn sticks":"コーンパフ棒","Potato sticks in a cup":"カップ入りポテトスティック",
+  "Chocolate mushrooms":"きのこ型チョコ","Corn cones":"円すい形コーンスナック","Caramel corn puffs":"キャラメルコーンパフ","Milk candy":"ミルクキャンディ",
+  "Rice crackers":"せんべい","Crispy seaweed":"パリパリのり","Prawn crackers":"えびせんべい","Noodle snack":"ベビースター風麺スナック",
+  "Salted egg chips":"塩たまごチップス","Triangle chips":"三角チップス","Flavored milk":"フレーバーミルク","Fruit soda":"フルーツソーダ","Orange soda":"オレンジソーダ",
+  "Lemon-lime soda":"レモンライムソーダ","Cola":"コーラ","Craft soda":"クラフトソーダ","Cane-sugar soda":"きび砂糖ソーダ","Prebiotic soda":"プレバイオティクスソーダ",
+  "Probiotic soda":"プロバイオティクスソーダ","Sparkling fruit drink":"フルーツ炭酸飲料","Retro soda":"レトロソーダ","Fruit blend":"ミックスフルーツ",
+  "Botanical lemonade":"ボタニカルレモネード","Sparkling soft drinks":"炭酸飲料","Caribbean soda":"カリブのソーダ","Sparkling juice":"スパークリングジュース",
+  "Fruit cordial soda":"フルーツシロップソーダ","Exotic fruit soda":"トロピカルフルーツソーダ","Italian soda":"イタリアンソーダ","Lemonade":"レモネード",
+  "Sodas & lemonades":"ソーダ&レモネード","Mate soda":"マテ茶ソーダ","Citrus soda":"柑橘ソーダ","Fruit & cola soda":"フルーツ&コーラソーダ",
+  "Sparkling mineral water":"炭酸ミネラルウォーター","Herbal cola":"ハーブコーラ","Cultured milk drink":"乳酸菌飲料","Fruit cider (soda)":"果実サイダー",
+  "Ramune":"ラムネ","Sparkling water":"炭酸水","Milk soda":"ミルクソーダ","Sparkling fruit soda":"フルーツスパークリング","Fruit drink":"フルーツドリンク",
+  "Classic soft drink":"定番ソーダ","Brewed soft drink":"醸造ソーダ","Sparkling soft drink":"炭酸飲料","Soft drink":"ソフトドリンク"};
+I18N.ja={
+  locale:"ja-JP", title:"Snack Crackle Pop",
+  tear:"ここから開けてね · 毎日更新", ribbon:"お菓子、くわしいつもり？", bestby:"賞味期限：今夜0時",
+  help:"遊び方", stats:"成績", tabs:["デイリー","チャレンジ <small>3品</small>","エンドレス"], modeAria:"モード",
+  guessLabel:"あなたの答え", guessBtn:"当てる！", placeholder:"味を入力：のりしお、抹茶…", roundDone:"このラウンドは終了",
+  burst:{daily:"3本勝負<small>徐々に難しく</small>",challenge:"3品<small>いっぺんに</small>",endless:"エンドレス<small>スコアなし</small>"},
+  meta:(m,no,d,trio)=>m==="daily"?`デイリー 第${no}回 · ${d}`:m==="challenge"?`チャレンジ 第${no}回 · ${d}`:`エンドレス · ${trio?"3品":"2品"}`,
+  tiers:["かんたん","ふつう","むずかしい"], roundN:i=>`ラウンド${i}`, playing:"プレイ中", total:"合計", pts:n=>`${n}点`,
+  countLine:(d,n,X)=>{const num=n===3?"3":"2";
+    const w=d===0?`この${num}つのお菓子`:d===n?`この${num}つのドリンク`:n===2?"このお菓子とドリンク":`この${num}つのお菓子とドリンク`;
+    return `${w}には、共通の味が<b>${X}つ</b>。`},
+  needLine:(X,cap)=>X===1?"わかるかな？":X<=cap?`${X}つとも当てられる？`:`どれか${cap}つ当てればOK。`,
+  tierLines:["まずは肩ならし。","ここからちょっと手ごわい。","ここで本物のお菓子通がわかる。"], trioLine:"3品いっぺんに。",
+  rulesFree:"気楽にどうぞ：スコアなし、何回でも。",
+  rules:(p,c)=>`このラウンドは${p}点。1回外すごとに${c}点マイナス。`,
+  thisWeek:l=>` 今週：${l}。`, diffLabel:{easier:"ヒント2つとも最初から",easy:"味の系統ヒントが最初から",hard:"ヒントは遅めに解放"},
+  found:"当てた味", flavorN:i=>`味 ${i}`, misses:"ミス", roundScore:"このラウンド",
+  facts:"答え合わせ成分表", prize:"おまけ入り", answer:"答えはこれ",
+  thFlavor:"味", tasteClues:"味のヒント", nextGuess:"次はなに味…？",
+  traits:{w:"甘み",s:"塩み",o:"酸み",b:"苦み",h:"辛み",u:"旨み",f:"果実",c:"ミルキー"},
+  traitNo:(x,l)=>`${x}：${l}なし`, traitCell:(l,g)=>g?`${l}：答えにもある`:`${l}：答えにはない`,
+  markAria:(s,y,x)=>`${s}に${x}味は${y?"ある":"ない"}`,
+  hint:"ヒント", hintFam:"味の系統", hintLetter:"最初の文字", freebie:"サービス",
+  hintWhen:n=>n===0?"最初から":`${n}回ミスで解放`,
+  hint1Closed:"まだ当ててない味の系統", hint2Closed:"その味の読みの最初の文字",
+  hint1Init:"味の系統", hint2Init:"最初の文字",
+  and:"と", list:a=>a.length===3?`${a[0]}、${a[1]}、${a[2]}`:`${a[0]}と${a[1]}`,
+  heads:{flawless:"ノーミス！",nailed:"おみごと！",got:"正解！",missed:"答えはこちら",stumped:"むずかしかったね！"},
+  wonNoMiss:ns=>`${ns}の共通点、ノーミスで当てちゃった。やるじゃん。`,
+  won:(ns,m)=>`${ns}の共通点、${m}回のミスで当てた！`,
+  lostSome:(f,n)=>`${n}つ中${f}つ正解。いい線いってる！`, lostNone:"今回はお手上げ。", share:ns=>`${ns}の共通の味は：`,
+  wasOne:"答えは", wasMany:"答えは", bonus:l=>`実はこれも正解だった：${l}。`,
+  nextUp:t=>`次は「${t}」→`, todayTotal:"今日の合計", copyScore:"スコアをコピー",
+  sendIt:"お菓子にくわしいって言ってる友だちに送ってみよう。", freshIn:trio=>trio?"次の3品まで":"次の問題まで",
+  deal:"もう一問！", copied:"コピーしたよ！さっそく送ろう", selected:"選択したよ。コピーして送ってね",
+  hungry:"まだ食べ足りない？", playOther:m=>m==="challenge"?"今日のチャレンジへ":"今日のデイリーへ", tryEndless:"エンドレスで遊ぶ",
+  sizeAria:"エンドレスの出題数", pairs:"2品", trios:"3品", giveUp:"ギブアップ", skip:"次の問題",
+  typeFirst:"まず味を入力して、「当てる！」を押してね。", amb:l=>`${l.join("と")}、どっちのこと？リストから選んでね。`,
+  choc:"ただの「チョコ」だと簡単すぎるので対象外。ビターチョコかホワイトチョコで。",
+  unknown:r=>`うーん、「${r}」は味リストにないみたい。表記を確かめるか、リストから選んでね。`,
+  heard:n=>`「${n}」として受けつけたよ。`, already:n=>`${n}はもう試したよ。別の味にしてみて！`,
+  covered:(n,h)=>`${n}は${h}あつかい。それはもう当ててるよ。`,
+  via:h=>`（${h}あつかい）`, hit:(n,v,left)=>`正解！${n}${v}。あと${left}つ。`,
+  partial:n=>`おしい！${n}味があるのは一部だけ。`, miss:n=>`ざんねん、${n}じゃない。`,
+  statsTitle:m=>m==="challenge"?"チャレンジの成績":"デイリーの成績",
+  statLabels:["プレイ数","平均","ベスト","連続日数"],
+  lastN:(n,max)=>`最近の${n}回（${max}点満点）`, noGames:"まだプレイしてないよ。友だちが越えられないスコアを出しにいこう。",
+  tried:"試した", close:"閉じる", letsPlay:"はじめる！", helpTitle:"遊び方",
+  shareHead:(m,no)=>m==="daily"?`Snack Crackle Pop デイリー 第${no}回`:m==="challenge"?`Snack Crackle Pop チャレンジ 第${no}回`:"Snack Crackle Pop エンドレス",
+  kind:d=>d?"ドリンク":"お菓子", confirmed:n=>`${n}で確認できた味`,
+  helpBody:`<ol>
+      <li>お菓子かドリンクが2つ出てきます。たいてい別々の国のもの。あなたの仕事は、<b>両方</b>に出たことのある味を当てること。共通の味がいくつあるかは最初に教えます。</li>
+      <li>共通の味がいくつかあるなら全部見つけてね（最大3つ）。入力を始めて、リストから選べばOK。</li>
+      <li>1ラウンド<b>1000点</b>。1回外すごとに<b>125点</b>マイナスで、6回ミスでラウンド終了。当てた分の点はちゃんと残ります。</li>
+      <li>表記はゆるくてOK：ひらがなでもカタカナでも、「いちご味」でも通じます。英語でも大丈夫。</li>
+      <li>大きなくくりもOK：ハバネロ味やフレイミンホットのお菓子は「ピリ辛」、ナチョチーズは「チーズ」としても当たり。</li>
+      <li>外れてもムダじゃない：その味がある商品には<b>✓</b>がついて、カードにもヒントとして残ります。</li>
+      <li><b>味のヒント：</b>答えるたびに、その味の特徴（甘み・塩み・酸み・苦み・辛み・旨み）と、果実っぽいか、ミルキーかが光ります。<b style="color:var(--hit)">緑</b>：答えのどれかにもその特徴がある。<b style="color:var(--tomato)">赤</b>：答えにはない。グレー：あなたの答えにその特徴がない。たとえば「レモン」（甘み＋酸み）で酸みが緑、甘みが赤なら、答えは甘いより酸っぱい系。</li>
+      <li>行きづまったら：2回ミスすると、まだ当ててない味の系統がわかります。4回ミスで、その読みの最初の文字も。</li>
+      <li><b>デイリー</b>は3ラウンド。<b>かんたん → ふつう → むずかしい</b>で、満点は3000点。ラウンド1は定番の味、ラウンド3で本物のお菓子通がわかります。毎日0時（あなたの時間）に更新。</li>
+      <li><b>チャレンジ</b>は1日1ラウンド、2品じゃなく3品で勝負。<b>エンドレス</b>は好きなだけ2品か3品が出続けます。スコアもミス上限もなし。</li>
+      <li>問題の難しさはみんなの成績に合わせて調整され、エンドレスはあなたに合わせて変わります。</li>
+    </ol>
+    <p style="color:var(--ink-soft);font-size:14px;margin:0">注意書き：味は、その商品の現行ラインナップにあるものが対象。組み合わせの味は名前に入っているそれぞれの味としてカウントします（いちごライムならいちごとライム）。日本での名前がないブランドは元の名前のままです。</p>`
+};
+
+function pickLang(){
+  try{ const q=new URLSearchParams(location.search).get("lang"); if(LANGS.includes(q)) return q; }catch(e){}
+  try{ const s=localStorage.getItem("snackdle-lang"); if(s&&LANGS.includes(JSON.parse(s))) return JSON.parse(s); }catch(e){}
+  const nl=(navigator.language||"").toLowerCase(); return ["fr","es","zh","ja"].find(l=>nl.startsWith(l))||"en";
+}
+let LANG=pickLang();
+const t=(k,...a)=>{ const v=(I18N[LANG]&&I18N[LANG][k]!==undefined)?I18N[LANG][k]:I18N.en[k]; return typeof v==="function"?v(...a):v; };
+const LOC=()=>t("locale");
+const FLAV_NAME={fr:f=>FR_FLAVORS[f]&&FR_FLAVORS[f][0],es:f=>ES_FLAVORS[f]&&ES_FLAVORS[f][0],zh:f=>ZH_FLAVORS[f]&&ZH_FLAVORS[f][0][0],ja:f=>JA_FLAVORS[f]&&JA_FLAVORS[f][0]};
+const LOC_FAMS={fr:FR_FAMS,es:ES_FAMS,zh:ZH_FAMS,ja:JA_FAMS}, LOC_TYPES={fr:FR_TYPES,es:ES_TYPES,zh:ZH_TYPES,ja:JA_TYPES},
+      LOC_COUNTRIES={fr:FR_COUNTRIES,es:ES_COUNTRIES,zh:ZH_COUNTRIES,ja:JA_COUNTRIES}, LOC_CC={fr:FR_CC,es:ES_CC}, LOC_NAMES={zh:ZH_NAMES,ja:JA_NAMES};
+const fn=f=>(FLAV_NAME[LANG]&&FLAV_NAME[LANG](f))||f;                         // flavor display name
+const famName=f=>(LOC_FAMS[LANG]||{})[f]||f;
+const typeName=s=>(LOC_TYPES[LANG]||{})[s.t]||s.t;
+const countryName=s=>(LOC_COUNTRIES[LANG]||{})[s.c]||s.c;
+const ccName=s=>LOC_CC[LANG]?s.cc.split(" · ").map(c=>LOC_CC[LANG][c]||c).join(" · "):s.cc;
+const itemName=s=>(LOC_NAMES[LANG]||{})[s.n]||s.n;                            // brand name as sold locally, when there is one
+const hintLetter=f=>LANG==="zh"?((ZH_FLAVORS[f]||[0,"?"])[1][0]||"?").toUpperCase()
+  :LANG==="ja"?[...((JA_FLAVORS[f]||[])[1]||fn(f))][0]:[...fn(f)][0];         // pinyin initial / first kana of the reading / first letter
+const tierName=i=>(t("tiers")||[])[i]||"";
+
 /* ---------- Helpers ---------- */
 const $ = s => document.querySelector(s);
-const norm = s => s.toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g,"").replace(/\band\b/g,"&").replace(/[’']/g,"").replace(/[^a-z0-9&]+/g," ").trim();
+const norm = s => s.normalize("NFKC").toLowerCase().replace(/œ/g,"oe").replace(/æ/g,"ae").normalize("NFD").replace(/[̀-ͯ]/g,"").normalize("NFC").replace(/\b(and|et|y)\b/g,"&").replace(/\b([dl])[’']/g,"$1 ").replace(/[’']/g,"").replace(/口味|风味|風味|味道|味/g,"").replace(/[^a-z0-9&\u3040-\u30ff\u4e00-\u9fff]+/g," ").trim();
 const LOOKUP = new Map();
 for (const [name,info] of Object.entries(FLAVORS)){
   LOOKUP.set(norm(name),name);
   (info.alt||[]).forEach(a=>LOOKUP.set(norm(a),name));
 }
+// French names and spellings are accepted in every language; English wins if a spelling is already taken
+const LOOKUP_CLASH=[];
+for (const [name,list] of Object.entries(FR_FLAVORS)) list.forEach(a=>{ const k=norm(a); if(!k) return;
+  if(LOOKUP.has(k)&&LOOKUP.get(k)!==name){LOOKUP_CLASH.push(a);return} LOOKUP.set(k,name); });
+// Spanish names
+for (const [name,list] of Object.entries(ES_FLAVORS)) list.forEach(a=>{ const k=norm(a); if(!k) return;
+  if(LOOKUP.has(k)&&LOOKUP.get(k)!==name){LOOKUP_CLASH.push(a);return} LOOKUP.set(k,name); });
+// Japanese names + reading; each spelling also added in the other kana script (いちご / イチゴ)
+const kata2hira=s=>s.replace(/[\u30a1-\u30f6]/g,c=>String.fromCharCode(c.charCodeAt(0)-0x60));
+const hira2kata=s=>s.replace(/[\u3041-\u3096]/g,c=>String.fromCharCode(c.charCodeAt(0)+0x60));
+for (const [name,list] of Object.entries(JA_FLAVORS)) list.flatMap(a=>[a,kata2hira(a),hira2kata(a)]).forEach(a=>{ const k=norm(a); if(!k) return;
+  if(LOOKUP.has(k)&&LOOKUP.get(k)!==name){LOOKUP_CLASH.push(a);return} LOOKUP.set(k,name); });
+// Spellings that honestly mean two flavors: ask instead of guessing ("limón" is lime in Mexico, lemon in Spain)
+const AMBIG=new Map([[norm("limón"),["Lemon","Lime"]],[norm("limon"),["Lemon","Lime"]]]);
+// Chinese names, aliases and pinyin (spaced "cao mei" and joined "caomei")
+for (const [name,[list,py]] of Object.entries(ZH_FLAVORS)) [...list,py,py.replace(/ /g,"")].forEach(a=>{ const k=norm(a); if(!k) return;
+  if(LOOKUP.has(k)&&LOOKUP.get(k)!==name){LOOKUP_CLASH.push(a);return} LOOKUP.set(k,name); });
 // Word-order-insensitive keys ("lime chili" = "chili lime") and filler words that can be ignored
-const FILLER=new Set(["flavor","flavour","flavored","flavoured","taste","style","the"]);
+const FILLER=new Set(["sabor","sabores","con","el","los","las","del","al","en","flavor","flavour","flavored","flavoured","taste","style","the","saveur","saveurs","gout","parfum","arome","au","aux","a","de","du","des","d","la","le","les","l"]);
 const tokKey=k=>k.split(" ").filter(w=>w&&!FILLER.has(w)&&w!=="&").sort().join(" ");
 const TOKLOOK=new Map(); for(const [k,v] of LOOKUP){ const t=tokKey(k); if(t&&!TOKLOOK.has(t)) TOKLOOK.set(t,v); }
 function editDist(a,b){ // Damerau-Levenshtein (adjacent swaps count as one edit)
@@ -802,8 +1670,19 @@ const allowedEdits=n=>n<=3?0:n<=5?1:n<=9?2:3;
 // Returns {name, fuzzy} for a confident match, {amb:[a,b]} when two flavors are equally close, or null.
 function resolveFlavor(raw){
   const q=norm(raw); if(!q) return null;
+  if(AMBIG.has(q)) return {amb:AMBIG.get(q)};
   if(LOOKUP.has(q)) return {name:LOOKUP.get(q),fuzzy:false};
   const t=tokKey(q); if(TOKLOOK.has(t)) return {name:TOKLOOK.get(t),fuzzy:false};
+  if(/[\u3040-\u30ff\u4e00-\u9fff]/.test(q)){ // Chinese: longest known name inside the input ("番茄薯片" → 番茄)
+    const qq=q.replace(/ /g,""); let best=[],bl=0;
+    for(const [k,v] of LOOKUP){ if(!/[\u3040-\u30ff\u4e00-\u9fff]/.test(k)||!qq.includes(k)) continue;
+      if(k.length>bl){bl=k.length;best=[v]} else if(k.length===bl&&!best.includes(v)) best.push(v); }
+    if(best.length===1) return {name:best[0],fuzzy:LOOKUP.get(qq)!==best[0]};
+    if(best.length>1) return {amb:best.slice(0,3)};
+    let cand=null,cd=9,tie=false; for(const [k,v] of LOOKUP){ if(!/[\u3040-\u30ff\u4e00-\u9fff]/.test(k)||k.length<4||Math.abs(k.length-qq.length)>1) continue;
+      const d=editDist(qq,k); if(d<cd){cd=d;cand=v;tie=false} else if(d===cd&&v!==cand) tie=true; }
+    return cand&&cd<=1&&!tie?{name:cand,fuzzy:true}:null;
+  }
   // Extra words around a known name ("cheddar cheese", "barbeque sauce"): use the longest name fully contained
   const qs=new Set(t.split(" ")); let sub=[],subLen=0;
   for(const [k,v] of LOOKUP){ const kt=tokKey(k).split(" ").filter(Boolean); if(!kt.length||!kt.every(w=>qs.has(w))) continue;
@@ -1096,24 +1975,48 @@ function finishLoad(){
 }
 function switchMode(m){ if(m==="endless") loadEndless(false); else loadDaily(m); }
 
-/* ---------- Render ---------- */
-function kindWords(items){
-  const d=items.filter(s=>s.d).length, n=items.length;
-  const num=n===3?"three":"two";
-  if(d===0) return `these ${num} snacks`;
-  if(d===n) return `these ${num} drinks`;
-  return n===2?"this snack and drink":`these ${num} snacks and drinks`;
+/* ---------- Game feel (effects) ----------
+   submit() sets FX for the guess that was just made; render() uses it once so only new things animate.
+   A new "deal" (new round, new mode, next Endless puzzle) slides the products in and stamps the tier. */
+let FX=null, CUR_FX=null, LAST_DEAL="", PREV_NUM={}, PREV_HINT=[false,false];
+const REDUCED=(()=>{try{return matchMedia("(prefers-reduced-motion: reduce)").matches}catch(e){return false}})();
+function restart(el,cls){ if(!el) return; el.classList.remove(cls); void el.offsetWidth; el.classList.add(cls); }
+function countTo(el,key,to){
+  if(!el) return; const from=PREV_NUM[key]; PREV_NUM[key]=to;
+  if(from===undefined||from===to||REDUCED) return;
+  restart(el,to<from?"num-down":"num-up");
+  const t0=performance.now(), dur=500, fmt=v=>Math.round(v).toLocaleString(LOC());
+  const tail=el.querySelector("small"), tailHtml=tail?tail.outerHTML:"";
+  (function step(now){ const k=Math.min(1,(now-t0)/dur), e=1-Math.pow(1-k,3);
+    el.innerHTML=fmt(from+(to-from)*e)+tailHtml; if(k<1) requestAnimationFrame(step); })(t0);
 }
+function crumbs(anchor,n,spread){
+  if(REDUCED||!anchor) return; const r=anchor.getBoundingClientRect(), cx=r.left+r.width/2, cy=r.top+r.height/2;
+  const cols=["#FFD23F","#F26A22","#7FE3FF","#139A5E","#E24D7E","#FFF6E2"];
+  for(let i=0;i<n;i++){ const c=document.createElement("i"); c.className="crumb";
+    const a=Math.random()*Math.PI*2, d=(spread||140)*(.45+Math.random()*.7);
+    c.style.cssText=`left:${cx}px;top:${cy}px;background:${cols[i%cols.length]};--x:${Math.cos(a)*d}px;--y:${Math.sin(a)*d+90}px;--rot:${Math.random()*720-360}deg;--t:${.8+Math.random()*.6}s;${i%3===0?"border-radius:50%":i%3===1?"width:7px;height:12px":""}`;
+    document.body.appendChild(c); setTimeout(()=>c.remove(),1600); }
+}
+function stampTier(text){
+  if(REDUCED||!text) return; const w=$(".window"); if(!w) return;
+  w.querySelectorAll(".stamp").forEach(x=>x.remove());
+  const st=document.createElement("div"); st.className="stamp"; st.setAttribute("aria-hidden","true"); st.textContent=text;
+  w.appendChild(st); setTimeout(()=>st.remove(),1600);
+}
+
+/* ---------- Render ---------- */
 function packet(s,i){
   const known=cur().guesses.filter(g=>itemHas(s,g));
-  const cls=s.d?"can":"bag";
-  return `<div class="${cls}" style="--c:${s.bg};--c2:${s.fg}" aria-label="${s.d?"Drink":"Snack"} ${i+1}: ${s.n}, ${s.t} from ${s.c}">
+  const fx=CUR_FX, react=fx?(itemHas(s,fx.guess)?" hop":" nope"):"";
+  const cls=(s.d?"can":"bag")+react;
+  return `<div class="${cls}" style="--c:${s.bg};--c2:${s.fg}" aria-label="${t("kind",s.d)} ${i+1}: ${itemName(s)}, ${typeName(s)} · ${countryName(s)}">
     ${s.d?'<span class="band" aria-hidden="true"></span>':""}
-    <span class="cc" title="${s.c}">${s.cc}</span>
+    <span class="cc" title="${countryName(s)}">${ccName(s)}</span>
     <div class="art">${artFor(s)}</div>
-    <p class="pname">${s.n}</p>
-    <div class="pinfo">${s.t} · ${s.c}</div>
-    <div class="known" aria-label="Flavors confirmed for ${s.n}">${known.map(k=>`<span>${k}</span>`).join("")}</div></div>`;
+    <p class="pname">${itemName(s)}</p>${itemName(s)!==s.n?`<div class="porig">${s.n}</div>`:""}
+    <div class="pinfo">${typeName(s)} · ${countryName(s)}</div>
+    <div class="known" aria-label="${t("confirmed",itemName(s))}">${known.map(k=>`<span${fx&&k===fx.guess?' class="new"':""}>${fn(k)}</span>`).join("")}</div></div>`;
 }
 /* Crop every drawing to its artwork and center it. The drawings were made on a 100×100 grid with uneven
    margins, so their visual center wasn't the box center. getBBox() gives the true artwork bounds; the
@@ -1133,101 +2036,121 @@ function fitArt(root){
 function render(){
   if(!cur().t0&&!info().done) cur().t0=Date.now();
   const R=info(), items=R.items, m=game.mode;
+  CUR_FX=FX; FX=null; const fx=CUR_FX;
+  const root=document.documentElement; root.dataset.mode=m; root.dataset.tier=m==="daily"?String(game.cur):"";
+  const dealKey=m+":"+(game.no||"")+":"+game.cur+":"+cur().items.join("-"), dealt=dealKey!==LAST_DEAL;
+  if(dealt){ LAST_DEAL=dealKey; delete PREV_NUM.live; }
   document.querySelectorAll(".tab").forEach(t=>t.setAttribute("aria-selected",t.dataset.mode===m?"true":"false"));
-  const dateStr=new Date().toLocaleDateString(undefined,{month:"short",day:"numeric",year:"numeric"});
-  $(".burst div").innerHTML = m==="daily"?"3 rounds<small>easy → hard</small>":m==="challenge"?"Trio<small>3-way link</small>":"Non-stop<small>no scores</small>";
-  $("#meta").textContent = m==="daily"?`Daily No. ${game.no} · ${dateStr}`:m==="challenge"?`Challenge No. ${game.no} · ${dateStr}`:`Endless · ${items.length===3?"trios":"pairs"}`;
+  const dateStr=new Date().toLocaleDateString(LOC(),{month:"short",day:"numeric",year:"numeric"});
+  $(".burst div").innerHTML = t("burst")[m];
+  $("#meta").textContent = t("meta",m,game.no,dateStr,items.length===3);
 
   // Round tracker (Daily): three pills with each round's score
   const rb=$("#roundbar");
   if(game.rounds.length>1){
     rb.hidden=false;
     rb.innerHTML=game.rounds.map((r,i)=>{const ri=roundInfo(r);const st=i===game.cur?"cur":ri.done?"done":"";
-      return `<button type="button" class="rpill ${st}" data-r="${i}" ${ri.done||i===game.cur?"":"disabled"} aria-label="Round ${i+1}, ${TIERS[i]?TIERS[i].name:""}${ri.done?`, ${ri.score} points`:""}">
-        <span><em class="rn">Round ${i+1} · </em>${TIERS[i]?TIERS[i].name:""}</span><b>${ri.done?ri.score.toLocaleString():i===game.cur?"Playing":"—"}</b></button>`}).join("")
-      +`<div class="rtotal"><span>Total</span><b>${gameTotal().toLocaleString()}<small> / ${(game.rounds.length*ROUND_POINTS).toLocaleString()}</small></b></div>`;
+      return `<button type="button" class="rpill ${st}" data-r="${i}" ${ri.done||i===game.cur?"":"disabled"} aria-label="${t("roundN",i+1)}, ${tierName(i)}${ri.done?`, ${t("pts",ri.score)}`:""}">
+        <span><em class="rn">${t("roundN",i+1)} · </em>${tierName(i)}</span><b>${ri.done?ri.score.toLocaleString(LOC()):i===game.cur?t("playing"):"—"}</b></button>`}).join("")
+      +`<div class="rtotal"><span>${t("total")}</span><b>${gameTotal().toLocaleString(LOC())}<small> / ${(game.rounds.length*ROUND_POINTS).toLocaleString(LOC())}</small></b></div>`;
     rb.querySelectorAll("[data-r]").forEach(b=>b.onclick=()=>{game.cur=+b.dataset.r;finishLoad()});
   } else rb.hidden=true;
 
   // Instruction line
-  const X=R.answers.length, what=kindWords(items);
-  const Cap=w=>w.charAt(0).toUpperCase()+w.slice(1);
-  const countLine = X===1 ? `${Cap(what)} have <b>1 flavor</b> in common.` : `${Cap(what)} have <b>${X} flavors</b> in common.`;
-  const needLine = X===1 ? "Can you name it?" : X<=NEED_CAP ? `Can you name all ${X}?` : `Name any ${NEED_CAP}.`;
-  const tierLine = m==="daily"&&TIERS[game.cur] ? ["Warm-up round. ","Medium round. Things get trickier. ","Hard round. This one sorts out the experts. "][game.cur] : m==="challenge" ? "Three at once. " : "";
+  const X=R.answers.length;
+  const countLine = t("countLine",items.filter(s=>s.d).length,items.length,X);
+  const needLine = t("needLine",X,NEED_CAP);
+  const tierLine = m==="daily"&&TIERS[game.cur] ? t("tierLines")[game.cur] : m==="challenge" ? t("trioLine") : "";
   const free=m==="endless";
-  $("#tagline").innerHTML=`${countLine} ${needLine} <span class="rules">${free?"Just for fun: no points, no pressure, guess all you want.":`${tierLine}${ROUND_POINTS.toLocaleString()} points up for grabs. Each wrong guess costs ${MISS_COST}.${DIFF.level!=="normal"?` This week: ${DIFF.label.toLowerCase()}.`:""}`}</span>`;
+  $("#tagline").innerHTML=`${countLine}${LANG==="zh"?"":" "}${needLine} <span class="rules">${free?t("rulesFree"):`${tierLine}${t("rules",ROUND_POINTS.toLocaleString(LOC()),MISS_COST)}${DIFF.level!=="normal"?t("thisWeek",(t("diffLabel")[DIFF.level]||DIFF.label).toLowerCase()):""}`}</span>`;
 
   const mu=$("#matchup"); mu.classList.toggle("trio",items.length===3);
   mu.innerHTML=items.map(packet).join(`<div class="link" aria-hidden="true"><div>+</div></div>`);
+  if(dealt){ restart(mu,"deal"); restart($("#tagline"),"fresh");
+    if(!R.done&&!cur().guesses.length) stampTier(m==="daily"?tierName(game.cur):m==="challenge"?"×3":""); }
+  else mu.classList.remove("deal");
 
   // Progress: found slots + miss meter + live score
-  $("#progress").innerHTML=`<div class="slots" aria-label="Flavors found">${[...Array(R.need)].map((_,i)=>{const f=R.found[i];return `<span class="slot${f?" got":""}">${f?`✓ ${f}`:`Flavor ${i+1}`}</span>`}).join("")}</div>
-    ${free?"":`<div class="meter"><span class="mlabel">Misses</span>${[...Array(MAX_MISSES)].map((_,i)=>`<i class="${i<R.misses?"x":""}"></i>`).join("")}</div>
-    <div class="live"><span>Round score</span><b>${(R.done?R.score:Math.max(0,ROUND_POINTS-MISS_COST*R.misses)).toLocaleString()}</b></div>`}`;
+  $("#progress").innerHTML=`<div class="slots" aria-label="${t("found")}">${[...Array(R.need)].map((_,i)=>{const f=R.found[i];return `<span class="slot${f?" got":""}${f&&fx&&f===fx.hit?" new":""}">${f?`✓ ${fn(f)}`:t("flavorN",i+1)}</span>`}).join("")}</div>
+    ${free?"":`<div class="meter"><span class="mlabel">${t("misses")}</span>${[...Array(MAX_MISSES)].map((_,i)=>`<i class="${i<R.misses?"x":""}${fx&&!fx.hit&&i===R.misses-1?" new":""}"></i>`).join("")}</div>
+    <div class="live"><span>${t("roundScore")}</span><b>${(R.done?R.score:Math.max(0,ROUND_POINTS-MISS_COST*R.misses)).toLocaleString(LOC())}</b></div>`}`;
 
   const bd=$(".board"); bd.style.setProperty("--n",items.length); bd.classList.toggle("trio",items.length===3);
-  $("#bhead").innerHTML=`<span>#</span><span>Flavor</span>`+items.map(s=>`<span title="${s.n}" aria-label="${s.n}"><i class="mini">${artFor(s)}</i><em class="hn">${s.n}</em></span>`).join("");
+  $("#bhead").innerHTML=`<span>#</span><span>${t("thFlavor")}</span>`+items.map(s=>`<span title="${itemName(s)}" aria-label="${itemName(s)}"><i class="mini">${artFor(s)}</i><em class="hn">${itemName(s)}</em></span>`).join("")
+    +`<span class="tr" aria-label="${t("tasteClues")}">${TRAITS.map(([k])=>`<b>${t("traits")[k]}</b>`).join("")}</span>`;
   const g=cur().guesses;
   const rows=g.map((x,i)=>{
     const hits=items.map(s=>itemHas(s,x)), win=hits.every(Boolean);
-    const mk=(y,s)=>`<span class="mark ${y?'y':'n'}" aria-label="${s.n} ${y?'has':'does not have'} ${x}">${y?'✓':'✕'}</span>`;
-    return `<div class="grow${win?' win':''}${i===g.length-1?' pop':''}"><span class="n">${i+1}</span><span class="f">${x}${win||free?"":` <small class="pen">−${MISS_COST}</small>`}</span>${hits.map((y,k)=>mk(y,items[k])).join("")}</div>`});
-  if(!R.done) rows.push(`<div class="grow empty"><span class="n">${g.length+1}</span><span class="f">Next guess…</span>${items.map(()=>"<span></span>").join("")}</div>`);
+    const tr=`<span class="tr">${TRAITS.map(([k])=>{ const l=t("traits")[k]; if(!hasTrait(x,k)) return `<span class="tc x" aria-label="${t("traitNo",fn(x),l.toLowerCase())}"></span>`;
+      const g=R.answers.some(a=>hasTrait(a,k));
+      return `<span class="tc ${g?"g":"r"}" aria-label="${t("traitCell",l,g)}">${g?"✓":"✕"}</span>`}).join("").replace(/<span class="tc/g,(()=>{let n=0;return()=>`<span style="--i:${n++}" class="tc`})())}</span>`;
+    const mk=(y,s,k)=>`<span style="--i:${k}" class="mark ${y?'y':'n'}" aria-label="${t("markAria",itemName(s),y,fn(x))}">${y?'✓':'✕'}</span>`;
+    return `<div class="grow${win?' win':''}${i===g.length-1&&fx?' fresh':''}"><span class="n">${i+1}</span><span class="f">${fn(x)}${win||free?"":` <small class="pen">−${MISS_COST}</small>`}</span>${hits.map((y,k)=>mk(y,items[k],k)).join("")}${tr}</div>`});
+  if(!R.done) rows.push(`<div class="grow empty"><span class="n">${g.length+1}</span><span class="f">${t("nextGuess")}</span>${items.map(()=>"<span></span>").join("")}</div>`);
   $("#rows").innerHTML=rows.join("");
 
   // Hints point at the first flavor not yet found
   const target=R.answers.find(a=>!R.found.includes(a))||R.answers[0];
   const h1=$("#h1"), h2=$("#h2");
   const h1At=m==="endless"?2:DIFF.hint1At, h2At=m==="endless"?4:DIFF.hint2At;
-  const when=n=>n===0?"on the house":`unlocks after ${n} ${n===1?"miss":"misses"}`;
-  if(R.misses>=h1At||R.done){h1.className="hint open";h1.innerHTML=`<b>Hint 1 · flavor family${h1At===0&&!R.done?" · freebie":""}</b><span>${FLAVORS[target].fam}</span>`}
-  else {h1.className="hint";h1.innerHTML=`<b>Hint 1 · ${when(h1At)}</b>The family of a flavor you’re missing`}
-  if(R.misses>=h2At||R.done){h2.className="hint open";h2.innerHTML=`<b>Hint 2 · first letter${h2At===0&&!R.done?" · freebie":""}</b><span>${target[0]}…</span>`}
-  else {h2.className="hint";h2.innerHTML=`<b>Hint 2 · ${when(h2At)}</b>That flavor’s first letter`}
+  const when=n=>t("hintWhen",n);
+  const open1=R.misses>=h1At||R.done, open2=R.misses>=h2At||R.done;
+  const new1=open1&&!PREV_HINT[0]&&!dealt&&!R.won, new2=open2&&!PREV_HINT[1]&&!dealt&&!R.won; PREV_HINT=[open1,open2];
+  if(open1){h1.className="hint open"+(new1?" new":"");h1.innerHTML=`<b>${t("hint")} 1 · ${t("hintFam")}${h1At===0&&!R.done?` · ${t("freebie")}`:""}</b><span>${famName(FLAVORS[target].fam)}</span>`}
+  else {h1.className="hint";h1.innerHTML=`<b>${t("hint")} 1 · ${when(h1At)}</b>${t("hint1Closed")}`}
+  if(open2){h2.className="hint open"+(new2?" new":"");h2.innerHTML=`<b>${t("hint")} 2 · ${t("hintLetter")}${h2At===0&&!R.done?` · ${t("freebie")}`:""}</b><span>${hintLetter(target)}…</span>`}
+  else {h2.className="hint";h2.innerHTML=`<b>${t("hint")} 2 · ${when(h2At)}</b>${t("hint2Closed")}`}
 
   $("#guess").disabled=R.done; $("#goBtn").disabled=R.done;
-  $("#guess").placeholder = R.done ? "Round’s done" : "Name a flavor: BBQ, Mango, Matcha…";
+  $("#guess").placeholder = R.done ? t("roundDone") : t("placeholder");
   renderResult(); renderBar();
   fitArt();
+  // numbers glide; guess reactions
+  const live=$(".live b"); if(live) countTo(live,"live",R.done?R.score:Math.max(0,ROUND_POINTS-MISS_COST*R.misses));
+  const tot=$(".rtotal b"); if(tot) countTo(tot,"total:"+m+game.no,gameTotal());
+  if(fx){
+    if(!fx.hit) restart($("#form .row"),"shake");
+    if(fx.won) setTimeout(()=>crumbs($("#matchup"),R.misses===0?46:30,R.misses===0?240:180),120);
+    else if(fx.hit) crumbs($("#goBtn"),12,90);
+  }
 }
 const emo = (items,x) => {const n=items.filter(s=>itemHas(s,x)).length;return n===items.length?"🟩":n?"🟨":"⬜"};
 function shareText(){
   const lines=game.rounds.map((r,i)=>{const ri=roundInfo(r);return `${game.rounds.length>1?`R${i+1} `:""}${r.guesses.map(x=>emo(ri.items,x)).join("")} ${ri.score}`});
-  const head=game.mode==="daily"?`Snack Crackle Pop No. ${game.no}`:game.mode==="challenge"?`Snack Crackle Pop Challenge No. ${game.no}`:`Snack Crackle Pop Endless`;
-  return `${head} · ${gameTotal().toLocaleString()}/${(game.rounds.length*ROUND_POINTS).toLocaleString()}\n${lines.join("\n")}`;
+  const head=t("shareHead",game.mode,game.no);
+  return `${head} · ${gameTotal().toLocaleString(LOC())}/${(game.rounds.length*ROUND_POINTS).toLocaleString(LOC())}\n${lines.join("\n")}`;
 }
 function renderResult(){
   const r=$("#result"), R=info();
   if(!R.done){r.hidden=true;return}
   r.hidden=false; r.classList.toggle("lost",!R.won);
-  const names=R.items.map(s=>s.n); const nameStr=names.length===3?`${names[0]}, ${names[1]} and ${names[2]}`:`${names[0]} and ${names[1]}`;
+  const names=R.items.map(itemName); const nameStr=t("list",names);
   const missed=R.answers.filter(a=>!R.found.includes(a));
   const last=game.cur===game.rounds.length-1, allDone=gameDone();
   const free=game.mode==="endless";
-  const head = R.won ? (R.misses===0?"Flawless.":R.misses<=2?"Nailed it!":"Got there!") : free ? "Here’s what you missed" : "Stumped!";
-  let body=`<h2>${head}${free||(!R.won&&!R.score)?"":` <span class="pts">+${R.score.toLocaleString()}</span>`}</h2>
-    ${R.won?`<p>${R.misses===0?`You linked ${nameStr} without a single miss. Show-off.`:`You linked ${nameStr} with ${R.misses} ${R.misses===1?"miss":"misses"}.`}</p>`
-      :`<p>${R.found.length?`You got ${R.found.length} of ${R.need}. Not bad!`:"This one got away."} ${nameStr} share:</p><div class="reveal-line">${R.answers.length===1?"The flavor was":"The flavors were"}</div>`}
-    <div class="answers">${R.answers.map(a=>`<span class="${R.found.includes(a)?"":"other"}">${a}</span>`).join("")}</div>
-    ${R.won&&missed.length?`<p class="note">Bonus flavors you could’ve said: ${missed.join(", ")}.</p>`:""}`;
+  const H=t("heads"), head = R.won ? (R.misses===0?H.flawless:R.misses<=2?H.nailed:H.got) : free ? H.missed : H.stumped;
+  let body=`<h2>${head}${free||(!R.won&&!R.score)?"":` <span class="pts">+${R.score.toLocaleString(LOC())}</span>`}</h2>
+    ${R.won?`<p>${R.misses===0?t("wonNoMiss",nameStr):t("won",nameStr,R.misses)}</p>`
+      :`<p>${R.found.length?t("lostSome",R.found.length,R.need):t("lostNone")} ${t("share",nameStr)}</p><div class="reveal-line">${R.answers.length===1?t("wasOne"):t("wasMany")}</div>`}
+    <div class="answers">${R.answers.map(a=>`<span class="${R.found.includes(a)?"":"other"}">${fn(a)}</span>`).join("")}</div>
+    ${R.won&&missed.length?`<p class="note">${t("bonus",missed.map(fn).join(", "))}</p>`:""}`;
   if(game.mode==="daily"&&!allDone){
     const nxt=game.rounds.findIndex(x=>!roundInfo(x).done);
-    body+=`<div class="share-row"><button class="go" type="button" id="nextR" style="padding:10px 18px">Next up: ${TIERS[nxt]?TIERS[nxt].name:`round ${nxt+1}`} →</button></div>`;
+    body+=`<div class="share-row"><button class="go" type="button" id="nextR" style="padding:10px 18px">${t("nextUp",tierName(nxt)||t("roundN",nxt+1))}</button></div>`;
   } else if(game.mode!=="endless"){
     const total=gameTotal(), max=game.rounds.length*ROUND_POINTS;
-    body+=`${game.rounds.length>1?`<div class="final"><span>Today's total</span><b>${total.toLocaleString()}</b><small>/ ${max.toLocaleString()}</small></div>
-      <div class="breakdown">${game.rounds.map((x,i)=>{const ri=roundInfo(x);return `<div><span>${TIERS[i]?TIERS[i].name:`Round ${i+1}`}</span><span>${ri.items.map(s=>s.n).join(" + ")}</span><b>${ri.score.toLocaleString()}</b></div>`}).join("")}</div>`:""}
-      <div class="share-row"><pre class="grid-emoji" id="shareTxt">${shareText()}</pre><button class="icon-btn" type="button" id="shareBtn">Copy your score</button></div>
-      <p class="note" style="margin:10px 0 0">Send it to the friend who thinks they know snacks.</p>
-      <p class="next" style="margin-top:12px">Fresh ${game.mode==="challenge"?"trio":"pairs"} in <span id="countdown"></span></p>`;
+    body+=`${game.rounds.length>1?`<div class="final"><span>${t("todayTotal")}</span><b>${total.toLocaleString(LOC())}</b><small>/ ${max.toLocaleString(LOC())}</small></div>
+      <div class="breakdown">${game.rounds.map((x,i)=>{const ri=roundInfo(x);return `<div><span>${tierName(i)||t("roundN",i+1)}</span><span>${ri.items.map(itemName).join(" + ")}</span><b>${ri.score.toLocaleString(LOC())}</b></div>`}).join("")}</div>`:""}
+      <div class="share-row"><pre class="grid-emoji" id="shareTxt">${shareText()}</pre><button class="icon-btn" type="button" id="shareBtn">${t("copyScore")}</button></div>
+      <p class="note" style="margin:10px 0 0">${t("sendIt")}</p>
+      <p class="next" style="margin-top:12px">${t("freshIn",game.mode==="challenge")} <span id="countdown"></span></p>`;
   } else {
-    body+=`<div class="share-row"><button class="go" type="button" id="nextRound" style="padding:10px 18px">Deal me another</button></div>`;
+    body+=`<div class="share-row"><button class="go" type="button" id="nextRound" style="padding:10px 18px">${t("deal")}</button></div>`;
   }
   r.innerHTML=body;
   const sb=$("#shareBtn"); if(sb) sb.onclick=async()=>{
-    try{await navigator.clipboard.writeText(shareText());toast("Copied! Now go send it")}
-    catch(e){const t=$("#shareTxt");t.hidden=false;const sel=getSelection(),rg=document.createRange();rg.selectNodeContents(t);sel.removeAllRanges();sel.addRange(rg);toast("Selected. Copy it and send it")}
+    try{await navigator.clipboard.writeText(shareText());toast(t("copied"))}
+    catch(e){const t=$("#shareTxt");t.hidden=false;const sel=getSelection(),rg=document.createRange();rg.selectNodeContents(t);sel.removeAllRanges();sel.addRange(rg);toast(t("selected"))}
   };
   const nr=$("#nextRound"); if(nr) nr.onclick=()=>loadEndless(true);
   const nx=$("#nextR"); if(nx) nx.onclick=()=>{game.cur=game.rounds.findIndex(x=>!roundInfo(x).done);finishLoad();window.scrollTo({top:0,behavior:"smooth"})};
@@ -1236,12 +2159,12 @@ function renderResult(){
 function renderBar(){
   const p=$("#pbar");
   if(game.mode!=="endless"){
-    p.innerHTML=gameDone()?`<span>Still hungry?</span><button class="textbtn" type="button" data-go="${game.mode==="daily"?"challenge":"daily"}">Play today's ${game.mode==="daily"?"Challenge":"Daily"}</button><button class="textbtn" type="button" data-go="endless">Try Endless</button>`:"";
+    p.innerHTML=gameDone()?`<span>${t("hungry")}</span><button class="textbtn" type="button" data-go="${game.mode==="daily"?"challenge":"daily"}">${t("playOther",game.mode==="daily"?"challenge":"daily")}</button><button class="textbtn" type="button" data-go="endless">${t("tryEndless")}</button>`:"";
   } else {
-    p.innerHTML=`<div class="seg" role="group" aria-label="Endless puzzle size">
-        <button type="button" data-size="2" aria-pressed="${endlessSize===2}">Pairs</button>
-        <button type="button" data-size="3" aria-pressed="${endlessSize===3}">Trios</button></div>
-      ${info().done?"":`<button class="textbtn" type="button" id="reveal">I give up</button><button class="textbtn" type="button" id="skip">Skip this one</button>`}`;
+    p.innerHTML=`<div class="seg" role="group" aria-label="${t("sizeAria")}">
+        <button type="button" data-size="2" aria-pressed="${endlessSize===2}">${t("pairs")}</button>
+        <button type="button" data-size="3" aria-pressed="${endlessSize===3}">${t("trios")}</button></div>
+      ${info().done?"":`<button class="textbtn" type="button" id="reveal">${t("giveUp")}</button><button class="textbtn" type="button" id="skip">${t("skip")}</button>`}`;
     p.querySelectorAll("[data-size]").forEach(b=>b.onclick=()=>{const s=endlessState();const n=+b.dataset.size;if(n===s.size)return;
       s.size=n; nextEndless(s); saveEndless(s); loadEndless(false)});
     const sk=$("#skip"); if(sk) sk.onclick=()=>{ const R=info(); logEvent({t:"skip",...puzzleMeta(R),total_guesses:cur().guesses.length,found:R.found}); loadEndless(true); };
@@ -1264,7 +2187,7 @@ function playerId(){ let id=store.get("snackdle-pid",null); if(!id){ id=Math.ran
 function logEvent(ev){
   if(!ANALYTICS) return;
   try{ fetch("/api/log",{method:"POST",headers:{"Content-Type":"application/json"},keepalive:true,
-    body:JSON.stringify({...ev,mode:game.mode,no:game.no||todayNumber(),r:game.cur,player:playerId()})}).catch(()=>{}); }catch(e){}
+    body:JSON.stringify({...ev,lang:LANG,mode:game.mode,no:game.no||todayNumber(),r:game.cur,player:playerId()})}).catch(()=>{}); }catch(e){}
 }
 // Puzzle description sent with round results (hidden difficulty profile + categories/countries)
 function puzzleMeta(R){
@@ -1300,16 +2223,16 @@ function submit(raw){
   const msg=$("#msg"), R=info();
   msg.style.color="";
   if(R.done) return;
-  if(!raw.trim()){msg.textContent="Type a flavor first, then hit Guess.";return}
+  if(!raw.trim()){msg.textContent=t("typeFirst");return}
   const res=resolveFlavor(raw);
-  if(res&&res.amb){msg.textContent=`${res.amb.join(" or ")}? Pick the one you meant.`;return}
-  if(!res&&/^(milk )?choc(olate)?$/.test(norm(raw))){msg.textContent="Plain chocolate would be too easy, so it doesn’t count. Try Dark or White Chocolate.";return}
-  if(!res){msg.textContent=`Hmm, "${raw}" isn’t a flavor we know. Check the spelling or pick from the list.`;return}
-  const name=res.name, heard=res.fuzzy?`Going with ${name}. `:"";
+  if(res&&res.amb){msg.textContent=t("amb",res.amb.map(fn));return}
+  if(!res&&/^((milk )?choc(olate)?|chocolat( au lait)?|(牛奶)?巧克力|(ミルク)?チョコ(レート)?)$/.test(norm(raw))){msg.textContent=t("choc");return}
+  if(!res){msg.textContent=t("unknown",raw);return}
+  const name=res.name, heard=res.fuzzy?t("heard",fn(name)):"";
   
-  if(cur().guesses.includes(name)){msg.textContent=`${heard}You already tried ${name}. Mix it up!`;return}
+  if(cur().guesses.includes(name)){msg.textContent=heard+t("already",fn(name));return}
   const hit=matchGuess(name,R.answers,R.items,R.found);
-  if(hit&&R.found.includes(hit)){msg.textContent=`${heard}${name} counts as ${hit}, and you’ve already got that one.`;return}
+  if(hit&&R.found.includes(hit)){msg.textContent=heard+t("covered",fn(name),fn(hit));return}
   const rd=cur(), now=Date.now(); if(!rd.t0) rd.t0=now;
   const h1=game.mode==="endless"?2:DIFF.hint1At, hintVisible=R.misses>=h1;
   const matchedItems=R.items.filter(s=>itemHas(s,name)).length, partial=!hit&&matchedItems>0;
@@ -1326,15 +2249,17 @@ function submit(raw){
       hint_used:!!rd.hint,partial_guesses:rd.partials||0,found:after.found});
     recordSkill({won:after.won,misses:after.misses,hintUsed:!!rd.hint,firstWin:!!rd.firstHit});
     if(game.mode!=="endless"&&gameDone()) logEvent({t:"game",total:gameTotal(),max:game.rounds.length*ROUND_POINTS}); }
-  const via = hit&&hit!==name ? ` (counts as ${hit})` : "";
+  const via = hit&&hit!==name ? t("via",fn(hit)) : "";
+  FX={guess:name,hit:hit||null,partial,won:after.won,done:after.done};
   msg.style.color = hit ? "var(--hit)" : "";
-  msg.textContent = heard + (hit ? (after.won?"":`Yes! ${name} is a match${via}. ${after.need-after.found.length} more to go.`) : partial ? `Close! Only some of them come in ${name}.` : `Nope, not ${name}.`);
+  msg.textContent = heard + (hit ? (after.won?"":t("hit",fn(name),via,after.need-after.found.length)) : partial ? t("partial",fn(name)) : t("miss",fn(name)));
   if(game.mode==="endless"){
     const st=endlessState(); st.guesses=cur().guesses; saveEndless(st);
   } else {
     saveDaily();
     if(after.done&&gameDone()) recordStats();
   }
+  restart(msg,"flash");
   $("#guess").value=""; closeSugg(); render();
   if(after.done) showResult();
 }
@@ -1363,7 +2288,7 @@ function suggest(){
   items=[...hits.entries()].sort((a,b)=>a[1]-b[1]||a[0].localeCompare(b[0])).map(x=>x[0]).slice(0,8);
   if(!items.length){closeSugg();return}
   sel=-1;
-  ul.innerHTML=items.map((v,i)=>`<li role="option" id="opt${i}" aria-selected="false" class="${cur().guesses.includes(v)?'used':''}" data-v="${v}">${v}<small>${cur().guesses.includes(v)?'tried':FLAVORS[v].fam}</small></li>`).join("");
+  ul.innerHTML=items.map((v,i)=>`<li role="option" id="opt${i}" aria-selected="false" class="${cur().guesses.includes(v)?'used':''}" data-v="${v}">${fn(v)}<small>${cur().guesses.includes(v)?t("tried"):famName(FLAVORS[v].fam)}</small></li>`).join("");
   ul.hidden=false; $("#guess").setAttribute("aria-expanded","true");
 }
 function closeSugg(){$("#sugg").hidden=true;$("#guess").setAttribute("aria-expanded","false");sel=-1}
@@ -1395,16 +2320,33 @@ $("#helpBtn").onclick=()=>openModal("#helpModal");
 $("#statsBtn").onclick=()=>openModal("#statsModal");
 function fillStats(){
   const sm = game&&game.mode==="challenge" ? "challenge" : "daily", max=MODES[sm].rounds*ROUND_POINTS;
-  $("#statsTitle").textContent = sm==="challenge" ? "Your Challenge stats" : "Your Daily stats";
+  $("#statsTitle").textContent = t("statsTitle",sm);
   const st=store.get(MODES[sm].stats,{played:0,total:0,best:0,streak:0,maxStreak:0,history:[]});
-  $("#statsGrid").innerHTML=[[st.played,"Played"],[st.played?Math.round(st.total/st.played).toLocaleString():0,"Average"],[st.best.toLocaleString(),"Best"],[st.streak,"Day streak"]]
-    .map(([v,l])=>`<div>${v}<small>${l}</small></div>`).join("");
+  $("#statsGrid").innerHTML=[st.played,st.played?Math.round(st.total/st.played).toLocaleString(LOC()):0,st.best.toLocaleString(LOC()),st.streak]
+    .map((v,i)=>[v,t("statLabels")[i]]).map(([v,l])=>`<div>${v}<small>${l}</small></div>`).join("");
   const h=st.history||[];
-  $("#dist").innerHTML=(h.length?`<p class="endless-line" style="margin:0 0 4px">Your last ${h.length} ${h.length===1?"game":"games"} (out of ${max.toLocaleString()})</p>`:`<p class="endless-line" style="margin:0">No games yet. Go set a score for your friends to beat.</p>`)
-    + h.map(x=>`<div><span>${x.no}</span><span class="bar${game&&x.no===game.no&&game.mode===sm?' cur':''}" style="width:${Math.max(8,x.score/max*100)}%">${x.score.toLocaleString()}</span></div>`).join("")
+  $("#dist").innerHTML=(h.length?`<p class="endless-line" style="margin:0 0 4px">${t("lastN",h.length,max.toLocaleString(LOC()))}</p>`:`<p class="endless-line" style="margin:0">${t("noGames")}</p>`)
+    + h.map(x=>`<div><span>${x.no}</span><span class="bar${game&&x.no===game.no&&game.mode===sm?' cur':''}" style="width:${Math.max(8,x.score/max*100)}%">${x.score.toLocaleString(LOC())}</span></div>`).join("")
     ;
 }
 let tt; function toast(t){const el=$("#toast");el.textContent=t;el.hidden=false;clearTimeout(tt);tt=setTimeout(()=>el.hidden=true,1800)}
+
+/* ---------- Language: static text + switcher ---------- */
+function applyStatic(){
+  const d=document.documentElement; d.lang=LANG;
+  d.style.setProperty("--t-facts",JSON.stringify(t("facts"))); d.style.setProperty("--t-prize",JSON.stringify(t("prize"))); d.style.setProperty("--t-answer",JSON.stringify(t("answer")));
+  $(".tear").textContent=t("tear"); $(".ribbon").textContent=t("ribbon"); $(".bestby").textContent=t("bestby");
+  $("#helpBtn").textContent=t("help"); $("#statsBtn").textContent=t("stats");
+  const ls=$("#langSel"); ls.value=LANG; ls.setAttribute("aria-label",{en:"Language",fr:"Langue",es:"Idioma",zh:"语言",ja:"言語"}[LANG]);
+  $("#tabs").setAttribute("aria-label",t("modeAria")); document.querySelectorAll(".tab").forEach((b,i)=>b.innerHTML=t("tabs")[i]);
+  $("#guessLabel").textContent=t("guessLabel"); $("#goBtn").textContent=t("guessBtn");
+  $("#helpTitle").textContent=t("helpTitle"); $("#helpBody").innerHTML=t("helpBody"); $("#helpClose").textContent=t("letsPlay"); $("#statsClose").textContent=t("close");
+  $("#h1").innerHTML=`<b>${t("hint")} 1</b>${t("hint1Init")}`; $("#h2").innerHTML=`<b>${t("hint")} 2</b>${t("hint2Init")}`;
+}
+function setLang(l){ if(!LANGS.includes(l)) return; LANG=l; try{localStorage.setItem("snackdle-lang",JSON.stringify(l))}catch(e){}
+  applyStatic(); closeSugg(); $("#msg").textContent=""; if(game) render(); if(!$("#statsModal").hidden) fillStats(); }
+$("#langSel").onchange=e=>setLang(e.target.value);
+applyStatic();
 
 /* ---------- Boot ---------- */
 document.querySelectorAll(".tab").forEach(t=>t.onclick=()=>switchMode(t.dataset.mode));
