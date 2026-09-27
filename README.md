@@ -10,6 +10,13 @@ Daily flavor-matching game with adaptive difficulty. Static page (`index.html`) 
 | `GET /api/report?days=7` | The analysis cycle: performance, difficulty, flavor trends, puzzle trends, common wrong answers (with entropy), flagged puzzles and the next adjustment with its reasons. |
 | `GET /api/stats?days=7` | Per-puzzle, per-round Daily/Challenge detail. |
 
+## Security
+- **`/api/log`** only accepts posts from this site, bodies under 8 KB, and values the game itself can produce (known modes, flavor names, categories and pair IDs). Anything else is rejected or dropped.
+- **Rate limits** (in `lib/guard.js`): 40 log events and 30 config requests per minute per visitor, and at most 25 player IDs per visitor per day. Extra events are ignored, so nobody can flood fake players to skew difficulty. Limits use a salted hash of the IP that expires within a day; no IP address is stored.
+- **`/api/report` and `/api/stats` are private** because they show today's answers. Add an environment variable `STATS_KEY` in Vercel (at least 12 characters) and open `/api/report?key=YOUR_KEY`. Without it, both return 404.
+- **Security headers** in `vercel.json`: Content-Security-Policy (scripts only from this site, fonts only from Google Fonts, no calls to other servers), no framing by other sites, HTTPS only.
+- Optional: set `RATE_LIMIT_SALT` to any random text.
+
 ## How difficulty works
 - **Hidden profile (1–10) for every pair/trio**, from flavor specificity, flavor prominence, product familiarity, distractor flavors, category distance and country distance. Starting values are editorial estimates; observed pair and flavor difficulty is blended in as data arrives (weight grows with sample size).
 - **Daily** deals 3 rounds around the day's target: round 1 about 1.2 easier, round 2 on target, round 3 about 1 harder. **Challenge** is target + 0.5.
