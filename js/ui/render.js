@@ -68,17 +68,18 @@ function render(){
     ${free?"":`<div class="meter"><span class="mlabel">${t("misses")}</span>${[...Array(MAX_MISSES)].map((_,i)=>`<i class="${i<R.misses?"x":""}${fx&&!fx.hit&&i===R.misses-1?" new":""}"></i>`).join("")}</div>
     <div class="live"><span>${t("roundScore")}</span><b>${(R.done?R.score:Math.max(0,ROUND_POINTS-MISS_COST*R.misses)).toLocaleString(LOC())}</b></div>`}`;
 
-  const bd=$(".board"); bd.style.setProperty("--n",items.length); bd.classList.toggle("trio",items.length===3);
+  const cols=roundTraits(items,R.answers);
+  const bd=$(".board"); bd.style.setProperty("--n",items.length); bd.style.setProperty("--tn",cols.length); bd.classList.toggle("trio",items.length===3);
   $("#bhead").innerHTML=`<span>#</span><span>${t("thFlavor")}</span>`+items.map(s=>`<span title="${itemName(s)}" aria-label="${itemName(s)}"><i class="mini">${artFor(s)}</i><em class="hn">${itemName(s)}</em></span>`).join("")
-    +`<span class="tr" aria-label="${t("tasteClues")}">${TRAITS.map(([k])=>`<b>${t("traits")[k]}</b>`).join("")}</span>`;
-  const g=cur().guesses;
+    +`<span class="tr" aria-label="${t("tasteClues")}">${cols.map(k=>`<b>${t("traits")[k]}</b>`).join("")}</span>`;
+  const g=cur().guesses, temps=guessTemps(cur()), N=R.answers.length;
   const rows=g.map((x,i)=>{
     const hits=items.map(s=>itemHas(s,x)), win=hits.every(Boolean);
-    const tr=`<span class="tr">${TRAITS.map(([k])=>{ const l=t("traits")[k]; if(!hasTrait(x,k)) return `<span class="tc x" aria-label="${t("traitNo",fn(x),l.toLowerCase())}"></span>`;
-      const g=R.answers.some(a=>hasTrait(a,k));
-      return `<span class="tc ${g?"g":"r"}" aria-label="${t("traitCell",l,g)}">${g?"✓":"✕"}</span>`}).join("").replace(/<span class="tc/g,(()=>{let n=0;return()=>`<span style="--i:${n++}" class="tc`})())}</span>`;
+    const tr=`<span class="tr">${cols.map(k=>{ const l=t("traits")[k]; if(!hasTrait(x,k)) return `<span class="tc x" aria-label="${t("traitNo",fn(x),l.toLowerCase())}"></span>`;
+      const c=traitCount(R.answers,k);
+      return `<span class="tc ${c===N?"g":c?"s":"r"}" aria-label="${t("traitCell",l,c,N)}">${c}/${N}</span>`}).join("").replace(/<span class="tc/g,(()=>{let n=0;return()=>`<span style="--i:${n++}" class="tc`})())}</span>`;
     const mk=(y,s,k)=>`<span style="--i:${k}" class="mark ${y?'y':'n'}" aria-label="${t("markAria",itemName(s),y,fn(x))}">${y?'✓':'✕'}</span>`;
-    return `<div class="grow${win?' win':''}${i===g.length-1&&fx?' fresh':''}"><span class="n">${i+1}</span><span class="f">${fn(x)}${win||free?"":` <small class="pen">−${MISS_COST}</small>`}</span>${hits.map((y,k)=>mk(y,items[k],k)).join("")}${tr}</div>`});
+    return `<div class="grow${win?' win':''}${i===g.length-1&&fx?' fresh':''}"><span class="n">${i+1}</span><span class="f">${fn(x)}${temps[i]?` <small class="temp ${temps[i]}">${TEMP_ICON[temps[i]]} ${t("temp")[temps[i]]}</small>`:""}${win||free?"":` <small class="pen">−${MISS_COST}</small>`}</span>${hits.map((y,k)=>mk(y,items[k],k)).join("")}${tr}</div>`});
   if(!R.done) rows.push(`<div class="grow empty"><span class="n">${g.length+1}</span><span class="f">${t("nextGuess")}</span>${items.map(()=>"<span></span>").join("")}</div>`);
   $("#rows").innerHTML=rows.join("");
 
@@ -107,6 +108,7 @@ function render(){
     else if(fx.hit) crumbs($("#goBtn"),12,90);
   }
 }
+const TEMP_ICON={hot:"🔥",warm:"♨️",cold:"🧊"};
 const emo = (items,x) => {const n=items.filter(s=>itemHas(s,x)).length;return n===items.length?"🟩":n?"🟨":"⬜"};
 function shareText(){
   const lines=game.rounds.map((r,i)=>{const ri=roundInfo(r);return `${game.rounds.length>1?`R${i+1} `:""}${r.guesses.map(x=>emo(ri.items,x)).join("")} ${ri.score}`});

@@ -63,3 +63,30 @@ const FLAVORS = {
 const TRAITS=[["w","Sweet"],["s","Salty"],["o","Sour"],["b","Bitter"],["h","Spicy"],["u","Savory"],["f","Fruity"],["c","Creamy"]];
 const TASTE={"Strawberry": "wof", "Lemon": "wof", "Mango": "wf", "Coconut": "wfc", "Blue Raspberry": "wof", "Muscat": "wf", "Chamoy": "wsohf", "Toffee": "wc", "Cheesecake": "woc", "Jalapeño": "h", "Curry": "hu", "Salsa": "uho", "Onion": "u", "Pretzel": "su", "Garlic": "u", "Truffle": "u", "Honeycomb": "w", "Maple": "w", "Sesame": "u", "Licorice": "wb", "Soy Sauce": "su", "Chipotle": "hu", "Mushroom": "u", "Crab": "wus", "Sweet & Sour": "wo", "Takoyaki": "u", "Grapefruit": "wobf", "Lychee": "wof", "Blackberry": "wof", "Papaya": "wf", "Cucumber": "w", "Cream Soda": "wc", "Rose": "w", "Bubblegum": "wf", "Mint": "w", "Cookies & Cream": "wc", "Churro": "w", "Caramel": "wc", "Dark Chocolate": "wb", "Hazelnut": "w", "Wasabi": "h", "Masala": "hu", "Pickled Onion": "os", "Cheese": "usc", "Sour Cream & Onion": "ousc", "Chicken": "u", "Prawn Cocktail": "wuo", "Consommé": "us", "Salted": "s", "Banana": "wf", "Apple": "wof", "Pineapple": "wof", "Cherry": "wof", "Lime": "wof", "Melon": "wf", "Tamarind": "wof", "Popcorn": "ws", "Brownie": "w", "Habanero": "h", "Hot & Spicy": "h", "Honey Mustard": "woh", "Sour Cream": "ouc", "Tomato": "uo", "Cheese & Garlic": "usc", "Cinnamon": "wh", "Nougat": "w", "Pudding": "wc", "Kiwi": "wof", "Ramune": "wof", "Teriyaki": "wus", "Guacamole": "uosc", "Kimchi": "ohsu", "Squid": "us", "Mentaiko": "hsu", "Red Bean": "w", "Passion Fruit": "wof", "Pear": "wf", "Mixed Berry": "wof", "Plum": "wof", "Fruit Punch": "wof", "Ginger": "hw", "Tea": "bw", "Cola": "w", "Honey": "w", "Birthday Cake": "wc", "Pumpkin": "w", "Salted Caramel": "wsc", "White Chocolate": "wc", "Peanut": "us", "Chili Lime": "hof", "Salt & Vinegar": "so", "Worcester Sauce": "uos", "Nacho Cheese": "usc", "Ranch": "usc", "Beef": "u", "Shrimp": "us", "Paprika": "wu", "Orange": "wof", "Grape": "wof", "Raspberry": "wof", "Watermelon": "wf", "Blackcurrant": "wof", "Peach": "wf", "Coffee": "wb", "Chocolate Chip": "w", "Biscoff": "w", "Buffalo": "hou", "Adobada": "uho", "Mustard": "ho", "Pepper": "h", "Butter": "suc", "Corn": "wu", "Yogurt": "owc", "Marshmallow": "w", "Chestnut": "w", "Yuzu": "wobf", "Ketchup": "wou", "Taco": "u", "Peri Peri": "hou", "Tom Yum": "ohu", "Mayonnaise": "uoc", "Salad": "su", "Salted Egg": "suc", "Guava": "wof", "Blueberry": "wof", "Pomegranate": "wof", "Rhubarb": "owf", "Root Beer": "w", "Elderflower": "w", "Cotton Candy": "w", "Matcha": "wb", "Sweet Potato": "w", "Red Velvet": "woc", "Vanilla": "wc", "Turkish Delight": "w", "Almond": "wb", "Peanut Butter": "wusc", "Sweet Chili": "wh", "Dill Pickle": "os", "Chutney": "wohf", "Cheese & Onion": "usc", "BBQ": "wuo", "Bacon": "su", "Seaweed": "us", "Pizza": "u"};
 const hasTrait=(f,k)=>(TASTE[f]||"").includes(k);
+// Flavor neighborhoods: flavors a player would call "close" (Lemon and Lime, Crab and Shrimp). A wrong guess
+// in the same neighborhood as an answer is "hot". A flavor can live in more than one.
+const NEIGHBORHOODS=[
+  ["Orange","Lemon","Lime","Yuzu","Grapefruit","Chili Lime"],
+  ["Strawberry","Raspberry","Blue Raspberry","Blueberry","Blackberry","Mixed Berry","Blackcurrant","Cherry"],
+  ["Mango","Pineapple","Coconut","Passion Fruit","Guava","Lychee","Papaya","Banana","Kiwi"],
+  ["Apple","Pear","Peach","Plum","Grape","Muscat","Pomegranate"],
+  ["Watermelon","Melon","Cucumber"],
+  ["Fruit Punch","Bubblegum","Cotton Candy","Ramune","Cola","Root Beer","Cream Soda"],
+  ["Salt & Vinegar","Dill Pickle","Pickled Onion","Sweet & Sour","Worcester Sauce","Tamarind","Chamoy","Chutney","Rhubarb"],
+  ["Ketchup","Mustard","Honey Mustard","Mayonnaise","BBQ","Tomato","Salsa","Ranch"],
+  ["Jalapeño","Habanero","Hot & Spicy","Chipotle","Peri Peri","Buffalo","Sweet Chili","Wasabi","Pepper","Paprika","Adobada","Chili Lime"],
+  ["Curry","Masala","Tom Yum","Kimchi","Ginger","Taco","Salsa","Adobada"],
+  ["Soy Sauce","Teriyaki","Takoyaki","Seaweed","Mushroom","Truffle","Consommé","Sesame"],
+  ["Chicken","Beef","Bacon","BBQ","Pizza","Taco","Consommé"],
+  ["Crab","Squid","Mentaiko","Prawn Cocktail","Shrimp","Seaweed","Salted Egg"],
+  ["Salted","Pretzel","Butter","Popcorn","Corn","Salad","Salted Egg"],
+  ["Onion","Garlic","Sour Cream & Onion","Cheese & Onion","Cheese & Garlic","Pickled Onion"],
+  ["Cheese","Nacho Cheese","Cheese & Onion","Cheese & Garlic","Sour Cream","Sour Cream & Onion","Ranch","Mayonnaise","Guacamole","Pizza"],
+  ["Chocolate Chip","Brownie","Dark Chocolate","White Chocolate","Cookies & Cream","Red Velvet","Hazelnut"],
+  ["Toffee","Caramel","Salted Caramel","Honeycomb","Maple","Honey","Biscoff","Churro","Popcorn"],
+  ["Cheesecake","Pudding","Birthday Cake","Vanilla","Marshmallow","Yogurt","Cream Soda","Cookies & Cream","White Chocolate"],
+  ["Almond","Hazelnut","Peanut","Peanut Butter","Chestnut","Sesame","Nougat"],
+  ["Coffee","Tea","Matcha"],
+  ["Red Bean","Matcha","Sweet Potato","Pumpkin","Chestnut","Sesame"],
+  ["Elderflower","Rose","Mint","Licorice","Turkish Delight","Cinnamon","Ginger"]
+];

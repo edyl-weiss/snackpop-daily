@@ -113,7 +113,7 @@ I18N.fr={
   facts:"Tes essais", prize:"CADEAU À L’INTÉRIEUR", answer:"LA RÉPONSE",
   thFlavor:"Saveur", tasteClues:"Indices de goût", nextGuess:"À toi…",
   traits:{w:"Sucré",s:"Salé",o:"Acide",b:"Amer",h:"Piquant",u:"Umami",f:"Fruité",c:"Crémeux"},
-  traitNo:(x,l)=>`${x} : pas ${l}`, traitCell:(l,g)=>`${l} : ${g?"au moins une réponse aussi":"aucune réponse"}`,
+  traitNo:(x,l)=>`${x} : pas ${l}`, traitCell:(l,c,n)=>`${l} : ${c} sur ${n} réponses`, temp:{hot:"Chaud",warm:"Tiède",cold:"Froid"}, tempMsg:{hot:" Mais tu chauffes !",warm:" C’est tiède.",cold:" Glacial."},
   markAria:(s,y,x)=>`${s} ${y?"existe":"n’existe pas"} en ${x}`,
   hint:"Indice", hintFam:"famille", hintLetter:"première lettre", freebie:"cadeau",
   hintWhen:n=>n===0?"cadeau":`dispo après ${n} erreur${n>1?"s":""}`,
@@ -150,7 +150,8 @@ I18N.fr={
       <li>Pas de prise de tête sur l’orthographe : « fromge », « caramle », « thé vert » ou « citron vert piment », ça passe. Les noms en anglais aussi.</li>
       <li>Les grandes familles comptent : un snack Habanero ou Flamin’ Hot, c’est du « Piquant », et Fromage nacho, c’est du « Fromage ».</li>
       <li>Une erreur, c’est jamais perdu : tu vois un <b>✓</b> sur chaque produit qui a cette saveur, et elle s’affiche sur sa carte comme indice.</li>
-      <li><b>Indices de goût :</b> chaque essai allume ses goûts (sucré, salé, acide, amer, piquant, umami) et dit s’il est fruité ou crémeux. <b style="color:var(--hit)">Vert</b> : au moins une des réponses l’a aussi. <b style="color:var(--tomato)">Rouge</b> : aucune. Gris : ton essai n’a pas ce goût. Tu tentes Citron (sucré + acide) et t’as du vert sur acide, du rouge sur sucré ? La réponse est acidulée, pas sucrée.</li>
+      <li><b>Indices de goût :</b> chaque manche affiche les 3 à 5 goûts qui comptent le plus. Si ton essai a l’un d’eux, la case te dit combien de réponses l’ont aussi : <b style="color:var(--hit)">4/4</b> toutes, <b style="color:var(--some)">2/4</b> certaines, <b style="color:var(--tomato)">0/4</b> aucune. Vide : ton essai n’a pas ce goût.</li>
+      <li><b>Chaud ou froid :</b> chaque raté a sa température. 🔥 Chaud : t’es dans le bon coin (Citron alors que c’est Citron vert). ♨️ Tiède : même famille ou goûts proches. 🧊 Froid : même pas le bon rayon.</li>
       <li>Coincé ? Après 2 erreurs, on te donne la famille d’une saveur qui te manque. Après 4, sa première lettre.</li>
       <li>Le <b>Quotidien</b>, c’est trois manches, <b>Facile → Moyen → Difficile</b>, pour 3 000 points max. La 1, c’est des saveurs de tous les jours. La 3, c’est là que les vrais experts se démarquent. Nouvelles énigmes à minuit, chez toi.</li>
       <li>Le <b>Défi</b> : une manche par jour, mais avec trois produits au lieu de deux. <b>Sans fin</b> : des paires ou des trios à volonté, sans points ni limite d’erreurs.</li>

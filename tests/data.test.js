@@ -15,6 +15,10 @@ test("every flavor has taste traits", () => {
   assert.deepEqual(run(`Object.keys(FLAVORS).filter(f => !TASTE[f])`), []);
   assert.deepEqual(run(`Object.keys(TASTE).filter(f => !FLAVORS[f])`), []);
 });
+test("every flavor neighborhood uses real flavor names, and every flavor has a neighborhood", () => {
+  assert.deepEqual(run(`NEIGHBORHOODS.flat().filter(f => !FLAVORS[f])`), []);
+  assert.deepEqual(run(`Object.keys(FLAVORS).filter(f => !NEIGHBORHOODS.some(h => h.includes(f)))`), []);
+});
 test("every flavor has a name in every language", () => {
   for (const t of ["FR_FLAVORS", "ES_FLAVORS", "ZH_FLAVORS", "JA_FLAVORS"])
     assert.deepEqual(run(`Object.keys(FLAVORS).filter(f => !${t}[f])`), [], t);

@@ -22,7 +22,7 @@ en:{
   facts:"Guess Facts", prize:"PRIZE INSIDE", answer:"THE ANSWER",
   thFlavor:"Flavor", tasteClues:"Taste clues", nextGuess:"Next guess…",
   traits:{w:"Sweet",s:"Salty",o:"Sour",b:"Bitter",h:"Spicy",u:"Savory",f:"Fruity",c:"Creamy"},
-  traitNo:(x,l)=>`${x} isn't ${l}`, traitCell:(l,g)=>`${l}: ${g?"an answer is":"no answer is"} ${l.toLowerCase()} too`,
+  traitNo:(x,l)=>`${x} isn't ${l}`, traitCell:(l,c,n)=>`${l}: ${c} of ${n} answers`, temp:{hot:"Hot",warm:"Warm",cold:"Cold"}, tempMsg:{hot:" Ooh, you're hot though.",warm:" Getting warmer.",cold:" Ice cold."},
   markAria:(s,y,x)=>`${s} ${y?"has":"does not have"} ${x}`,
   hint:"Hint", hintFam:"flavor family", hintLetter:"first letter", freebie:"freebie",
   hintWhen:n=>n===0?"on the house":`unlocks after ${n} ${n===1?"miss":"misses"}`,
@@ -59,7 +59,8 @@ en:{
       <li>We're not fussy about spelling. "chese", "carmel", "green tea" and "lime chili" all work.</li>
       <li>Broad flavors count. A Habanero or Flamin' Hot snack matches "Hot & Spicy", and Nacho Cheese matches "Cheese".</li>
       <li>A wrong guess isn't wasted. You'll see a <b>✓</b> on anything that does have that flavor, and it gets added to that item's card as a clue.</li>
-      <li><b>Taste clues:</b> every guess lights up its tastes (sweet, salty, sour, bitter, spicy, savory) and whether it’s fruity or creamy. <b style="color:var(--hit)">Green</b> means at least one of the answers has that taste too. <b style="color:var(--tomato)">Red</b> means none of them do. Grey means your guess doesn't have that taste. Guessed Lemon (sweet + sour) and got green on sour and red on sweet? The answer is tangy, not sugary.</li>
+      <li><b>Taste clues:</b> each round shows the 3–5 tastes that matter most for it. When your guess has one of them, the box says how many answers share it: <b style="color:var(--hit)">4/4</b> all of them, <b style="color:var(--some)">2/4</b> some, <b style="color:var(--tomato)">0/4</b> none. Blank means your guess doesn't have that taste.</li>
+      <li><b>Hot or cold:</b> every miss gets a temperature. 🔥 Hot: right neighborhood (Lemon when it's Lime). ♨️ Warm: same family or similar tastes. 🧊 Cold: not even the same aisle.</li>
       <li>Stuck? After 2 misses you get the flavor family of one you're missing. After 4, its first letter.</li>
       <li><b>Daily</b> is three rounds, <b>Easy → Medium → Hard</b>, for a best score of 3,000. Round 1 is everyday flavors. Round 3 is where real snack experts earn it. New puzzles at midnight, your time.</li>
       <li><b>Challenge</b> is one daily round with three items instead of two. <b>Endless</b> keeps dealing pairs or trios for as long as you want: no points, no miss limit.</li>

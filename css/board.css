@@ -2,18 +2,19 @@
 .board{margin-top:14px;border:3px solid #000;background:var(--paper);color:#000;font-family:var(--label-font);--cw:96px}
 .board.trio{--cw:72px}
 .board::before{content:var(--t-facts,"Guess Facts");display:block;font-family:var(--body);font-weight:900;font-size:30px;letter-spacing:-.01em;padding:4px 10px 2px;border-bottom:1px solid #000}
-.bhead,.grow{display:grid;grid-template-columns:34px 1fr repeat(var(--n,2),var(--cw)) 318px;align-items:center;gap:8px;padding:8px 10px}
+.bhead,.grow{display:grid;grid-template-columns:34px 1fr repeat(var(--n,2),var(--cw)) calc(var(--tn,8)*40px + 10px);align-items:center;gap:8px;padding:8px 10px}
 .bhead{border-bottom:8px solid #000;font-weight:700;font-size:12px;letter-spacing:.06em;text-transform:uppercase}
 .bhead span:nth-child(n/**/+3){text-align:center;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .bhead .hn{font-style:normal}
 .mini{display:inline-grid;place-items:center;width:20px;height:20px;border-radius:50%;background:#fff;border:1.5px solid #000;vertical-align:middle;margin-right:4px;overflow:hidden}
 .mini svg{width:14px;height:14px;overflow:visible}
 .grow{border-top:1px solid #000;min-height:46px}
-.tr{display:grid;grid-template-columns:repeat(8,1fr);gap:3px;border-left:2px solid #000;padding-left:8px}
+.tr{display:grid;grid-template-columns:repeat(var(--tn,8),1fr);gap:3px;border-left:2px solid #000;padding-left:8px}
 .bhead .tr b{font-weight:700;font-size:10px;letter-spacing:0;text-align:center}
 .tc{height:28px;border-radius:5px;display:grid;place-items:center;font-family:var(--body);font-weight:900;font-size:13px}
 .tc.g{background:var(--hit);color:#fff}
 .tc.r{background:var(--tomato);color:#fff}
+.tc.s{background:var(--some);color:var(--ink)}
 .tc.x{background:#F1ECE6}
 .grow .n{font-weight:700;font-size:14px}
 .grow .f{font-family:var(--body);font-weight:800;font-size:16px}
@@ -22,6 +23,12 @@
 .mark.y{background:var(--hit);color:#fff}
 .mark.n{border:2px solid #000;color:#000}
 .grow.win{background:#E6F6EE}
+/* hot/cold chip on a missed guess */
+.temp{display:inline-block;font-family:var(--label-font);font-size:11px;font-weight:700;letter-spacing:.02em;padding:1px 6px;border-radius:99px;vertical-align:2px;white-space:nowrap}
+.temp.hot{background:#FFE1D6;color:#B3261E}
+.temp.warm{background:#FFF0C2;color:#7A5200}
+.temp.cold{background:#DDEFFA;color:#1D5B85}
+.grow.fresh .temp{animation:markPop .4s cubic-bezier(.2,1.7,.4,1) both .25s}
 .pen{font-family:var(--label-font);font-size:12px;color:var(--tomato);font-weight:700}
 .grow.fresh{animation:rowIn .35s ease-out both}
 .grow.fresh.win{animation:rowIn .35s ease-out both,winFlash 1s ease .35s}
@@ -47,7 +54,7 @@
   .board.trio .mini{display:inline-grid}
   .grow .f{font-size:15px}
   .bhead .tr b{font-size:8.5px}
-  .tr{gap:2px}
+  .tr{gap:2px;grid-template-columns:repeat(var(--tn,8),minmax(0,64px))}
   .tc{height:26px;font-size:12px}
   .mark{width:28px;height:28px}
 }

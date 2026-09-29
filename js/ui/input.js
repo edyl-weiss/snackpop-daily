@@ -31,7 +31,7 @@ function submit(raw){
   const via = hit&&hit!==name ? t("via",fn(hit)) : "";
   FX={guess:name,hit:hit||null,partial,won:after.won,done:after.done};
   msg.style.color = hit ? "var(--hit)" : "";
-  msg.textContent = heard + (hit ? (after.won?"":t("hit",fn(name),via,after.need-after.found.length)) : partial ? t("partial",fn(name)) : t("miss",fn(name)));
+  msg.textContent = heard + (hit ? (after.won?"":t("hit",fn(name),via,after.need-after.found.length)) : partial ? t("partial",fn(name)) : t("miss",fn(name))+(t("tempMsg")[guessTemps(rd).at(-1)]||""));
   if(game.mode==="endless"){
     const st=endlessState(); st.guesses=cur().guesses; saveEndless(st);
   } else {

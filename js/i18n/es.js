@@ -98,7 +98,7 @@ I18N.es={
   facts:"Datos de tus intentos", prize:"¡PREMIO ADENTRO!", answer:"LA RESPUESTA",
   thFlavor:"Sabor", tasteClues:"Pistas de sabor", nextGuess:"Te toca…",
   traits:{w:"Dulce",s:"Salado",o:"Ácido",b:"Amargo",h:"Picante",u:"Umami",f:"Frutal",c:"Cremoso"},
-  traitNo:(x,l)=>`${x}: no es ${l}`, traitCell:(l,g)=>`${l}: ${g?"alguna respuesta también":"ninguna respuesta"}`,
+  traitNo:(x,l)=>`${x}: no es ${l}`, traitCell:(l,c,n)=>`${l}: ${c} de ${n} respuestas`, temp:{hot:"Caliente",warm:"Tibio",cold:"Frío"}, tempMsg:{hot:" ¡Pero estás caliente!",warm:" Tibio, tibio.",cold:" Frío, frío."},
   markAria:(s,y,x)=>`${s} ${y?"sí viene":"no viene"} en ${x}`,
   hint:"Pista", hintFam:"familia", hintLetter:"primera letra", freebie:"regalo",
   hintWhen:n=>n===0?"de regalo":`sale tras ${n} error${n>1?"es":""}`,
@@ -135,7 +135,8 @@ I18N.es={
       <li>No te claves con la ortografía: «qeso», «caramleo», «té verde» o «limón chile» funcionan. En inglés también.</li>
       <li>Las familias grandes cuentan: un snack Habanero o Flamin’ Hot cuenta como «Picante», y Queso nacho como «Queso».</li>
       <li>Fallar no es perder el tiempo: verás un <b>✓</b> en cada producto que sí tiene ese sabor, y queda en su tarjeta como pista.</li>
-      <li><b>Pistas de sabor:</b> cada intento prende sus sabores (dulce, salado, ácido, amargo, picante, umami) y si es frutal o cremoso. <b style="color:var(--hit)">Verde</b>: al menos una respuesta también lo tiene. <b style="color:var(--tomato)">Rojo</b>: ninguna. Gris: tu intento no tiene ese sabor. ¿Pusiste Limón amarillo (dulce + ácido) y te salió verde en ácido y rojo en dulce? La respuesta es ácida, no dulce.</li>
+      <li><b>Pistas de sabor:</b> cada ronda muestra los 3 a 5 sabores que más importan. Si tu intento tiene uno, la casilla te dice cuántas respuestas lo comparten: <b style="color:var(--hit)">4/4</b> todas, <b style="color:var(--some)">2/4</b> algunas, <b style="color:var(--tomato)">0/4</b> ninguna. Vacía: tu intento no tiene ese sabor.</li>
+      <li><b>Frío o caliente:</b> cada fallo trae temperatura. 🔥 Caliente: vas por buen camino (Limón amarillo cuando es Limón verde). ♨️ Tibio: misma familia o sabores parecidos. 🧊 Frío: ni en el mismo pasillo.</li>
       <li>¿Atorado? Tras 2 errores te damos la familia de un sabor que te falta. Tras 4, su primera letra.</li>
       <li>El <b>Diario</b> son tres rondas, <b>Fácil → Medio → Difícil</b>, para un máximo de 3,000. La 1 son sabores de todos los días. En la 3 se nota quién sabe de verdad. Retos nuevos a medianoche, hora local.</li>
       <li>El <b>Reto</b> es una ronda al día con tres productos en vez de dos. <b>Sin fin</b> te reparte pares o tríos todo lo que quieras: sin puntos ni límite de errores.</li>
