@@ -1,26 +1,18 @@
 // POST /api/log — anonymous gameplay events. Stores only puzzle and guess data plus a random
 // browser-generated player ID. No names, emails, IP addresses or free text (guesses are canonical flavor names).
 const { pipeline, K, TTL } = require("../lib/redis");
-const { rateLimit, playerAllowed, sameOrigin, bodyTooLarge } = require("../lib/guard");
+const { withinLimits } = require("../lib/limits");
 
 const MODES = new Set(["daily", "challenge", "endless"]);
 const FLAVOR_RE = /^[\p{L}0-9 &'!.\-]{1,32}$/u;
 const ID_RE = /^[a-z0-9]{8,24}$/;
-const PAIR_RE = /^\d{1,4}(-\d{1,4}){1,2}$/;
+const PAIR_RE = /^[a-z0-9]{1,8}$/;   // puzzle key: a hash of the item names (see pkey in js/game/puzzles.js)
 const LONG = 60 * 60 * 24 * 400;
 const num = (v, lo, hi, d = 0) => { const n = Number(v); return Number.isFinite(n) ? Math.max(lo, Math.min(hi, n)) : d; };
 const clean = (a, n = 3, len = 40) => (Array.isArray(a) ? a.slice(0, n).map((x) => String(x).slice(0, len)) : []);
-// Only values the game itself can produce are stored; anything else is dropped.
-const TEXT_RE = /^[\p{L}\p{N} &'!.,\-·()+/]{1,40}$/u;
-const CATEGORIES = new Set(["Milk drink", "Soda", "Candy", "Savory snack", "Chocolate", "Cookie & cake"]);
-const PAIR_TYPES = new Set(["drink+drink", "drink+snack", "snack+snack", "drink+drink+drink", "drink+drink+snack", "drink+snack+snack", "snack+snack+snack"]);
-const safeList = (a, n) => clean(a, n).filter((x) => TEXT_RE.test(x));
 
 module.exports = async (req, res) => {
   if (req.method !== "POST") return res.status(405).json({ error: "POST only" });
-  if (!sameOrigin(req)) return res.status(403).json({ error: "forbidden" });
-  if (bodyTooLarge(req)) return res.status(413).json({ error: "too large" });
-  if (!(await rateLimit(req, res, "log"))) return;
   let b = req.body;
   if (typeof b === "string") { try { b = JSON.parse(b); } catch { b = null; } }
   if (!b || typeof b !== "object") return res.status(400).json({ error: "bad body" });
@@ -29,11 +21,12 @@ module.exports = async (req, res) => {
   if (!MODES.has(mode) || !Number.isInteger(no) || no < 1 || no > 100000 || !Number.isInteger(r) || r < 0 || r > 5 || !ID_RE.test(player || ""))
     return res.status(400).json({ error: "bad fields" });
   if (t !== "game" && !PAIR_RE.test(pair)) return res.status(400).json({ error: "bad pair" });
-  if (!(await playerAllowed(req, no, player))) return res.status(204).end();
   const daily = mode !== "endless";
   const day = `sd:day:${no}`;
 
   try {
+    // over the limit: accept quietly (so a flood gets no signal to adapt to) but store nothing
+    if (!(await withinLimits(req, no, player))) return res.status(202).json({ ignored: true });
     if (t === "guess") {
       const guess = String(b.guess || "");
       if (!FLAVOR_RE.test(guess)) return res.status(400).json({ error: "bad guess" });
@@ -70,9 +63,9 @@ module.exports = async (req, res) => {
       const tSolve = won ? num(b.ms_to_solve, 0, 3600000) : 0;
       const p = b.profile || {};
       const diff = num(p.difficulty, 1, 10, 5), prior = num(p.prior, 1, 10, 5), fam = num(p.product_familiarity, 1, 10, 6);
-      const cats = clean(b.categories).filter((x) => CATEGORIES.has(x)).sort().join(" + ") || "unknown";
+      const cats = clean(b.categories).sort().join(" + ") || "unknown";
       const answers = clean(b.answers, 12, 32).filter((x) => FLAVOR_RE.test(x));
-      const pairType = PAIR_TYPES.has(p.pair_type) ? p.pair_type : "unknown";
+      const pairType = String(p.pair_type || "unknown").slice(0, 30);
       const dims = [["all", "all"], ["mode", mode], ["pairType", pairType], ["catPair", cats], ["country", p.cross_country ? "cross" : "same"],
         ["band", String(Math.round(diff))], ["famBand", fam >= 8 ? "high" : fam >= 5 ? "mid" : "low"], ...answers.map((f) => ["flavor", f])];
       const c = [];
@@ -92,7 +85,7 @@ module.exports = async (req, res) => {
       if (won) c.push(["HINCRBY", `sd:hist:${no}`, `g|${guesses}`, 1], ["HINCRBY", `sd:hist:${no}`, `t|${Math.min(30, Math.floor(tSolve / 10000))}`, 1], ["EXPIRE", `sd:hist:${no}`, TTL]);
       // all-time pair and flavor learning
       const pk = `sd:pair:${pair}`;
-      c.push(["HINCRBY", pk, "fin", 1], ["HSETNX", pk, "prior", String(prior)], ["HSETNX", pk, "items", JSON.stringify(safeList(b.items, 3))],
+      c.push(["HINCRBY", pk, "fin", 1], ["HSETNX", pk, "prior", String(prior)], ["HSETNX", pk, "items", JSON.stringify(clean(b.items))],
         ["HSETNX", pk, "answers", JSON.stringify(answers)], ["SADD", "sd:pairs", pair], ["EXPIRE", pk, LONG], ["SADD", `sd:daypairs:${no}`, pair], ["EXPIRE", `sd:daypairs:${no}`, TTL]);
       if (won) c.push(["HINCRBY", pk, "won", 1]);
       if (skip) c.push(["HINCRBY", pk, "skip", 1]);
@@ -109,7 +102,7 @@ module.exports = async (req, res) => {
       if (daily && !skip) {
         const rk = K.round(mode, no, r);
         c.push(["HINCRBY", rk, won ? "won" : "lost", 1], ["HINCRBY", rk, "misses", misses], ["HINCRBY", rk, "score", num(b.score, 0, 1000)],
-          ["HSETNX", rk, "items", JSON.stringify(safeList(b.items, 3))], ["HSETNX", rk, "pair", pair], ["HSETNX", rk, "difficulty", String(diff)]);
+          ["HSETNX", rk, "items", JSON.stringify(clean(b.items))], ["HSETNX", rk, "pair", pair], ["HSETNX", rk, "difficulty", String(diff)]);
         if (firstOk) c.push(["HINCRBY", rk, "first", 1]);
         if (hint) c.push(["HINCRBY", rk, "hint", 1]);
         if (won) c.push(["HINCRBY", rk, "tsolve", Math.round(tSolve / 1000)], ["HINCRBY", rk, "gsolve", guesses]);
@@ -125,7 +118,6 @@ module.exports = async (req, res) => {
     }
     return res.status(204).end();
   } catch (e) {
-    console.error("log failed:", e);
-    return res.status(503).json({ error: "unavailable" });
+    return res.status(503).json({ error: String(e.message || e) });
   }
 };

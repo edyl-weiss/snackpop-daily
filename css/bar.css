@@ -1,0 +1,6 @@
+/* Links under the game and the Endless size switch. */
+.practice-bar{margin-top:16px;display:flex;flex-wrap:wrap;gap:10px;align-items:center;font-size:14px;font-weight:700;color:var(--ink)}
+.textbtn{background:none;border:none;text-decoration:underline;text-decoration-thickness:2px;text-underline-offset:3px;padding:0;color:var(--ink);font-weight:800}
+.seg{display:inline-flex;border:2.5px solid var(--ink);border-radius:999px;overflow:hidden;box-shadow:0 3px 0 var(--ink)}
+.seg button{border:none;background:var(--label);padding:6px 14px;font-family:var(--display);font-size:16px}
+.seg button[aria-pressed="true"]{background:var(--sun)}

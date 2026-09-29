@@ -1,0 +1,96 @@
+/* The product window: instruction line, mini chip bags, soda cans, drawings, tier sticker. */
+.porig{position:relative;z-index:1;font-family:var(--label-font);font-weight:700;font-size:12px;opacity:.9;margin-top:-4px}
+:lang(zh) .pname{letter-spacing:.04em}
+.window{margin-top:16px;background:rgba(255,255,255,.2);border:3px solid rgba(255,246,226,.85);border-radius:34px;padding:16px;box-shadow:inset 0 6px 18px rgba(0,0,0,.18),inset 0 0 0 2px rgba(42,16,48,.08);position:relative}
+.tagline{margin:0 0 14px;color:var(--ink);font-size:17px;text-wrap:balance}
+.tagline b{font-weight:900}
+.tagline .rules{display:block;font-family:var(--label-font);font-weight:700;font-size:13px;letter-spacing:.04em;text-transform:uppercase;margin-top:4px;color:var(--ink-soft)}
+.matchup{display:flex;align-items:center;justify-content:center;gap:14px}
+.matchup > .bag{flex:0 1 300px;min-width:0}
+.matchup > .can{flex:0 1 176px;min-width:0}
+.matchup.trio > .bag{flex-basis:230px}
+.matchup.trio > .can{flex-basis:150px}
+.link{flex:none;display:grid;place-items:center}
+.link div{width:46px;height:46px;display:grid;place-items:center;background:var(--sun);color:var(--ink);font-family:var(--display);font-size:26px;clip-path:polygon(50% 0,63% 20%,85% 15%,80% 37%,100% 50%,80% 63%,85% 85%,63% 80%,50% 100%,37% 80%,15% 85%,20% 63%,0 50%,20% 37%,15% 15%,37% 20%);animation:pulse 2.4s ease-in-out infinite}
+.bag{--c:#c33;--c2:#fff;position:relative;color:var(--c2);min-height:230px;padding:30px 14px 26px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:8px;background:var(--paper-tex),
+    linear-gradient(90deg,rgba(0,0,0,.14),transparent 8%,transparent 92%,rgba(0,0,0,.14)),
+    radial-gradient(120% 80% at 50% 40%,transparent 60%,rgba(0,0,0,.16)),
+    var(--c);border-radius:18px/40px;filter:drop-shadow(0 8px 0 rgba(42,16,48,.35));clip-path:polygon(0 12px,4% 0,8% 12px,12% 0,16% 12px,20% 0,24% 12px,28% 0,32% 12px,36% 0,40% 12px,44% 0,48% 12px,52% 0,56% 12px,60% 0,64% 12px,68% 0,72% 12px,76% 0,80% 12px,84% 0,88% 12px,92% 0,96% 12px,100% 0,100% calc(100% - 12px),96% 100%,92% calc(100% - 12px),88% 100%,84% calc(100% - 12px),80% 100%,76% calc(100% - 12px),72% 100%,68% calc(100% - 12px),64% 100%,60% calc(100% - 12px),56% 100%,52% calc(100% - 12px),48% 100%,44% calc(100% - 12px),40% 100%,36% calc(100% - 12px),32% 100%,28% calc(100% - 12px),24% 100%,20% calc(100% - 12px),16% 100%,12% calc(100% - 12px),8% 100%,4% calc(100% - 12px),0 100%)}
+.bag::before{content:"";position:absolute;left:0;right:0;top:12px;height:14px;background:repeating-linear-gradient(90deg,rgba(0,0,0,.14) 0 1px,transparent 1px 5px);border-bottom:1px solid rgba(0,0,0,.12)}
+.bag::after{content:"";position:absolute;left:0;right:0;bottom:12px;height:14px;background:repeating-linear-gradient(90deg,rgba(0,0,0,.14) 0 1px,transparent 1px 5px);border-top:1px solid rgba(0,0,0,.12)}
+.can{--c:#c33;--c2:#fff;position:relative;color:var(--c2);aspect-ratio:1/1.85;min-height:0;padding:34px 10px 30px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:8px;background:linear-gradient(90deg,rgba(0,0,0,.28),transparent 18%,rgba(255,255,255,.4) 30%,transparent 42%,transparent 75%,rgba(0,0,0,.3)),
+    var(--c);border-radius:16px/12px;filter:drop-shadow(0 8px 0 rgba(42,16,48,.35))}
+.can::before,.can::after{content:"";position:absolute;left:4%;right:4%;height:22px;border-radius:50%;background:linear-gradient(90deg,#8E949E,#F4F6F8 35%,#B9BFC8 60%,#E9ECEF 80%,#8E949E);box-shadow:inset 0 0 0 2px rgba(0,0,0,.2)}
+.can::before{top:-6px}
+.can::after{bottom:-6px}
+.can .band{position:absolute;left:0;right:0;top:50%;height:34%;transform:translateY(-35%);background:rgba(255,255,255,.12);pointer-events:none}
+.cc{position:relative;z-index:1;font-family:var(--label-font);font-weight:700;font-size:11px;letter-spacing:.12em;border:1.5px solid currentColor;border-radius:4px;padding:1px 6px}
+.art{position:relative;z-index:1;flex:none;width:124px;height:86px;border-radius:50%;background:rgba(255,255,255,.94);border:3px solid #2A1030;display:grid;place-items:center;overflow:hidden;box-shadow:0 4px 0 rgba(0,0,0,.25)}
+.art svg{width:80px;height:54px;display:block;overflow:visible}
+.pname{position:relative;z-index:1;margin:0;font-family:var(--display);font-weight:400;font-size:clamp(22px,4.6vw,30px);line-height:1.02;letter-spacing:.01em;text-wrap:balance;text-shadow:0 2px 0 rgba(0,0,0,.35);transform:rotate(-3deg)}
+.can .pname{transform:none;font-size:clamp(20px,3.8vw,26px)}
+.can .known{margin-top:0}
+.pinfo{position:relative;z-index:1;font-family:var(--label-font);font-weight:700;font-size:12px;letter-spacing:.06em;text-transform:uppercase;opacity:.92}
+.known{position:relative;z-index:1;display:flex;flex-wrap:wrap;justify-content:center;gap:4px;min-height:20px;margin-top:auto}
+.known span{font-size:11px;font-weight:800;background:#fff;color:#2A1030;border-radius:999px;padding:2px 8px}
+.matchup.trio .bag{min-height:210px}
+.matchup.trio .pname{font-size:clamp(18px,3.4vw,22px)}
+.matchup.trio .art{width:100px;height:70px}
+.matchup.trio .art svg{width:64px;height:44px}
+.matchup.trio .link div{width:34px;height:34px;font-size:18px}
+.matchup > .bag,.matchup > .can{animation:bob 3.8s ease-in-out infinite}
+.matchup > :nth-child(3){animation-delay:-1.3s}
+.matchup > :nth-child(5){animation-delay:-2.4s}
+.matchup.deal > .bag,.matchup.deal > .can{animation:dealIn .6s cubic-bezier(.2,1.35,.4,1) both,bob 3.8s ease-in-out .7s infinite}
+.matchup.deal > :first-child{--dx:-60px;--r:-8deg}
+.matchup.deal > :last-child{--dx:60px;--r:8deg;animation-delay:.08s,.8s}
+.matchup.deal.trio > :nth-child(3){--dx:0;--dy:-50px;animation-delay:.04s,.75s}
+.matchup > .hop{animation:hop .55s cubic-bezier(.2,1.6,.4,1),bob 3.8s ease-in-out .6s infinite}
+.matchup > .nope{animation:nope .45s ease,bob 3.8s ease-in-out .5s infinite}
+.known span.new{animation:chipIn .5s cubic-bezier(.2,1.7,.4,1) .15s both}
+.tagline.fresh{animation:fadeUp .45s ease both}
+.stamp{position:absolute;left:50%;top:44%;z-index:4;pointer-events:none;font-family:var(--display);font-size:clamp(34px,9vw,58px);color:var(--sun);-webkit-text-stroke:2px var(--ink);text-shadow:4px 5px 0 var(--ink);text-transform:uppercase;white-space:nowrap;animation:stamp 1.5s cubic-bezier(.2,1.4,.4,1) both}
+@keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.18)}}
+@keyframes bob{0%,100%{transform:translateY(0) rotate(0)}50%{transform:translateY(-4px) rotate(.5deg)}}
+@keyframes dealIn{from{transform:translate(var(--dx,0),var(--dy,0)) rotate(var(--r,0)) scale(.85);opacity:0}}
+@keyframes hop{35%{transform:translateY(-16px) rotate(-2deg) scale(1.03)}}
+@keyframes nope{20%{transform:translateX(-6px) rotate(-1deg)}45%{transform:translateX(5px) rotate(1deg)}70%{transform:translateX(-3px)}}
+@keyframes chipIn{from{transform:scale(0) rotate(-12deg)}}
+@keyframes fadeUp{from{transform:translateY(8px);opacity:0}}
+@keyframes stamp{0%{transform:translate(-50%,-50%) scale(2.4) rotate(-14deg);opacity:0}18%{transform:translate(-50%,-50%) scale(1) rotate(-8deg);opacity:1}
+  75%{transform:translate(-50%,-50%) scale(1) rotate(-8deg);opacity:1}100%{transform:translate(-50%,-60%) scale(.9) rotate(-8deg);opacity:0}}
+@media (max-width:560px){
+  .window{margin-top:12px;padding:12px 10px;border-radius:24px}
+  .tagline{font-size:15px;margin-bottom:10px}
+  .tagline .rules{font-size:11px}
+  .matchup,.matchup.trio{flex-direction:row;align-items:center;gap:6px}
+  .matchup > .bag{flex:1 1 0;min-width:0;width:auto;max-width:none}
+  .matchup > .can{flex:0 1 40%;min-width:0;width:auto;max-width:none}
+  .bag{min-height:196px;padding:24px 8px 22px;gap:6px}
+  .can{padding:26px 6px 22px;gap:6px}
+  .can .pname{font-size:clamp(16px,4.6vw,20px)}
+  .art{width:96px;height:66px}
+  .art svg{width:62px;height:42px}
+  .pname{font-size:clamp(17px,5vw,21px);transform:rotate(-2deg)}
+  .pinfo{font-size:10px;letter-spacing:.04em}
+  .cc{font-size:10px}
+  .known span{font-size:10px;padding:1px 6px}
+  .link{align-self:center}
+  .link div{width:30px;height:30px;font-size:18px}
+  .matchup.trio{gap:4px}
+  .matchup.trio > .bag,.matchup.trio > .can{flex:1 1 0}
+  .matchup.trio .bag{min-height:176px;padding-inline:4px}
+  .matchup.trio .can{padding:22px 3px 18px}
+  .matchup.trio .can .pname{font-size:14px}
+  .matchup.trio .art{width:72px;height:50px}
+  .matchup.trio .art svg{width:46px;height:32px}
+  .matchup.trio .pname{font-size:14px;transform:none}
+  .matchup.trio .pinfo{display:none}
+  .matchup.trio .link div{width:20px;height:20px;font-size:12px}
+}
+@media (hover:hover){
+  .matchup > .bag:hover,.matchup > .can:hover{animation-play-state:paused}
+}
+@media (prefers-reduced-motion:reduce){
+  .stamp,.crumb{display:none}
+}

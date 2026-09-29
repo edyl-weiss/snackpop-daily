@@ -1,0 +1,40 @@
+/* Logo, ribbon, date line, header buttons, language menu and the starburst badge. */
+header{position:relative;display:grid;grid-template-columns:1fr auto;align-items:center;gap:12px;padding-block:22px 6px}
+.brand{position:relative;justify-self:start;padding:10px 18px 10px 6px}
+.brand::before{content:"";position:absolute;inset:-6px -10px -4px -10px;z-index:0;pointer-events:none;background:repeating-conic-gradient(from 0deg at 50% 45%,rgba(255,210,63,.55) 0 8deg,transparent 8deg 16deg);-webkit-mask:radial-gradient(closest-side at 50% 45%,#000 35%,transparent 100%);mask:radial-gradient(closest-side at 50% 45%,#000 35%,transparent 100%);animation:rays 18s linear infinite}
+.logo{position:relative;z-index:1;margin:0;font-family:var(--display);font-weight:400;font-size:clamp(26px,5.6vw,50px);line-height:1;white-space:nowrap;letter-spacing:.01em;color:var(--label);transform:rotate(-4deg);text-shadow:0 3px 0 var(--ink),3px 0 0 var(--ink),-3px 0 0 var(--ink),0 -3px 0 var(--ink),3px 3px 0 var(--ink),-3px 3px 0 var(--ink),3px -3px 0 var(--ink),-3px -3px 0 var(--ink),6px 8px 0 var(--tomato)}
+.logo span{display:inline-block;animation:letterPop .6s cubic-bezier(.2,1.7,.4,1) both}
+.logo .l1{color:var(--label);animation-delay:.15s}
+.logo .l2{color:var(--sun);transform:translateY(2px) rotate(2deg);animation-delay:.28s}
+.logo .l3{color:#7FE3FF;transform:translateY(-2px) rotate(-3deg);animation-delay:.41s}
+.ribbon{position:relative;z-index:1;display:inline-block;margin-top:14px;margin-left:10px;transform:rotate(-4deg);background:var(--ink);color:var(--label);font-family:var(--label-font);font-weight:700;font-size:13px;letter-spacing:.14em;text-transform:uppercase;padding:4px 14px;clip-path:polygon(0 0,100% 0,96% 50%,100% 100%,0 100%,4% 50%)}
+.meta{position:relative;z-index:1;margin-top:10px;margin-left:12px;font-family:var(--label-font);font-weight:700;font-size:13px;color:var(--ink);letter-spacing:.08em;text-transform:uppercase}
+.side{display:flex;flex-direction:column;align-items:flex-end;gap:10px}
+.burst{width:104px;height:104px;display:grid;place-items:center;text-align:center;background:var(--sun);color:var(--ink);font-family:var(--display);font-size:17px;line-height:1;transform:rotate(12deg);clip-path:polygon(50% 0,61% 13%,77% 6%,80% 22%,96% 24%,90% 39%,100% 50%,90% 61%,96% 76%,80% 78%,77% 94%,61% 87%,50% 100%,39% 87%,23% 94%,20% 78%,4% 76%,10% 61%,0 50%,10% 39%,4% 24%,20% 22%,23% 6%,39% 13%);animation:wobble 3.6s ease-in-out infinite}
+.burst small{display:block;font-family:var(--label-font);font-weight:700;font-size:11px;letter-spacing:.06em}
+.hbtns{display:flex;gap:6px}
+.icon-btn{background:var(--label);border:2.5px solid var(--ink);border-radius:999px;padding:5px 14px;font-weight:800;font-size:13px;box-shadow:0 3px 0 var(--ink)}
+.icon-btn.lang{min-width:44px;padding-inline:10px}
+select.icon-btn.lang{appearance:none;-webkit-appearance:none;text-align:center;text-align-last:center;cursor:pointer;color:var(--ink);padding-right:10px}
+.icon-btn:active{transform:translateY(3px);box-shadow:none}
+@keyframes letterPop{from{transform:translateY(-22px) scale(.5);opacity:0}}
+@keyframes jiggle{25%{transform:translateY(-4px) rotate(-4deg)}75%{transform:translateY(-2px) rotate(3deg)}}
+@keyframes rays{to{filter:hue-rotate(12deg)}}
+@keyframes wobble{0%,100%{transform:rotate(12deg) scale(1)}50%{transform:rotate(4deg) scale(1.07)}}
+@media (max-width:560px){
+  header{grid-template-columns:1fr;gap:6px;padding-block:14px 0}
+  .brand{padding:6px 0 4px}
+  .brand::before{inset:-4px -6px 0 -6px}
+  .logo{font-size:clamp(28px,8.6vw,38px);transform:rotate(-3deg);text-shadow:0 2px 0 var(--ink),2px 0 0 var(--ink),-2px 0 0 var(--ink),0 -2px 0 var(--ink),2px 2px 0 var(--ink),-2px 2px 0 var(--ink),2px -2px 0 var(--ink),-2px -2px 0 var(--ink),3px 4px 0 var(--tomato)}
+  .ribbon{font-size:11px;margin-top:10px;margin-left:4px;padding:3px 12px}
+  .meta{font-size:12px;margin-top:8px;margin-left:4px}
+  .side{flex-direction:row;align-items:center;justify-content:space-between;gap:8px}
+  .burst{width:64px;height:64px;font-size:12px;order:2}
+  .burst small{font-size:8px}
+  .hbtns{gap:8px}
+  .icon-btn{min-height:40px;padding:6px 14px;font-size:14px}
+}
+@media (hover:hover){
+  .logo span:hover{animation:jiggle .45s ease}
+  .icon-btn:hover{transform:translateY(-2px);box-shadow:0 5px 0 var(--ink)}
+}

@@ -1,0 +1,14 @@
+/* Page-wide basics and the reduced-motion switch. */
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+html{background:var(--shelf)}
+body{margin:0;background:var(--shelf);color:var(--ink);font-family:var(--body);font-size:16px;line-height:1.45;padding-inline:16px;padding-block:24px 40px;background-image:repeating-linear-gradient(90deg,transparent 0 118px,rgba(255,255,255,.035) 118px 120px),linear-gradient(180deg,var(--shelf),var(--shelf-2))}
+button{font:inherit;color:inherit;cursor:pointer}
+button:focus-visible,input:focus-visible{outline:3px solid var(--sun);outline-offset:2px}
+@media (max-width:560px){
+  body{padding-inline:0;padding-block:0;background:var(--bag-deep)}
+  html{background:var(--bag-deep)}
+}
+@media (prefers-reduced-motion:reduce){
+  *{animation:none!important;transition:none!important}
+}

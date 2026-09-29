@@ -1,0 +1,53 @@
+/* "Guess Facts" table, including the taste-clue strip. */
+.board{margin-top:14px;border:3px solid #000;background:var(--paper);color:#000;font-family:var(--label-font);--cw:96px}
+.board.trio{--cw:72px}
+.board::before{content:var(--t-facts,"Guess Facts");display:block;font-family:var(--body);font-weight:900;font-size:30px;letter-spacing:-.01em;padding:4px 10px 2px;border-bottom:1px solid #000}
+.bhead,.grow{display:grid;grid-template-columns:34px 1fr repeat(var(--n,2),var(--cw)) 318px;align-items:center;gap:8px;padding:8px 10px}
+.bhead{border-bottom:8px solid #000;font-weight:700;font-size:12px;letter-spacing:.06em;text-transform:uppercase}
+.bhead span:nth-child(n/**/+3){text-align:center;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.bhead .hn{font-style:normal}
+.mini{display:inline-grid;place-items:center;width:20px;height:20px;border-radius:50%;background:#fff;border:1.5px solid #000;vertical-align:middle;margin-right:4px;overflow:hidden}
+.mini svg{width:14px;height:14px;overflow:visible}
+.grow{border-top:1px solid #000;min-height:46px}
+.tr{display:grid;grid-template-columns:repeat(8,1fr);gap:3px;border-left:2px solid #000;padding-left:8px}
+.bhead .tr b{font-weight:700;font-size:10px;letter-spacing:0;text-align:center}
+.tc{height:28px;border-radius:5px;display:grid;place-items:center;font-family:var(--body);font-weight:900;font-size:13px}
+.tc.g{background:var(--hit);color:#fff}
+.tc.r{background:var(--tomato);color:#fff}
+.tc.x{background:#F1ECE6}
+.grow .n{font-weight:700;font-size:14px}
+.grow .f{font-family:var(--body);font-weight:800;font-size:16px}
+.grow.empty .f{color:#9A9A9A;font-weight:500}
+.mark{justify-self:center;width:30px;height:30px;border-radius:6px;display:grid;place-items:center;font-weight:900;font-size:15px;font-family:var(--body)}
+.mark.y{background:var(--hit);color:#fff}
+.mark.n{border:2px solid #000;color:#000}
+.grow.win{background:#E6F6EE}
+.pen{font-family:var(--label-font);font-size:12px;color:var(--tomato);font-weight:700}
+.grow.fresh{animation:rowIn .35s ease-out both}
+.grow.fresh.win{animation:rowIn .35s ease-out both,winFlash 1s ease .35s}
+.grow.fresh .mark{animation:markPop .4s cubic-bezier(.2,1.7,.4,1) both;animation-delay:calc(.08s + var(--i,0)*90ms)}
+.grow.fresh .tc{animation:flip .45s ease both;animation-delay:calc(.3s + var(--i,0)*60ms)}
+@keyframes rowIn{from{transform:translateY(-6px);opacity:0}}
+@keyframes winFlash{0%{background:#9FE3BF}100%{background:#E6F6EE}}
+@keyframes markPop{from{transform:scale(0) rotate(-20deg)}}
+@keyframes flip{from{transform:perspective(200px) rotateX(90deg)}}
+@media (max-width:840px){
+  .bhead,.grow{grid-template-columns:34px 1fr repeat(var(--n,2),var(--cw))}
+  .bhead .tr,.grow .tr{grid-column:2 / -1;border-left:none;padding-left:0}
+  .bhead{row-gap:4px}
+}
+@media (max-width:560px){
+  .board{--cw:52px}
+  .board.trio{--cw:40px}
+  .board::before{font-size:24px}
+  .bhead,.grow{grid-template-columns:22px 1fr repeat(var(--n,2),var(--cw));padding:8px 8px;gap:6px}
+  .bhead .hn{display:none}
+  .bhead .mini{width:28px;height:28px;margin:0}
+  .bhead .mini svg{width:20px;height:20px}
+  .board.trio .mini{display:inline-grid}
+  .grow .f{font-size:15px}
+  .bhead .tr b{font-size:8.5px}
+  .tr{gap:2px}
+  .tc{height:26px;font-size:12px}
+  .mark{width:28px;height:28px}
+}

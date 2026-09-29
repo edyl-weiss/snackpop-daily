@@ -1,0 +1,37 @@
+/* Mode tabs and the Easy/Medium/Hard round tracker. */
+:lang(zh) .tab small,:lang(zh) .rules{letter-spacing:.02em}
+.tabs{display:flex;gap:8px;margin-top:14px;flex-wrap:wrap}
+.tab{border:2.5px solid var(--ink);background:var(--label);border-radius:12px;padding:7px 16px;font-family:var(--display);font-size:19px;letter-spacing:.02em;box-shadow:0 4px 0 var(--ink)}
+.tab small{font-family:var(--body);font-weight:700;font-size:11px;color:var(--ink-soft);margin-left:4px}
+.tab[aria-selected="true"]{background:var(--sun)}
+.tab:active{transform:translateY(4px);box-shadow:none}
+.roundbar{display:flex;gap:8px;flex-wrap:wrap;align-items:stretch;margin-top:16px}
+.rpill{display:flex;flex-direction:column;align-items:flex-start;gap:0;border:2px solid var(--ink);background:rgba(255,246,226,.9);border-radius:8px;padding:5px 12px;min-width:92px;text-align:left}
+.rpill span{font-family:var(--label-font);font-weight:700;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-soft);white-space:nowrap}
+.rpill b{white-space:nowrap;font-family:var(--display);font-weight:400;font-size:20px;font-variant-numeric:tabular-nums}
+.rpill .rn{font-style:normal}
+.rpill.cur{background:var(--sun);animation:curGlow 2.2s ease-in-out infinite}
+.rpill.done b{color:var(--hit)}
+.rpill:disabled{opacity:.55;cursor:default}
+.rtotal{margin-left:auto;display:flex;flex-direction:column;align-items:flex-end;justify-content:center;background:var(--ink);color:var(--label);border-radius:8px;padding:5px 14px}
+.rtotal span{font-family:var(--label-font);font-weight:700;font-size:11px;letter-spacing:.14em;text-transform:uppercase;opacity:.8}
+.rtotal b{font-family:var(--display);font-size:26px;font-weight:400;color:var(--sun);font-variant-numeric:tabular-nums;line-height:1.05}
+.rtotal small{font-family:var(--label-font);font-size:13px;color:var(--label)}
+@keyframes curGlow{0%,100%{box-shadow:0 0 0 0 rgba(255,210,63,0)}50%{box-shadow:0 0 0 5px rgba(255,210,63,.55)}}
+@media (max-width:560px){
+  .tabs{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:12px}
+  .tab{font-size:17px;padding:8px 4px;min-height:44px;text-align:center}
+  .tab small{display:none}
+  .roundbar{display:grid;grid-template-columns:repeat(3,1fr) 1.15fr;gap:6px;margin-top:12px}
+  .rpill{min-width:0;padding:4px 8px}
+  .rpill span{font-size:10px;letter-spacing:.06em}
+  .rpill .rn{display:none}
+  .rpill b{font-size:17px}
+  .rtotal{margin-left:0;padding:4px 8px;align-items:flex-end}
+  .rtotal span{font-size:10px}
+  .rtotal b{font-size:20px}
+  .rtotal small{font-size:11px}
+}
+@media (hover:hover){
+  .tab:hover{transform:translateY(-2px);box-shadow:0 6px 0 var(--ink)}
+}
